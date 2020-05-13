@@ -9,6 +9,7 @@
 </head>
 <body>
 <h1>Trocencheres.org</h1>
+<!-- Ceci est un commentaire de type test -->
 <form method="post" action="<%=request.getContextPath()%>/connexion">
             <fieldset>
                 <legend>Connexion</legend>
