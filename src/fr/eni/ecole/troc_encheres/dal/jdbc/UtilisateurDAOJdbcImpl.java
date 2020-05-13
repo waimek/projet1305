@@ -57,7 +57,7 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 			
 			int nbRows = query.executeUpdate();
 			if (nbRows == 0 || nbRows == -1) {
-				throw new DALException("Erreur de mise à jour");
+				throw new DALException("Erreur de mise ï¿½ jour");
 			}
 			query.close();
 		} catch (SQLException e) {
@@ -115,7 +115,7 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		return null;
 	}
 
-	//Itération 2
+	//Itï¿½ration 2
 	@Override
 	public void delete(int idUtil) throws DALException {
 		Connection con = null;
