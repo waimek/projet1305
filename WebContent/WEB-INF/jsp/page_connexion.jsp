@@ -10,7 +10,7 @@
 <body>
 <h1>Trocencheres.org</h1>
 <!-- Ceci est un commentaire de type test -->
-<form method="post" action="<%=request.getContextPath()%>/connexion">
+<form method="post" action="connexion">
             <fieldset>
                 <legend>Connexion</legend>
                 <label for="pseudo">S'identifier<span class="required">*</span></label>
