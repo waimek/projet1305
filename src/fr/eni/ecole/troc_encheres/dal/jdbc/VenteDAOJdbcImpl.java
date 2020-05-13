@@ -86,7 +86,7 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
 
 			int nbRows = query.executeUpdate();
 			if (nbRows == 0 || nbRows == -1) {
-				throw new DALException("Erreur de mise à jour");
+				throw new DALException("Erreur de mise ï¿½ jour");
 			}
 			query.close();
 		} catch (SQLException e) {
@@ -206,6 +206,80 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
             		+ "join categories on categories.no_categorie = vente.no_categorie "
             		+ "where no_utilisateur = ?");
             stmt.setInt(1, idUtil);
+            ResultSet rs = stmt.executeQuery();
+            Vente vente = null;
+            while (rs.next()) {
+                vente = new Vente(rs.getInt("no_vente"), rs.getString("nom_article"), rs.getString("description"), rs.getDate("date_fin_encheres"), rs.getInt("miseAPrix"), rs.getInt("prix_vente"), 
+                		new Utilisateur(rs.getInt("no_utilisateur"), rs.getString("pseudo"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit")), 
+                		new Categorie(rs.getInt("no_vente"), rs.getString("libelle")));
+                ventes.add(vente);
+            }
+            stmt.close();
+            rs.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                
+                con.close();
+
+            } catch (Exception e) {
+                throw new DALException("Erreur fermeture");
+            }
+        }
+        return ventes;
+	}
+	
+	public List<Vente> selectByPlusieursChamps(String nomArticle, int idArticle, int monNoUtilisateur, int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, boolean autresEncheres ) throws DALException {
+		List<Vente> ventes = new ArrayList<>();
+        Connection con = null;
+        try {
+            con = ConnectionProvider.getConnection();
+            String sql = "select * from ventes "
+            		+ "join utilisateurs on utilisateurs.no_utilisateur= ventes.no_utilisateur "
+            		+ "join categories on categories.no_categorie = ventes.no_categorie "
+            		+ "join encheres on encheres.no_vente = ventes.no_vente"
+            		+ "where nom_article like %?%";
+            int i = 0;
+            if (mesVentes || mesEncheresEnCours || mesAcquisitions || autresEncheres) {
+            	sql += " and (";
+            } 
+            if (mesVentes && (mesEncheresEnCours || mesAcquisitions || autresEncheres)) {
+            	sql += "ventes.no_utilisateur = ? or ";
+            	i++;
+            } else if (mesVentes) {
+            	sql += "ventes.no_utilisateur = ?)";
+            	i++;
+            }
+            if (mesEncheresEnCours && (mesAcquisitions || autresEncheres)) {
+            	sql+="encheres.no_utilisateur = ? or ";
+            	i++;
+            } else if (mesEncheresEnCours) {
+            	sql+="encheres.no_utilisateur = ?)";
+            	i++;
+            }
+            if (mesAcquisitions && autresEncheres) {
+            	sql+="((select max(date_encheres) from ventes "
+            			+ "join encheres on encheres.no_vente = vente.no_vente "
+            			+ "where date_fin_encheres > now()) and encheres.no_utilisateur = ?) or ";
+            	i++;
+            } else if (mesAcquisitions) {
+            	sql+="((select max(date_encheres) from ventes "
+            			+ "join encheres on encheres.no_vente = vente.no_vente "
+            			+ "where date_fin_encheres > now()) and encheres.no_utilisateur = ?)";
+            	i++;
+            }
+            if (autresEncheres) {
+            	sql+="ventes.no_utilisateur != ?)";
+            	i++;
+            }
+            
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, nomArticle);
+            for (int j =2; j<=i+1; ++j) {
+            	stmt.setInt(j, monNoUtilisateur);
+            }
+            
             ResultSet rs = stmt.executeQuery();
             Vente vente = null;
             while (rs.next()) {
