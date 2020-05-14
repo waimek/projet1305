@@ -18,7 +18,7 @@ public class EncheresManager {
 	private DAO<Utilisateur> utilDAO;
 	private DAO<Vente> venteDAO;
 	private DAO categorieDAO;
-
+	// test push
 
 	public static EncheresManager get() {
 		if (instance == null) {
@@ -32,7 +32,7 @@ public class EncheresManager {
 		venteDAO = Factory.getVenteDAO();
 		categorieDAO = Factory.getCategorieDAO();
 	}
-	
+//	Hello
 	public void updateUtil(Utilisateur util) throws BLLException {
 		try {
 			validerUtil(util);
@@ -254,8 +254,7 @@ public class EncheresManager {
 	}
 */
 
-
-	public List<Vente> getListFiltreRecherche(String nomArticle, int idArticle, int monNoUtilisateur, 
+public List<Vente> getListFiltreRecherche(String nomArticle, int idArticle, int monNoUtilisateur, 
 			int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, 
 			boolean autresEncheres) throws BLLException {
 		List<Vente> listFiltreRecherche = null;
