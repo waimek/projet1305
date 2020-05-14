@@ -16,11 +16,9 @@
       <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
 
         <!-- Content -->
-        <h6 class="text-uppercase font-weight-bold">Company name</h6>
+        <h6 class="text-uppercase font-weight-bold">TrocEncheres.org</h6>
         <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-        <p>Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet,
-          consectetur
-          adipisicing elit.</p>
+        <p>TrocEncheres.org est le 1er site de vente aux enchères en ligne.</p>
 
       </div>
       <!-- Grid column -->
@@ -32,16 +30,16 @@
         <h6 class="text-uppercase font-weight-bold">Products</h6>
         <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
         <p>
-          <a href="#!">MDBootstrap</a>
+          <a href="#!">Edouard P.</a>
         </p>
         <p>
-          <a href="#!">MDWordPress</a>
+          <a href="#!">Lucille H.</a>
         </p>
         <p>
-          <a href="#!">BrandFlow</a>
+          <a href="#!">Dominika L.</a>
         </p>
         <p>
-          <a href="#!">Bootstrap Angular</a>
+          <a href="#!">Matthieu D.</a>
         </p>
 
       </div>
@@ -51,13 +49,13 @@
       <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
 
         <!-- Links -->
-        <h6 class="text-uppercase font-weight-bold">Useful links</h6>
+        <h6 class="text-uppercase font-weight-bold">Lien utiles</h6>
         <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
         <p>
-          <a href="#!">Your Account</a>
+          <a href="#!">Votre compte</a>
         </p>
         <p>
-          <a href="#!">Become an Affiliate</a>
+          <a href="#!">Les ventes</a>
         </p>
         <p>
           <a href="#!">Shipping Rates</a>
@@ -76,13 +74,13 @@
         <h6 class="text-uppercase font-weight-bold">Contact</h6>
         <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
         <p>
-          <i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
+          <i class="fas fa-home mr-3"></i> 35131 Chartres-de-Bretagne </p>
         <p>
-          <i class="fas fa-envelope mr-3"></i> info@example.com</p>
+          <i class="fas fa-envelope mr-3"></i> contact@troc-encheres.org</p>
         <p>
-          <i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
+          <i class="fas fa-phone mr-3"></i> 02 23 30 18 50</p>
         <p>
-          <i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
+          <i class="fas fa-print mr-3"></i> 02 23 30 18 50</p>
 
       </div>
       <!-- Grid column -->
