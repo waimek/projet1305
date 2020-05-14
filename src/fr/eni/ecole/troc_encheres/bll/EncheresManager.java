@@ -20,6 +20,7 @@ public class EncheresManager {
 	private DAO<Vente> venteDAO;
 	private DAO categorieDAO;
 
+//	Bonjour, je suis un commentaire test de Lucille. Au revoir
 	public static EncheresManager get() {
 		if (instance == null) {
 			instance = new EncheresManager();
