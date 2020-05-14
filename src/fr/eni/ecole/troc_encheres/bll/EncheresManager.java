@@ -19,7 +19,7 @@ public class EncheresManager {
 	private DAO<Vente> venteDAO;
 	private DAO categorieDAO;
 	// test push
-	
+
 	// test bean
 	// guerzgyrpugrprqugr
 	//Urgh Lucille - rgregregegesgesr
@@ -36,7 +36,7 @@ public class EncheresManager {
 		venteDAO = Factory.getVenteDAO();
 		categorieDAO = Factory.getCategorieDAO();
 	}
-//	Hello
+	//	Hello
 	public void updateUtil(Utilisateur util) throws BLLException {
 		try {
 			validerUtil(util);
@@ -45,6 +45,20 @@ public class EncheresManager {
 			e.printStackTrace();
 			throw new BLLException("Erreur update");
 		}
+	}
+
+	public void addUtilFromServlet( String pseudo, String nom, String prenom, String email, String tel, String rue,
+			String cp, String ville, String mdp ) throws BLLException {
+		
+		// construction utilisateur depuis la servlet
+		Utilisateur util = new Utilisateur( pseudo,  nom,  prenom,  email,  tel,  rue, cp,  ville,  mdp);
+		
+		// Visualisation pour test
+		System.out.println(util);
+		
+		// Ajout de l'utilisateur 
+		addUtil(util);
+
 	}
 
 	public void addUtil(Utilisateur util) throws BLLException {
@@ -60,7 +74,7 @@ public class EncheresManager {
 	public Utilisateur getUtil(int idUtil) throws BLLException {
 		Utilisateur util=null;
 		try {
-		 util = (Utilisateur) utilDAO.selectById(idUtil);
+			util = (Utilisateur) utilDAO.selectById(idUtil);
 		} catch (DALException e) {
 			e.printStackTrace();
 			throw new BLLException("Erreur get");
@@ -70,7 +84,7 @@ public class EncheresManager {
 
 	public void deleteUtil(int idUtil) throws BLLException {
 		try {
-			
+
 			utilDAO.delete(idUtil);
 		} catch (DALException e) {
 			e.printStackTrace();
@@ -86,7 +100,7 @@ public class EncheresManager {
 			throw new BLLException("equipe null");
 		}
 		// Les attributs des equipes sont obligatoires
-		
+
 		if (util.getPseudo().trim().length() ==0) {
 			sb.append("Pseudo obligatoire.\n");
 			valide = false;
@@ -127,11 +141,11 @@ public class EncheresManager {
 			throw new BLLException(sb.toString());
 		}
 	}
-	
+
 	/*************************************************************/
 	/******************** GESTION VENTE **************************/ 
 	/*************************************************************/
-	
+
 	// ajouter une vente
 	public void addVente(Vente vente) throws BLLException {
 		try {
@@ -142,7 +156,7 @@ public class EncheresManager {
 			throw new BLLException("Erreur insert");
 		}
 	}
-	
+
 	public List<Vente> getVentes(){
 		List<Vente> ventes = null;
 		try {
@@ -161,7 +175,7 @@ public class EncheresManager {
 		}
 		return vente; 
 	}
-	
+
 	public void validerVente(Vente vente) throws BLLException {
 		boolean valide = true;
 		Date dateDuJour = new Date();
@@ -170,7 +184,7 @@ public class EncheresManager {
 		if (vente == null) {
 			throw new BLLException("equipe null");
 		}
-		
+
 		if (vente.getNomArticle().trim().length() ==0) {
 			sb.append("Nom de l'article obligatoire.\n");
 			valide = false;
@@ -191,16 +205,16 @@ public class EncheresManager {
 			sb.append("La date de fin d'enchère doit être supérieur à la date du jour.\n");
 			valide = false;
 		}
-		
+
 		if (!valide) {
 			throw new BLLException(sb.toString());
 		}
 	}
-	
+
 	/*************************************************************/
 	/******************** GESTION ENCHERE ************************/ 
 	/*************************************************************/
-	
+
 	// ajouter une enchere
 	/*
 	public void addEnchere(Enchere enchere) throws BLLException {
@@ -212,12 +226,12 @@ public class EncheresManager {
 			throw new BLLException("Erreur insert");
 		}
 	}
-	*/
-	
+	 */
+
 	/*************************************************************/
 	/******** GESTION DES LISTES D'ACHAT OU DE VENTE *************/ 
 	/*************************************************************/
-	
+
 	// liste des ventes d'un utilisateur
 
 	public List<Vente> getListVenteUtilisateur(int idUtilisateur) throws BLLException {
@@ -230,7 +244,7 @@ public class EncheresManager {
 		}
 		return listVentes;
 	}
-/*	
+	/*	
 	// liste des achats d'un utilisateur
 <<<<<<< Updated upstream
 //	public List<Vente> getListAchatUtilisateur(int idUtilisateur) throws BLLException {
@@ -256,9 +270,9 @@ public class EncheresManager {
 		}
 		return achat;
 	}
-*/
+	 */
 
-public List<Vente> getListFiltreRecherche(String nomArticle, int idArticle, int monNoUtilisateur, 
+	public List<Vente> getListFiltreRecherche(String nomArticle, int idArticle, int monNoUtilisateur, 
 			int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, 
 			boolean autresEncheres) throws BLLException {
 		List<Vente> listFiltreRecherche = null;
@@ -271,7 +285,7 @@ public List<Vente> getListFiltreRecherche(String nomArticle, int idArticle, int 
 		}
 		return listFiltreRecherche;
 	}
-	
+
 	public List<Categorie> getCategories(){
 		List<Categorie> categories = null ; 
 		try {
@@ -282,5 +296,5 @@ public List<Vente> getListFiltreRecherche(String nomArticle, int idArticle, int 
 		return categories;
 	}
 
-	
+
 }
