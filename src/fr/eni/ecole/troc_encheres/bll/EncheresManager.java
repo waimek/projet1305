@@ -225,8 +225,9 @@ public class EncheresManager {
 		}
 		return listVentes;
 	}
-	
+/*	
 	// liste des achats d'un utilisateur
+<<<<<<< Updated upstream
 //	public List<Vente> getListAchatUtilisateur(int idUtilisateur) throws BLLException {
 //		List<Vente> achat = null;
 //		try {
@@ -238,6 +239,19 @@ public class EncheresManager {
 //		return achat;
 //	}
 
+=======
+	public List<Vente> getListAchatUtilisateur(int idUtilisateur) throws BLLException {
+		List<Vente> achat = null;
+		try {
+			achat = ((VenteDAOJdbcImpl)venteDAO).selectAchatsByUtilisateur(idUtilisateur);
+		} catch (DALException e) {
+			e.printStackTrace();
+			throw new BLLException("Erreur get");
+		}
+		return achat;
+	}
+*/
+>>>>>>> Stashed changes
 	public List<Vente> getListFiltreRecherche(String nomArticle, int idArticle, int monNoUtilisateur, 
 			int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, 
 			boolean autresEncheres) throws BLLException {
