@@ -193,47 +193,47 @@ public class EncheresManager {
 	/*************************************************************/
 	
 	// liste des ventes d'un utilisateur
-	public List<Vente> getListVenteUtilisateur(int idUtilisateur) throws BLLException {
-		List<Vente> listVentes =null;
-		try {
-			listVentes = venteDAO.selectByidUtilisateur(idUtilisateur);
-		} catch (DALException e) {
-			e.printStackTrace();
-			throw new BLLException("Erreur get");
-		}
-		return listVentes;
-	}
-	
-	// liste des achats d'un utilisateur
-	public List<Vente> getListAchatUtilisateur(int idUtilisateur) throws BLLException {
-		List<Vente> achat = null;
-		try {
-			achat = venteDAO.selectByAchatUtilisateur(idUtilisateur);
-		} catch (DALException e) {
-			e.printStackTrace();
-			throw new BLLException("Erreur get");
-		}
-		return achat;
-	}
+//	public List<Vente> getListVenteUtilisateur(int idUtilisateur) throws BLLException {
+//		List<Vente> listVentes =null;
+//		try {
+//			listVentes = venteDAO.selectByidUtilisateur(idUtilisateur);
+//		} catch (DALException e) {
+//			e.printStackTrace();
+//			throw new BLLException("Erreur get");
+//		}
+//		return listVentes;
+//	}
+//	
+//	// liste des achats d'un utilisateur
+//	public List<Vente> getListAchatUtilisateur(int idUtilisateur) throws BLLException {
+//		List<Vente> achat = null;
+//		try {
+//			achat = venteDAO.selectByAchatUtilisateur(idUtilisateur);
+//		} catch (DALException e) {
+//			e.printStackTrace();
+//			throw new BLLException("Erreur get");
+//		}
+//		return achat;
+//	}
 	
 	/*************************************************************/
 	/********************* GESTION FILTRES/RECHERCHE *************/ 
 	/*************************************************************/
 	
 	// filtre + recherche
-	public List<Vente> getListFiltreRecherche(String nomArticle, int idArticle, int monNoUtilisateur, 
-			int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, 
-			boolean autresEncheres) throws BLLException {
-		List<Vente> listFiltreRecherche = null;
-		try {
-			listFiltreRecherche = venteDAO.selectByPlusieursChamps(nomArticle, idArticle, monNoUtilisateur, 
-					noCategorie, mesVentes, mesEncheresEnCours, mesAcquisitions, autresEncheres);
-		} catch (DALException e) {
-			e.printStackTrace();
-			throw new BLLException("Erreur get");
-		}
-		return listFiltreRecherche;
-	}
-	
+//	public List<Vente> getListFiltreRecherche(String nomArticle, int idArticle, int monNoUtilisateur, 
+//			int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, 
+//			boolean autresEncheres) throws BLLException {
+//		List<Vente> listFiltreRecherche = null;
+//		try {
+//			listFiltreRecherche = venteDAO.selectByPlusieursChamps(nomArticle, idArticle, monNoUtilisateur, 
+//					noCategorie, mesVentes, mesEncheresEnCours, mesAcquisitions, autresEncheres);
+//		} catch (DALException e) {
+//			e.printStackTrace();
+//			throw new BLLException("Erreur get");
+//		}
+//		return listFiltreRecherche;
+//	}
+//	
 	
 }

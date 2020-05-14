@@ -21,10 +21,10 @@ public class RechercheServlet extends HttpServlet {
 	private EncheresManager manager;
 	private List<Categorie> listeCategories;
 	
-	public void init(){
-		manager = EncheresManager.get();
-		listeCategories = manager.getCategories();
-	}
+//	public void init(){
+//		manager = EncheresManager.get();
+//		listeCategories = manager.getCategories();
+//	}
 	
 
 	/**
