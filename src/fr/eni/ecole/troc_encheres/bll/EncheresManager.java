@@ -32,7 +32,7 @@ public class EncheresManager {
 		venteDAO = Factory.getVenteDAO();
 		categorieDAO = Factory.getCategorieDAO();
 	}
-	
+//	Hello
 	public void updateUtil(Utilisateur util) throws BLLException {
 		try {
 			validerUtil(util);
