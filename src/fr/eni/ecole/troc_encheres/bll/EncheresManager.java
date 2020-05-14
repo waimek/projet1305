@@ -14,6 +14,7 @@ import fr.eni.ecole.troc_encheres.dal.jdbc.VenteDAOJdbcImpl;
 
 public class EncheresManager {
 	//C'est un commentaire
+	// je suis la suite du retour du commit
 	private static EncheresManager instance;
 	private DAO<Utilisateur> utilDAO;
 	private DAO<Vente> venteDAO;
