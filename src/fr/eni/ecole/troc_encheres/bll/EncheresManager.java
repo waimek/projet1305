@@ -22,6 +22,7 @@ public class EncheresManager {
 	
 	// test bean
 	// guerzgyrpugrprqugr
+	//Urgh Lucille
 
 	public static EncheresManager get() {
 		if (instance == null) {
