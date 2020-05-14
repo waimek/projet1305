@@ -18,7 +18,7 @@ public class EncheresManager {
 	private DAO<Utilisateur> utilDAO;
 	private DAO<Vente> venteDAO;
 	private DAO categorieDAO;
-
+	// test push
 
 	public static EncheresManager get() {
 		if (instance == null) {
