@@ -21,6 +21,7 @@ public class EncheresManager {
 	private DAO categorieDAO;
 
 //	Bonjour, je suis un commentaire test de Lucille. Au revoir
+	// J'ai FAIM !!!!!
 	public static EncheresManager get() {
 		if (instance == null) {
 			instance = new EncheresManager();
