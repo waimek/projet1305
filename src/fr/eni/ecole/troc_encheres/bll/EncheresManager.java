@@ -13,16 +13,13 @@ import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 import fr.eni.ecole.troc_encheres.dal.jdbc.VenteDAOJdbcImpl;
 
 public class EncheresManager {
-	//C'est un commentaire
-	// je suis la suite du retour du commit
+
 	private static EncheresManager instance;
 	private DAO<Utilisateur> utilDAO;
 	private DAO<Vente> venteDAO;
 	private DAO categorieDAO;
 
-//	Bonjour, je suis un commentaire test de Lucille. Au revoir
-	//Bonjour je suis là pour poluer le code Dominika
-	// J'ai FAIM !!!!!
+
 	public static EncheresManager get() {
 		if (instance == null) {
 			instance = new EncheresManager();
@@ -257,7 +254,7 @@ public class EncheresManager {
 	}
 */
 
-	public List<Vente> getListFiltreRecherche(String nomArticle, int idArticle, int monNoUtilisateur, 
+public List<Vente> getListFiltreRecherche(String nomArticle, int idArticle, int monNoUtilisateur, 
 			int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, 
 			boolean autresEncheres) throws BLLException {
 		List<Vente> listFiltreRecherche = null;
