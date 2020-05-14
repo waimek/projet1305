@@ -50,12 +50,11 @@
 				</div>
 			</div>
 		</div>
-		<c:if test="${status.count %2 == 1 }">
-			<c:out value="</div><div class="row">"/>
-		</c:if>
+<%-- 		<c:if test="${status.count %2 == 1 }"> --%>
+<%-- 			<c:out value="</div><div class="row">"/> --%>
+<%-- 		</c:if> --%>
 	</c:forEach>
 </div>
 
-</div>
 
 <%@ include file="footer.jsp"%>
