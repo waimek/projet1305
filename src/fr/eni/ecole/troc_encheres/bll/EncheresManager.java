@@ -21,7 +21,11 @@ public class EncheresManager {
 	private DAO categorieDAO;
 
 //	Bonjour, je suis un commentaire test de Lucille. Au revoir
+<<<<<<< HEAD
 	//Bonjour je suis là pour poluer le code Dominika
+=======
+	// J'ai FAIM !!!!!
+>>>>>>> branch 'master' of https://github.com/waimek/projet1305.git
 	public static EncheresManager get() {
 		if (instance == null) {
 			instance = new EncheresManager();
