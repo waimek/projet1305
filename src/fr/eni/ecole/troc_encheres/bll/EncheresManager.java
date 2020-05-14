@@ -20,6 +20,8 @@ public class EncheresManager {
 	private DAO<Vente> venteDAO;
 	private DAO categorieDAO;
 
+//	Bonjour, je suis un commentaire test de Lucille. Au revoir
+	//Bonjour je suis là pour poluer le code Dominika
 	public static EncheresManager get() {
 		if (instance == null) {
 			instance = new EncheresManager();
@@ -239,6 +241,7 @@ public class EncheresManager {
 //		}
 //		return achat;
 //	}
+<<<<<<< HEAD
 
 =======
 	public List<Vente> getListAchatUtilisateur(int idUtilisateur) throws BLLException {
@@ -253,6 +256,9 @@ public class EncheresManager {
 	}
 */
 >>>>>>> Stashed changes
+=======
+
+>>>>>>> branch 'master' of https://github.com/waimek/projet1305.git
 	public List<Vente> getListFiltreRecherche(String nomArticle, int idArticle, int monNoUtilisateur, 
 			int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, 
 			boolean autresEncheres) throws BLLException {
