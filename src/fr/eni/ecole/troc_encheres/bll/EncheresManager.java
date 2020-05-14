@@ -13,7 +13,6 @@ import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 import fr.eni.ecole.troc_encheres.dal.jdbc.VenteDAOJdbcImpl;
 
 public class EncheresManager {
-	//Commentaire test Lucille
 	private static EncheresManager instance;
 	private DAO<Utilisateur> utilDAO;
 	private DAO<Vente> venteDAO;
