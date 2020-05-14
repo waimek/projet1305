@@ -21,6 +21,7 @@ public class EncheresManager {
 	// test push
 	
 	// test bean
+	// guerzgyrpugrprqugr
 
 	public static EncheresManager get() {
 		if (instance == null) {
