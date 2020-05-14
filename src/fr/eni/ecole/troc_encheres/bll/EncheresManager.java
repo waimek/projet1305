@@ -19,6 +19,8 @@ public class EncheresManager {
 	private DAO<Vente> venteDAO;
 	private DAO categorieDAO;
 	// test push
+	
+	// test bean
 
 	public static EncheresManager get() {
 		if (instance == null) {
