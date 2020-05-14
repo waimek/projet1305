@@ -138,6 +138,25 @@ public class EncheresManager {
 		}
 	}
 	
+	public List<Vente> getVentes(){
+		List<Vente> ventes = null;
+		try {
+			ventes = venteDAO.selectAll();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ventes; 
+	}
+	public Vente getVente(int idVente){
+		Vente vente = null;
+		try {
+			vente = venteDAO.selectById(idVente);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return vente; 
+	}
+	
 	public void validerVente(Vente vente) throws BLLException {
 		boolean valide = true;
 		Date dateDuJour = new Date();
