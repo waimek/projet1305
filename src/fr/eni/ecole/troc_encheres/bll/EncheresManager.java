@@ -195,6 +195,7 @@ public class EncheresManager {
 	/*************************************************************/
 	
 	// liste des ventes d'un utilisateur
+
 	public List<Vente> getListVenteUtilisateur(int idUtilisateur) throws BLLException {
 		List<Vente> listVentes =null;
 		try {
@@ -217,12 +218,7 @@ public class EncheresManager {
 		}
 		return achat;
 	}
-	
-	/*************************************************************/
-	/********************* GESTION FILTRES/RECHERCHE *************/ 
-	/*************************************************************/
-	
-	// filtre + recherche
+
 	public List<Vente> getListFiltreRecherche(String nomArticle, int idArticle, int monNoUtilisateur, 
 			int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, 
 			boolean autresEncheres) throws BLLException {
@@ -246,5 +242,6 @@ public class EncheresManager {
 		}
 		return categories;
 	}
+
 	
 }
