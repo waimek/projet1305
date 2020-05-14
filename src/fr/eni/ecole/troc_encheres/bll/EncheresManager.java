@@ -4,11 +4,13 @@ import java.util.Date;
 import java.util.List;
 
 import fr.eni.ecole.troc_encheres.bll.exceptions.BLLException;
+import fr.eni.ecole.troc_encheres.bo.Categorie;
 import fr.eni.ecole.troc_encheres.bo.Utilisateur;
 import fr.eni.ecole.troc_encheres.bo.Vente;
 import fr.eni.ecole.troc_encheres.dal.DAO;
 import fr.eni.ecole.troc_encheres.dal.Factory;
 import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
+import fr.eni.ecole.troc_encheres.dal.jdbc.VenteDAOJdbcImpl;
 
 public class EncheresManager {
 	//Commentaire test Lucille
@@ -196,7 +198,7 @@ public class EncheresManager {
 	public List<Vente> getListVenteUtilisateur(int idUtilisateur) throws BLLException {
 		List<Vente> listVentes =null;
 		try {
-			listVentes = venteDAO.selectByidUtilisateur(idUtilisateur);
+			listVentes = ((VenteDAOJdbcImpl)venteDAO).selectByUtil(idUtilisateur);
 		} catch (DALException e) {
 			e.printStackTrace();
 			throw new BLLException("Erreur get");
@@ -208,7 +210,7 @@ public class EncheresManager {
 	public List<Vente> getListAchatUtilisateur(int idUtilisateur) throws BLLException {
 		List<Vente> achat = null;
 		try {
-			achat = venteDAO.selectByAchatUtilisateur(idUtilisateur);
+			achat = ((VenteDAOJdbcImpl)venteDAO).selectAchatsByUtilisateur(idUtilisateur);
 		} catch (DALException e) {
 			e.printStackTrace();
 			throw new BLLException("Erreur get");
@@ -226,7 +228,7 @@ public class EncheresManager {
 			boolean autresEncheres) throws BLLException {
 		List<Vente> listFiltreRecherche = null;
 		try {
-			listFiltreRecherche = venteDAO.selectByPlusieursChamps(nomArticle, idArticle, monNoUtilisateur, 
+			listFiltreRecherche = ((VenteDAOJdbcImpl)venteDAO).selectByPlusieursChamps(nomArticle, idArticle, monNoUtilisateur, 
 					noCategorie, mesVentes, mesEncheresEnCours, mesAcquisitions, autresEncheres);
 		} catch (DALException e) {
 			e.printStackTrace();
@@ -235,5 +237,14 @@ public class EncheresManager {
 		return listFiltreRecherche;
 	}
 	
+	public List<Categorie> getCategories(){
+		List<Categorie> categories = null ; 
+		try {
+			categories = categorieDAO.selectAll();
+		} catch (DALException e) {
+			e.printStackTrace();
+		}
+		return categories;
+	}
 	
 }

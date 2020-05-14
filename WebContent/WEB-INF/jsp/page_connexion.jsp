@@ -1,13 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Se Connecter</title>
-</head>
-<body>
+<%@ include file="entete.jsp" %>
+
 <h1>Trocencheres.org</h1>
 <!-- Ceci est un commentaire de type test -->
 <form method="post" action="connexion">
@@ -29,5 +24,5 @@
               <%--   <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p> --%>
             </fieldset>
         </form>
-</body>
-</html>
+<%@ include file="footer.jsp" %>
+        
