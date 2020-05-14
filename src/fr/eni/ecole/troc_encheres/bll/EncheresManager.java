@@ -13,19 +13,13 @@ import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 import fr.eni.ecole.troc_encheres.dal.jdbc.VenteDAOJdbcImpl;
 
 public class EncheresManager {
-	//C'est un commentaire
-	// je suis la suite du retour du commit
+
 	private static EncheresManager instance;
 	private DAO<Utilisateur> utilDAO;
 	private DAO<Vente> venteDAO;
 	private DAO categorieDAO;
 
-//	Bonjour, je suis un commentaire test de Lucille. Au revoir
-<<<<<<< HEAD
-	//Bonjour je suis là pour poluer le code Dominika
-=======
-	// J'ai FAIM !!!!!
->>>>>>> branch 'master' of https://github.com/waimek/projet1305.git
+
 	public static EncheresManager get() {
 		if (instance == null) {
 			instance = new EncheresManager();
@@ -259,10 +253,8 @@ public class EncheresManager {
 		return achat;
 	}
 */
->>>>>>> Stashed changes
-=======
 
->>>>>>> branch 'master' of https://github.com/waimek/projet1305.git
+
 	public List<Vente> getListFiltreRecherche(String nomArticle, int idArticle, int monNoUtilisateur, 
 			int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, 
 			boolean autresEncheres) throws BLLException {
