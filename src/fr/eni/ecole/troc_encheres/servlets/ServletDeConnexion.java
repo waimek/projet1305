@@ -51,6 +51,6 @@ public class ServletDeConnexion extends HttpServlet {
 			System.out.println("Un problème est survenu avec votre mot de passe " + e.getMessage());
 		}
 
-		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/page_connexion.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/SomeRedirection.jsp").forward(request, response);
 	}
 }
