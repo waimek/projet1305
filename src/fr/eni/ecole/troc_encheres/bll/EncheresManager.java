@@ -133,14 +133,15 @@ public class EncheresManager {
 	/*************************************************************/
 	
 	// ajouter une vente
-	public void addVente(Vente vente) throws BLLException {
+	public int addVente(Vente vente) throws BLLException {
 		try {
 			validerVente(vente);
-			venteDAO.insert(vente);
+			int noVente= venteDAO.insert(vente);
 		} catch (DALException e) {
 			e.printStackTrace();
 			throw new BLLException("Erreur insert");
 		}
+		return noVente;
 	}
 	
 	public List<Vente> getVentes(){

@@ -12,8 +12,24 @@ public class Vente {
 	private int prixVente;
 	private Utilisateur util;
 	private Categorie categorie;
+	private Retrait retrait;
 	
 	
+
+	public Vente(int numero, String nomArticle, String description, Date dateFinEncheres, int miseAPrix, int prixVente,
+			Utilisateur util, Categorie categorie, Retrait retrait) {
+		super();
+		this.numero = numero;
+		this.nomArticle = nomArticle;
+		this.description = description;
+		this.dateFinEncheres = dateFinEncheres;
+		this.miseAPrix = miseAPrix;
+		this.prixVente = prixVente;
+		this.util = util;
+		this.categorie = categorie;
+		this.retrait = retrait;
+	}
+
 	public Vente(int numero, String nomArticle, String description, Date dateFinEncheres, int miseAPrix, int prixVente,
 			Utilisateur util, Categorie categorie) {
 		
@@ -86,6 +102,12 @@ public class Vente {
 	}
 	public void setPrixVente(int prixVente) {
 		this.prixVente = prixVente;
+	}
+	public Retrait getRetrait() {
+		return retrait;
+	}
+	public void setRetrait(Retrait retrait) {
+		this.retrait = retrait;
 	}
 
 	@Override

@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="java.util.List"%>
-<%@ page import="fr.eni.ecole.troc_encheres.bo.Categorie"%>
+
 <%@ include file="entete.jsp"%>
 
 
@@ -11,16 +10,23 @@
 	<div>
 		<p>Filtres :</p>
 		<input type="checkbox" name="mesVentes" id="mesVentes"
-			class="form-check-input" /> <label for="mesVentes"
-			class="form-check-label" id="lblVentes">Mes ventes</label><input
+			class="form-check-input" /> 
+		<label for="mesVentes"
+			class="form-check-label" id="lblVentes">Mes ventes</label>
+		<input
 			type="checkbox" name="mesEncheresEnCours" id="mesEncheresEnCours"
-			class="form-check-input" /> <label for="mesEncheresEnCours"
+			class="form-check-input" /> 
+		<label for="mesEncheresEnCours"
 			id="lblEncheresEnCours" class="form-check-label">Mes enchères
-			en cours</label> <input type="checkbox" name="mesAcquisitions"
-			id="mesAcquisitions" class="form-check-input" /><label
+			en cours</label> 
+		<input type="checkbox" name="mesAcquisitions"
+			id="mesAcquisitions" class="form-check-input" />
+		<label
 			for="mesAcquisitions" id="lblAcquisitions" class="form-check-label">
-			Mes acquisitions</label> <input type="checkbox" name="autresEncheres"
-			id="autresEncheres" class="form-check-input" /><label
+			Mes acquisitions</label> 
+		<input type="checkbox" name="autresEncheres"
+			id="autresEncheres" class="form-check-input" />
+		<label
 			for="autresEncheres" id="lblAutresEncheres" class="form-check-label">Autres
 			enchères</label>
 	</div>
@@ -29,9 +35,9 @@
 		placeholder="Le nom de l'article contient" aria-label="Search">
 
 	<select class="custom-select mr-sm-2">
-		<c:forEach var="categorie" items="${requestScope.listeCategories}">
+		<c:forEach var="categorie" items="${listeCategories}">
 
-			<option value="${categorie.id}">${categorie.libelle}</option>
+			<option value="${categorie.numero}">${categorie.libelle}</option>
 
 		</c:forEach>
 
@@ -39,7 +45,7 @@
 </form>
 
 <div class="row">
-	<c:forEach var="vente" items="${requestScope.listeVentes}"
+	<c:forEach var="vente" items="${listeVentes}"
 		varStatus="status">
 		<div class="col-sm-6">
 			<div class="card">

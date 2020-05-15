@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.ecole.troc_encheres.bo.Categorie;
+import fr.eni.ecole.troc_encheres.bo.Retrait;
 import fr.eni.ecole.troc_encheres.bo.Utilisateur;
 import fr.eni.ecole.troc_encheres.bo.Vente;
 import fr.eni.ecole.troc_encheres.dal.ConnectionProvider;
@@ -19,9 +20,10 @@ import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 public class VenteDAOJdbcImpl implements DAO<Vente> {
 
 	@Override
-	public void insert(Vente vente) throws DALException {
+	public int insert(Vente vente) throws DALException {
 		Connection con = null;
 		PreparedStatement stmt = null;
+		int noVente = 0;
 		try {
 			con = ConnectionProvider.getConnection();
 			stmt = con.prepareStatement(
@@ -35,13 +37,13 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
 			stmt.setInt(6, vente.getUtil().getNumero());
 			stmt.setInt(7, vente.getCategorie().getNumero());
 			int rows = stmt.executeUpdate();
-
+			
 			if (rows != 1) {
 				throw new DALException("Erreur insert");
 			} else {
 				ResultSet rs = stmt.getGeneratedKeys();
 				if (rs.next()) {
-					vente.setNumero(rs.getInt(1));
+					noVente= rs.getInt(1);
 				} else {
 					throw new DALException("Erreur GeneratedKeys");
 				}
@@ -64,7 +66,7 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
 				throw new DALException("Erreur close");
 			}
 		}
-
+		return noVente;
 	}
 
 	@Override
@@ -111,13 +113,14 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
         try {
             con = ConnectionProvider.getConnection();
             stmt = con.createStatement();
-            PreparedStatement query = con.prepareStatement("select * from ventes join utilisateurs on utilisateurs.no_utilisateur= ventes.no_utilisateur join categories on categories.no_categorie = vente.no_categorie where no_vente = ?");
+            PreparedStatement query = con.prepareStatement("select * from ventes join utilisateurs on utilisateurs.no_utilisateur= ventes.no_utilisateur join categories on categories.no_categorie = vente.no_categorie join retraits on retraits.no_vente = ventes.no_vente where no_vente = ?");
             query.setInt(1, idVente);
             ResultSet rs = query.executeQuery();
             if (rs.next()) {
                 vente = new Vente(rs.getInt("no_vente"), rs.getString("nom_article"), rs.getString("description"), rs.getDate("date_fin_encheres"), rs.getInt("miseAPrix"), rs.getInt("prix_vente"), 
                 		new Utilisateur(rs.getInt("no_utilisateur"), rs.getString("pseudo"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit")), 
                 		new Categorie(rs.getInt("no_vente"), rs.getString("libelle")));
+                vente.setRetrait(new Retrait(vente, rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville")));
             }
             try {
                 rs.close();
@@ -146,12 +149,13 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
         try {
             con = ConnectionProvider.getConnection();
             stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from ventes join utilisateurs on utilisateurs.no_utilisateur= ventes.no_utilisateur join categories on categories.no_categorie = vente.no_categorie");
+            ResultSet rs = stmt.executeQuery("select * from ventes join utilisateurs on utilisateurs.no_utilisateur= ventes.no_utilisateur join categories on categories.no_categorie = vente.no_categorie join retraits on retraits.no_vente = ventes.no_vente");
             Vente vente = null;
             while (rs.next()) {
                 vente = new Vente(rs.getInt("no_vente"), rs.getString("nom_article"), rs.getString("description"), rs.getDate("date_fin_encheres"), rs.getInt("miseAPrix"), rs.getInt("prix_vente"), 
                 		new Utilisateur(rs.getInt("no_utilisateur"), rs.getString("pseudo"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit")), 
                 		new Categorie(rs.getInt("no_vente"), rs.getString("libelle")));
+                vente.setRetrait(new Retrait(vente, rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville")));
                 ventes.add(vente);
             }
         } catch (SQLException throwables) {
@@ -203,7 +207,8 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
             
             PreparedStatement stmt = con.prepareStatement("select * from ventes "
             		+ "join utilisateurs on utilisateurs.no_utilisateur= ventes.no_utilisateur "
-            		+ "join categories on categories.no_categorie = vente.no_categorie "
+            		+ "join categories on categories.no_categorie = ventes.no_categorie "
+            		+ "join retraits on retraits.no_vente = ventes.no_vente "
             		+ "where no_utilisateur = ?");
             stmt.setInt(1, idUtil);
             ResultSet rs = stmt.executeQuery();
@@ -212,6 +217,8 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
                 vente = new Vente(rs.getInt("no_vente"), rs.getString("nom_article"), rs.getString("description"), rs.getDate("date_fin_encheres"), rs.getInt("miseAPrix"), rs.getInt("prix_vente"), 
                 		new Utilisateur(rs.getInt("no_utilisateur"), rs.getString("pseudo"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit")), 
                 		new Categorie(rs.getInt("no_vente"), rs.getString("libelle")));
+                
+                vente.setRetrait(new Retrait(vente, rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville")));
                 ventes.add(vente);
             }
             stmt.close();

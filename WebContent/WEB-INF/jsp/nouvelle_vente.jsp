@@ -51,10 +51,13 @@
 	<fieldset>
 		<div class="row">
 		<legend class="form-label">Retrait</legend>
-			<input type="submit" class="btn btn-primary" value="Publier" /> <a
-				class="btn btn-primary"
+			<input type="submit" class="btn btn-primary" value="Publier" /> 
+			<a class="btn btn-primary"
 				href="${pageContext.servletContext.contextPath}/RechercheServlet"
 				role="button">Annuler</a>
+			<a class="btn btn-primary"
+				href="#"
+				role="button">Enregistrer</a>
 		</div>
 	</fieldset>
 </form>
