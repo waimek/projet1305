@@ -36,18 +36,18 @@
 		</div>
 		<div class="col">
 			<input type="text" class="form-control" placeholder="Rue" name="rue"
-				id="rue">
+				id="rue" required>
 		</div>
 	</div>
 
 	<div class="form-row">
 		<div class="col">
 			<input type="text" class="form-control" placeholder="Code postale"
-				name="cp" id="cp">
+				name="cp" id="cp" required>
 		</div>
 		<div class="col">
 			<input type="text" class="form-control" placeholder="Ville"
-				name="ville" id="ville">
+				name="ville" id="ville" required>
 		</div>
 	</div>
 
@@ -59,7 +59,7 @@
 		</div>
 		<div class="col">
 			<input type="password" class="form-control" placeholder="Confirmation"
-				name="mdpConf" id="mdpConf">
+				name="mdpConf" id="mdpConf" required>
 		</div>
 	</div>
 
