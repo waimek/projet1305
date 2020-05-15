@@ -19,7 +19,7 @@ public class Utilisateur implements Serializable {
 	private String cp;
 	private String ville; 
 	private String mdp; 
-	private int credit; 
+	private int credit = 100; 
 	private boolean admin=false;
 	//public List<Vente> ventes = new ArrayList<>();
 	
@@ -51,6 +51,19 @@ public class Utilisateur implements Serializable {
 		this.ville = ville;
 		this.mdp = mdp;
 		this.credit = credit;
+	}
+	
+	public Utilisateur(String pseudo, String nom, String prenom, String email, String tel, String rue, String cp,
+			String ville, String mdp) {
+		this.pseudo = pseudo;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.tel = tel;
+		this.rue = rue;
+		this.cp = cp;
+		this.ville = ville;
+		this.mdp = mdp;
 	}
 	
 	public int getNumero() {

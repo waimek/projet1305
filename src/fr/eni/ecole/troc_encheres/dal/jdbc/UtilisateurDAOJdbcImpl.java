@@ -16,11 +16,11 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 
 	@Override
 	public void insert(Utilisateur util) throws DALException {
-		
-		try(
-				Connection con = ConnectionProvider.getConnection();
-				PreparedStatement stmt = con.prepareStatement("INSERT INTO utilisateurs (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe) VALUES (?,?,?,?,?,?,?,?,md5(?))");
+
+		try( Connection con = ConnectionProvider.getConnection();
 				) {
+			try { 				
+			PreparedStatement stmt = con.prepareStatement("INSERT INTO utilisateurs (pseudo, nom, prenom, email, tel, rue, cp, ville, mdp, credit) VALUES (?,?,?,?,?,?,?,?,md5(?),?)");
 
 			stmt.setString(1, util.getPseudo());
 			stmt.setString(2, util.getNom());
@@ -31,10 +31,21 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 			stmt.setString(7, util.getCp());
 			stmt.setString(8, util.getVille());
 			stmt.setString(9, util.getMdp());
+			stmt.setInt(10, util.getCredit());
 			stmt.executeUpdate();
-		} catch (SQLException throwables) {
+			} 
+			catch(Exception e)
+			{
+				e.printStackTrace();
+				con.rollback();
+				throw e;
+			}
+		}
+		catch (SQLException throwables) {
 			throw new DALException("Erreur insert");
 		} 
+
+
 	}
 
 	@Override
@@ -54,7 +65,7 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 			query.setString(8, util.getVille());
 			query.setString(9, util.getMdp());
 			query.setInt(10, util.getNumero());
-			
+
 			int nbRows = query.executeUpdate();
 			if (nbRows == 0 || nbRows == -1) {
 				throw new DALException("Erreur de mise � jour");
@@ -71,7 +82,7 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 				throw new DALException("Erreur fermeture");
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -108,8 +119,8 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		}
 		return util;
 	}
-	
-	
+
+
 	@Override
 	public List<Utilisateur> selectAll() throws DALException {
 		return null;
@@ -141,7 +152,7 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 			}
 		}
 	}
-	
-	
+
+
 	//Ajouter au besoin selectByX pour les recherches
 }
