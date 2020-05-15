@@ -4,24 +4,11 @@
 <%@ include file="entete.jsp"%>
 <%@ page import="fr.eni.ecole.troc_encheres.bo.Utilisateur"%>
 
+<c:if test="${ !empty sessionScope.pseudo && !empty sessionScope.mdp }">
+	<p>Vous êtes ${ sessionScope.pseudo } ${ sessionScope.mdp } !</p>
+</c:if>
 <h1>Trocencheres.org</h1>
 <!-- Ceci est un commentaire de type test -->
-<%-- <form method="post" action="connexion">
-	<fieldset>
-		<legend>Connexion</legend>
-		<label for="pseudo">S'identifier<span class="required">*</span></label>
-		<input type="pseudo" id="pseudo" name="pseudo"
-			value="<c:out value="${util.pseudo}"/>" size="20" maxlength="60" />
-		<span class="erreur">${form.erreurs['pseudo']}</span> <br /> <label
-			for="mdp">Mot de passe <span class="required">*</span></label> <input
-			type="password" id="mdp" name="mdp"
-			value="<c:out value="${util.mdp}"/>" size="20" maxlength="20" />
-		<span class="erreur">${form.erreurs['mdp']}</span>
-		<br /> <input type="submit" value="Connexion" class="sansLabel" /> <br />
-
-		  <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
-	</fieldset>
-</form> --%>
 <form action="${pageContext.servletContext.contextPath}/connexion"
 	method="post">
 	<div class="form-group">
@@ -42,6 +29,7 @@
 		<label class="form-check-label" for="exampleCheck1">Check me
 			out</label>
 	</div> -->
-	<a href="${pageContext.servletContext.contextPath}/TestCheminServlet" class="btn btn-primary">Se connecter</a>
+	<a href="${pageContext.servletContext.contextPath}/TestCheminServlet"
+		class="btn btn-primary">Se connecter</a>
 </form>
 <%@ include file="footer.jsp"%>
