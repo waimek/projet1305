@@ -13,13 +13,13 @@ import javax.servlet.http.HttpSession;
  * Servlet implementation class ServletDeConnexion
  */
 @WebServlet("/connexion")
-public class ServletDeConnexion extends HttpServlet {
+public class ConnexionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ServletDeConnexion() {
+	public ConnexionServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -51,6 +51,6 @@ public class ServletDeConnexion extends HttpServlet {
 			System.out.println("Un problème est survenu avec votre mot de passe " + e.getMessage());
 		}
 
-		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/SomeRedirection.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/some_redirection.jsp").forward(request, response);
 	}
 }
