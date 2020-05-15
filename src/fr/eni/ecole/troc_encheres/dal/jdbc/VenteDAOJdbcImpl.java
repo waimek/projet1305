@@ -20,7 +20,7 @@ import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 public class VenteDAOJdbcImpl implements DAO<Vente> {
 
 	@Override
-	public int insert(Vente vente) throws DALException {
+	public void insert(Vente vente) throws DALException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		int noVente = 0;
@@ -43,7 +43,7 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
 			} else {
 				ResultSet rs = stmt.getGeneratedKeys();
 				if (rs.next()) {
-					noVente= rs.getInt(1);
+					vente.setNumero(rs.getInt(1));
 				} else {
 					throw new DALException("Erreur GeneratedKeys");
 				}
@@ -66,7 +66,7 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
 				throw new DALException("Erreur close");
 			}
 		}
-		return noVente;
+	
 	}
 
 	@Override

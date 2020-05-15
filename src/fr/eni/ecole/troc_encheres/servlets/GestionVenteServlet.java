@@ -83,8 +83,7 @@ public class GestionVenteServlet extends HttpServlet {
 			Categorie categorie = new Categorie(request.getParameter("categorie"));
 			Vente vente = new Vente (nomArticle, description, dateFinEncheres, miseAPrix,prixVente, util, categorie);
 			vente.setRetrait(new Retrait(vente, request.getParameter("rue"), request.getParameter("ville"), request.getParameter("codePostal")));
-			int noVente = manager.addVente(vente);
-			vente.setNumero(noVente);
+			manager.addVente(vente);
 			request.setAttribute("vente", vente);
 			request.setAttribute("vendeur", true);
 			request.getRequestDispatcher("/WEB-INF/jsp/vente.jsp").forward(request, response);
