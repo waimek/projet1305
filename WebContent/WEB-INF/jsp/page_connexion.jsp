@@ -9,25 +9,36 @@
 <form action="${pageContext.servletContext.contextPath}/connexion"
 	method="post">
 	<div class="form-group">
-		<label for="nom">Pseudo</label>
-		<input type="text" id="pseudo" name="pseudo"
-			value="<c:out value="${util.pseudo}"/>" /> <span class="erreur">${form.erreurs['pseudo']}</span>
+		<label for="nom">Pseudo</label> <input type="text" id="pseudo"
+			name="pseudo" value="<c:out value="${util.pseudo}"/>" /> <span
+			class="erreur">${form.erreurs['pseudo']}</span>
 
 	</div>
 	<div class="form-group">
-		<label for="password">Mot de passe</label>
-		<input type="password" name="mdp"
-			class="form-control" id="mdp" value="<c:out value="${util.mdp}"/>" />
-		<span class="erreur">${form.erreurs['mdp']}</span>
+		<label for="password">Mot de passe</label> <input type="password"
+			name="mdp" class="form-control" id="mdp"
+			value="<c:out value="${util.mdp}"/>" /> <span class="erreur">${form.erreurs['mdp']}</span>
 	</div>
-	<input type="submit" value="Connexion" class="sansLabel" /> <br />
+	<input type="submit" value="Connexion" class="sansLabel"/>
+	<br />
+	<div class="form-check">
+		<input class="form-check-input" type="checkbox" value=""
+			id="defaultCheck1"> <label class="form-check-label"
+			for="defaultCheck1"> Se souvenir de moi </label> </br> <a href="#">Mot
+			de passe oublié</a>
+	</div>
+	</br>
+	<button value="${sessionScope.invalidate}" name="deconnexion">Déconnexion</button>
 
 	<p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
 </form>
-<%-- Vérification de la présence d'un objet utilisateur en session --%>
-<c:if test="${!empty sessionScope.sessionUtilisateur}">
-	<%-- Si l'utilisateur existe en session, alors on affiche son adresse email. --%>
-	<p class="succes">Vous êtes connecté(e) avec le pseudo :
-		${sessionScope.sessionUtilisateur.pseudo}</p>
-</c:if>
+<c:choose>
+	<c:when test="${!empty sessionScope.sessionUtilisateur}">
+		<p class="succes">Vous êtes connecté(e) avec le pseudo :
+			${sessionScope.sessionUtilisateur.pseudo}</p>
+	</c:when>
+	<c:when test="${sessionScope.invalidate}">
+		<p class="succes">Vous êtes déconnecté(e) de la session.</p>
+	</c:when>
+</c:choose>
 <%@ include file="footer.jsp"%>

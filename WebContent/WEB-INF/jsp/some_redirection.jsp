@@ -10,14 +10,8 @@
 <title>Page redirection test Connexion</title>
 </head>
 <body>
-	<%
-		Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
-	%>
-	<h1>Vous êtes bien connecté</h1>
-	<h2>Bonjour :</h2>
-<ul>
-<li><%=utilisateur.getPseudo() %>
-<li><%=utilisateur.getMdp() %>
-</ul>
+	<h1>Test de déconnexion / redirection</h1>
+	<p>De la parlotte</p>
+	<a href="${pageContext.servletContext.contextPath}/deconnexion">Déconnexion</a>
 </body>
 </html>
