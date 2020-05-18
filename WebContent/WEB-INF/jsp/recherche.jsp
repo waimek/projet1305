@@ -5,7 +5,6 @@
 <%@ include file="entete.jsp"%>
 
 
-
 <form method="post" action="#">
 	<div>
 		<p>Filtres :</p>
@@ -31,17 +30,19 @@
 			enchères</label>
 	</div>
 	<i class="fas fa-search" aria-hidden="true"></i> <input
-		class="form-control form-control-sm ml-3 w-75" type="text"
+		class="form-control form-control-sm ml-3 w-75" type="text" name="textRecherche"
 		placeholder="Le nom de l'article contient" aria-label="Search">
 
-	<select class="custom-select mr-sm-2">
+	<select name="choixCategorie" class="custom-select mr-sm-2">
+		<option value="0">Toutes</option>	
 		<c:forEach var="categorie" items="${listeCategories}">
 
 			<option value="${categorie.numero}">${categorie.libelle}</option>
 
 		</c:forEach>
 
-	</select> <input type="submit" class="btn btn-primary" value="Rechercher" />
+	</select> 
+	<input type="submit" class="btn btn-primary" value="Rechercher" />
 </form>
 
 <div class="row">

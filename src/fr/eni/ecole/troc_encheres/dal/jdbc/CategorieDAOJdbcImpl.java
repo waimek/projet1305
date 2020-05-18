@@ -13,6 +13,7 @@ import fr.eni.ecole.troc_encheres.dal.ConnectionProvider;
 import fr.eni.ecole.troc_encheres.dal.DAO;
 import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 
+
 public class CategorieDAOJdbcImpl implements DAO<Categorie>{
 
 	@Override
@@ -66,7 +67,7 @@ public class CategorieDAOJdbcImpl implements DAO<Categorie>{
 	        try {
 	            con = ConnectionProvider.getConnection();
 	            stmt = con.createStatement();
-	            ResultSet rs = stmt.executeQuery("select * from categories order by nom asc");
+	            ResultSet rs = stmt.executeQuery("select * from categories order by libelle asc");
 	            Categorie categorie = null;
 	            while (rs.next()) {
 	            	categorie = new Categorie(rs.getInt("numero"), rs.getString("libelle"));
@@ -86,8 +87,10 @@ public class CategorieDAOJdbcImpl implements DAO<Categorie>{
 	        return categories;
 	}
 
+	
 	@Override
 	public void delete(int idObj) throws DALException {
 	}
+	
 
 }

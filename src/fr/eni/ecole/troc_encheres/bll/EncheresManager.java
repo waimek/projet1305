@@ -245,6 +245,9 @@ public class EncheresManager {
 		return listVentes;
 	}
 	/*	
+
+	// liste des achats d'un utilisateur
+
 	public List<Vente> getListAchatUtilisateur(int idUtilisateur) throws BLLException {
 		List<Vente> achat = null;
 		try {
@@ -257,12 +260,12 @@ public class EncheresManager {
 	}
 	 */
 
-	public List<Vente> getListFiltreRecherche(String nomArticle, int idArticle, int monNoUtilisateur, 
+	public List<Vente> getListFiltreRecherche(String nomArticle, int monNoUtilisateur, 
 			int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, 
 			boolean autresEncheres) throws BLLException {
 		List<Vente> listFiltreRecherche = null;
 		try {
-			listFiltreRecherche = ((VenteDAOJdbcImpl)venteDAO).selectByPlusieursChamps(nomArticle, idArticle, monNoUtilisateur, 
+			listFiltreRecherche = ((VenteDAOJdbcImpl)venteDAO).selectByPlusieursChamps(nomArticle, monNoUtilisateur, 
 					noCategorie, mesVentes, mesEncheresEnCours, mesAcquisitions, autresEncheres);
 		} catch (DALException e) {
 			e.printStackTrace();

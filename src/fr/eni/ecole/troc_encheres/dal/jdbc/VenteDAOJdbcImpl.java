@@ -237,7 +237,7 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
         return ventes;
 	}
 	
-	public List<Vente> selectByPlusieursChamps(String nomArticle, int idArticle, int monNoUtilisateur, int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, boolean autresEncheres ) throws DALException {
+	public List<Vente> selectByPlusieursChamps(String nomArticle, int monNoUtilisateur, int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, boolean autresEncheres ) throws DALException {
 		List<Vente> ventes = new ArrayList<>();
         Connection con = null;
         try {
