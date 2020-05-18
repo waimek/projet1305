@@ -6,6 +6,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.eni.ecole.troc_encheres.bo.Utilisateur;
+import fr.eni.ecole.troc_encheres.dal.Factory;
+import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
+import fr.eni.ecole.troc_encheres.dal.jdbc.UtilisateurDAOJdbcImpl;
 
 public final class ConnexionForm {
 	private static final String PSEUDO = "pseudo";
@@ -23,13 +26,14 @@ public final class ConnexionForm {
 	}
 
 	public Utilisateur connecterUtilisateur(HttpServletRequest request) {
+		System.out.println("Début de la procédure de connexion");
 		/* Récupération des champs du formulaire */
 		String pseudo = getValeurChamp(request, PSEUDO);
 		String mdp = getValeurChamp(request, MDP);
 
 		Utilisateur utilisateur = new Utilisateur();
-
-		/* Validation du champ email. */
+		UtilisateurDAOJdbcImpl daoUtilisateur;
+		/* Validation du champ pseudo. */
 		try {
 			validationPseudo(pseudo);
 		} catch (Exception e) {
@@ -50,17 +54,30 @@ public final class ConnexionForm {
 			resultat = "Succès de la connexion.";
 		} else {
 			resultat = "Échec de la connexion.";
+			System.out.println("Voici l'erreur : " + erreurs.toString());
 		}
-
+		
+		/*Récupération id utilisateur*/
+		/*Etape 1 : Récupération de la dao grâce à la factory*/
+		daoUtilisateur = (UtilisateurDAOJdbcImpl) Factory.getUtilisateurDAO();
+		/*On utilise la DAO pour récupérer l'id à partir du pseudo*/
+		try {
+			/*On set l'id à l'utilisateur*/
+			utilisateur.setNumero(daoUtilisateur.selectIdByUser(pseudo));
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("l'id de l'utilisateur : " + utilisateur.getNumero());
+		System.out.println("Fin de la procédure de connexion");
 		return utilisateur;
 	}
 
 	/**
 	 * Valide le pseudo saisi
 	 */
-	@SuppressWarnings("unused")
 	private void validationPseudo(String pseudo) throws Exception {
-		if (pseudo != null && !pseudo.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")) {
+		if (pseudo == null) {
 			throw new Exception("Merci de saisir un pseudo valide.");
 		}
 	}
@@ -68,9 +85,9 @@ public final class ConnexionForm {
 	/**
 	 * Valide le mot de passe saisi.
 	 */
-	private void validationMotDePasse(String motDePasse) throws Exception {
-		if (motDePasse != null) {
-			if (motDePasse.length() < 3) {
+	private void validationMotDePasse(String mdp) throws Exception {
+		if (mdp != null) {
+			if (mdp.length() < 3) {
 				throw new Exception("Le mot de passe doit contenir au moins 3 caractères.");
 			}
 		} else {
