@@ -1,4 +1,5 @@
 package fr.eni.ecole.troc_encheres.dal;
+import fr.eni.ecole.troc_encheres.bo.Utilisateur;
 /*
  * @author Edouard
  */
@@ -12,5 +13,7 @@ public interface DAO<T> {
     T selectById(int idObj) throws DALException;
     List<T> selectAll() throws DALException;
     void delete(int idObj) throws DALException;
-	
+	T selectByPseudo(String pseudo) throws DALException;
+	T selectByTel(String tel) throws DALException;
+	T selectByEmail(String email) throws DALException;
 }

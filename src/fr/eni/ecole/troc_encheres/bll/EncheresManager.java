@@ -49,20 +49,33 @@ public class EncheresManager {
 		}
 	}
 
+	
+	/*
+	 * @author Dominika
+	 * méthode addUtilFromServlet permet créer un nouveau compte à partir d'un formulaire
+	 */
 	public void addUtilFromServlet( String pseudo, String nom, String prenom, String email, String tel, String rue,
 			String cp, String ville, String mdp ) throws BLLException {
 		
 		// construction utilisateur depuis la servlet
 		Utilisateur util = new Utilisateur( pseudo,  nom,  prenom,  email,  tel,  rue, cp,  ville,  mdp);
-		
-		// Visualisation pour test
-		System.out.println(util);
+		try {
+			validerPseudo(pseudo);
+			validerTel(tel);
+			validerEmail(email);
+			
+		} catch (DALException e) {
+			// TODO: handle exception
+		}
 		
 		// Ajout de l'utilisateur 
 		addUtil(util);
 
 	}
-
+	/*
+	 * @author Edouard
+	 * ajout d'un nouveau utilisateur dans la BDD
+	 */
 	public void addUtil(Utilisateur util) throws BLLException {
 		try {
 			validerUtil(util);
@@ -93,13 +106,55 @@ public class EncheresManager {
 			throw new BLLException("Erreur delete");
 		}
 	}
-
+	
+	/*
+	 * author Dominika
+	 * méthode qui permet de vérifier si le pseudo est déjà utilisé dans la base de données 
+	 */
+	public void validerPseudo(String pseudo) throws BLLException, DALException{
+		Utilisateur util = null;
+		util = utilDAO.selectByPseudo( pseudo);
+		
+		if (util != null) {
+			throw new BLLException("Pseudo déjà utilisé");
+		}
+	}
+	
+	/*
+	 * author Dominika
+	 * méthode qui permet de vérifier si le numéro de téléphone est déjà utilisé dans la base de données 
+	 */
+	public void validerTel(String tel) throws BLLException, DALException{
+		Utilisateur util = null;
+		util = utilDAO.selectByTel(tel);
+		
+		if (util != null) {
+			throw new BLLException("Numéro de téléphone déjà utilisé");
+		}
+	}
+	
+	/*
+	 * author Dominika
+	 * méthode qui permet de vérifier si l'adresse email est déjà utilisé dans la base de données 
+	 */
+	public void validerEmail(String tel) throws BLLException, DALException{
+		Utilisateur util = null;
+		util = utilDAO.selectByEmail(tel);
+		
+		if (util != null) {
+			throw new BLLException("Adresse email déjà utilisé");
+		}
+	}
+	
+	/*
+	 * Validation des attributs d'utilisateur
+	 */
 	public void validerUtil(Utilisateur util) throws BLLException {
 		boolean valide = true;
 		StringBuffer sb = new StringBuffer();
 
 		if (util == null) {
-			throw new BLLException("equipe null");
+			throw new BLLException("utilisateur null");
 		}
 		// Les attributs des equipes sont obligatoires
 

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.ecole.troc_encheres.bll.EncheresManager;
 import fr.eni.ecole.troc_encheres.bll.exceptions.BLLException;
+import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 
 /**
  * @Author Dominika
@@ -29,7 +30,7 @@ public class NouveauCompteServlet extends HttpServlet {
 	 * Affiche la page de création du compte (nouveauCompte.jsp)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/nouveauCompte.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/nouveau_compte.jsp");
 		rd.forward(request, response);
 	}
 
@@ -63,10 +64,12 @@ public class NouveauCompteServlet extends HttpServlet {
 		mdp = request.getParameter("mdp");
 		mdpConf = request.getParameter("mdpConf");
 
+		
+
 
 		if (!mdp.equals(mdpConf)) {
 
-			listeErreur.add("Entrez 2 fois le même mot de passe.");
+			listeErreur.add("Veuillez saisir 2 fois le même mot de passe.");
 		}	
 		else	{
 
@@ -74,7 +77,7 @@ public class NouveauCompteServlet extends HttpServlet {
 				EncheresManager.get().addUtilFromServlet(pseudo,  nom,  prenom,  email,  tel,  rue, cp,  ville,  mdp);
 			}
 
-			catch (BLLException e) {
+			catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				listeErreur.add(e.getMessage());
@@ -87,7 +90,7 @@ public class NouveauCompteServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/page_connexion.jsp");
 			rd.forward(request, response);	
 		}else {
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/nouveauCompte.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/nouveau_compte.jsp");
 		rd.forward(request, response);
 		}
 	}
