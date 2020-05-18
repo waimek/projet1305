@@ -40,7 +40,10 @@ public class GestionVenteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String action = request.getParameter("action");
+		String action ="";
+		if (request.getParameterMap().containsKey("action")) {
+			 action = request.getParameter("action");
+		}
 		if (action.equals("nouvelleVente")) {
 			request.setAttribute("listeCategories", listeCategories);
 			request.getRequestDispatcher("/WEB-INF/jsp/nouvelle_vente.jsp").forward(request, response);
@@ -49,16 +52,13 @@ public class GestionVenteServlet extends HttpServlet {
 			int noVente = Integer.parseInt(request.getParameter("noVente"));
 			Vente vente = manager.getVente(noVente);
 			HttpSession session = request.getSession();
-			boolean vendeur = false;
 			String page = "";
 			if (vente.getUtil().getNumero() == Integer.parseInt((String) session.getAttribute("no_utilisateur"))) {
-				vendeur = true;
 				page = "/WEB-INF/jsp/vente.jsp";
 			} else {
 				page = "/WEB-INF/jsp/enchere.jsp";
 			}
 			request.setAttribute("vente", vente);
-			request.setAttribute("vendeur", vendeur);
 			request.getRequestDispatcher(page).forward(request, response);
 		}
 
@@ -85,7 +85,6 @@ public class GestionVenteServlet extends HttpServlet {
 			vente.setRetrait(new Retrait(vente, request.getParameter("rue"), request.getParameter("ville"), request.getParameter("codePostal")));
 			manager.addVente(vente);
 			request.setAttribute("vente", vente);
-			request.setAttribute("vendeur", true);
 			request.getRequestDispatcher("/WEB-INF/jsp/vente.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();

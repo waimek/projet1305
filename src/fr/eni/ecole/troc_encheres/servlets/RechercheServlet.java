@@ -40,7 +40,7 @@ public class RechercheServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("listeCategories", listeCategories);
-		request.getRequestDispatcher("/WEB-INF/jsp/recherche.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/recherche.jsp").forward(request, response);                
 	}
 
 }
