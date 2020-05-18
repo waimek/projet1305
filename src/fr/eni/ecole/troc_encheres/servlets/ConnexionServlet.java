@@ -57,6 +57,6 @@ public class ConnexionServlet extends HttpServlet {
 		request.setAttribute(ATT_USER, utilisateur);
 //		request.setAttribute(ID, idUtilisateur);
 
-		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+		this.getServletContext().getRequestDispatcher(REDIRECTION).forward(request, response);
 	}
 }
