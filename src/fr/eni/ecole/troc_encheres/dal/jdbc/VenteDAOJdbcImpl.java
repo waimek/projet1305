@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,9 @@ import fr.eni.ecole.troc_encheres.bo.Vente;
 import fr.eni.ecole.troc_encheres.dal.ConnectionProvider;
 import fr.eni.ecole.troc_encheres.dal.DAO;
 import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
-
+/*
+ * @author Edouard
+ */
 public class VenteDAOJdbcImpl implements DAO<Vente> {
 
 	@Override
@@ -31,7 +34,7 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
 					Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, vente.getNomArticle());
 			stmt.setString(2, vente.getDescription());
-			stmt.setDate(3, (Date) vente.getDateFinEncheres());
+			stmt.setDate(3, new Date(vente.getDateFinEncheres().getTime()));
 			stmt.setInt(4, vente.getMiseAPrix());
 			stmt.setInt(5, vente.getPrixVente());
 			stmt.setInt(6, vente.getUtil().getNumero());
@@ -79,7 +82,7 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
 					"UPDATE ventes SET nom_article=?, description=?, date_fin_encheres=?, prix_initial=?, prix_vente=?, no_utilisateur=?, no_categorie=? WHERE no_vente=?");
 			query.setString(1, vente.getNomArticle());
 			query.setString(2, vente.getDescription());
-			query.setDate(3, (Date) vente.getDateFinEncheres());
+			query.setDate(3, new Date(vente.getDateFinEncheres().getTime()));
 			query.setInt(4, vente.getMiseAPrix());
 			query.setInt(5, vente.getPrixVente());
 			query.setInt(6, vente.getUtil().getNumero());
@@ -113,12 +116,12 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
         try {
             con = ConnectionProvider.getConnection();
             stmt = con.createStatement();
-            PreparedStatement query = con.prepareStatement("select * from ventes join utilisateurs on utilisateurs.no_utilisateur= ventes.no_utilisateur join categories on categories.no_categorie = vente.no_categorie join retraits on retraits.no_vente = ventes.no_vente where no_vente = ?");
+            PreparedStatement query = con.prepareStatement("select * from ventes join utilisateurs on utilisateurs.no_utilisateur= ventes.no_utilisateur join categories on categories.no_categorie = ventes.no_categorie join retraits on retraits.no_vente = ventes.no_vente where ventes.no_vente = ?");
             query.setInt(1, idVente);
             ResultSet rs = query.executeQuery();
             if (rs.next()) {
-                vente = new Vente(rs.getInt("no_vente"), rs.getString("nom_article"), rs.getString("description"), rs.getDate("date_fin_encheres"), rs.getInt("miseAPrix"), rs.getInt("prix_vente"), 
-                		new Utilisateur(rs.getInt("no_utilisateur"), rs.getString("pseudo"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit")), 
+                vente = new Vente(rs.getInt("no_vente"), rs.getString("nom_article"), rs.getString("description"), rs.getDate("date_fin_encheres"), rs.getInt("prix_initial"), rs.getInt("prix_vente"), 
+                		new Utilisateur(rs.getInt("no_utilisateur"), rs.getString("pseudo"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getString("tel"), rs.getString("rue"), rs.getString("cp"), rs.getString("ville"), rs.getString("mdp"), rs.getInt("credit")), 
                 		new Categorie(rs.getInt("no_vente"), rs.getString("libelle")));
                 vente.setRetrait(new Retrait(vente, rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville")));
             }

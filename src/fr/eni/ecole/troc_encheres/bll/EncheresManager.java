@@ -5,24 +5,25 @@ import java.util.List;
 
 import fr.eni.ecole.troc_encheres.bll.exceptions.BLLException;
 import fr.eni.ecole.troc_encheres.bo.Categorie;
+import fr.eni.ecole.troc_encheres.bo.Enchere;
 import fr.eni.ecole.troc_encheres.bo.Utilisateur;
 import fr.eni.ecole.troc_encheres.bo.Vente;
 import fr.eni.ecole.troc_encheres.dal.DAO;
 import fr.eni.ecole.troc_encheres.dal.Factory;
 import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
+import fr.eni.ecole.troc_encheres.dal.jdbc.EnchereDAOJdbcImpl;
 import fr.eni.ecole.troc_encheres.dal.jdbc.VenteDAOJdbcImpl;
-
+/*
+ * @author Edouard / Matthieu
+ * 
+ */
 public class EncheresManager {
 
 	private static EncheresManager instance;
 	private DAO<Utilisateur> utilDAO;
 	private DAO<Vente> venteDAO;
-	private DAO categorieDAO;
-	// test push
-
-	// test bean
-	// guerzgyrpugrprqugr
-	//Urgh Lucille - rgregregegesgesr
+	private DAO<Categorie> categorieDAO;
+	private DAO<Enchere> enchereDAO;
 
 	public static EncheresManager get() {
 		if (instance == null) {
@@ -35,8 +36,9 @@ public class EncheresManager {
 		utilDAO = Factory.getUtilisateurDAO();
 		venteDAO = Factory.getVenteDAO();
 		categorieDAO = Factory.getCategorieDAO();
+		enchereDAO = Factory.getEnchereDAO();
 	}
-	//	Hello
+
 	public void updateUtil(Utilisateur util) throws BLLException {
 		try {
 			validerUtil(util);
@@ -156,6 +158,15 @@ public class EncheresManager {
 			throw new BLLException("Erreur insert");
 		}
 	}
+	
+	public void annulerVente(int idVente) throws BLLException{
+		try {
+			venteDAO.delete(idVente);
+		}catch(DALException e) {
+			e.printStackTrace();
+			throw new BLLException("Erreur annulation vente");
+		}
+	}
 
 	public List<Vente> getVentes(){
 		List<Vente> ventes = null;
@@ -182,7 +193,7 @@ public class EncheresManager {
 		StringBuffer sb = new StringBuffer();
 
 		if (vente == null) {
-			throw new BLLException("equipe null");
+			throw new BLLException("vente null");
 		}
 
 		if (vente.getNomArticle().trim().length() ==0) {
@@ -193,11 +204,11 @@ public class EncheresManager {
 			sb.append("Description obligatoire.\n");
 			valide = false;
 		}
-		if (vente.getCategorie().getLibelle().trim().length() ==0) {
+		if (vente.getCategorie() ==null) {
 			sb.append("Catégorie obligatoire.\n");
 			valide = false;
 		}
-		if (vente.getMiseAPrix() != 0) {
+		if (vente.getMiseAPrix() == 0) {
 			sb.append("La mise à prix doit être différent de 0.\n");
 			valide = false;
 		}
@@ -215,18 +226,74 @@ public class EncheresManager {
 	/******************** GESTION ENCHERE ************************/ 
 	/*************************************************************/
 
-	// ajouter une enchere
-	/*
-	public void addEnchere(Enchere enchere) throws BLLException {
+
+	public void encherir(Enchere enchere) throws BLLException {
 		try {
-			validerVente(vente);
-			venteDAO.insert(vente);
+			validerEnchere(enchere);
+			validerVente(enchere.getVente());
+			venteDAO.update(enchere.getVente());
+			Utilisateur util = enchere.getUtil();
+			util.setCredit(util.getCredit()-enchere.getVente().getPrixVente());
+			utilDAO.update(util);
+			enchereDAO.insert(enchere);
 		} catch (DALException e) {
 			e.printStackTrace();
 			throw new BLLException("Erreur insert");
 		}
 	}
-	 */
+	public Enchere getDerniereEnchere(int noVente) throws BLLException {
+		Enchere enchere = null;
+		try {
+			enchere =  ((EnchereDAOJdbcImpl) enchereDAO).getDerniereEnchere(noVente);
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return enchere;
+	}
+	/* 
+	public void supprimerDerniereEnchere(int noVente) throws BLLException{
+		try {
+			Enchere derniereEnchere = ((EnchereDAOJdbcImpl) enchereDAO).getDerniereEnchere(noVente);
+			Utilisateur utilDerniereEnchere = derniereEnchere.getUtil();
+			Vente vente = venteDAO.selectById(noVente);
+			utilDerniereEnchere.setCredit(utilDerniereEnchere.getCredit()+vente.getPrixVente());
+			((EnchereDAOJdbcImpl) enchereDAO).supprimerDerniereEnchere(noVente);
+			derniereEnchere =  ((EnchereDAOJdbcImpl) enchereDAO).getDerniereEnchere(noVente);
+			vente.setPrixVente(derniereEnchere);
+			int prixVente = vente.getPrixVente();
+			
+		}catch(DALException e) {
+			e.printStackTrace();
+			throw new BLLException("Erreur suppression derniere enchere");
+		}
+		
+	}*/
+	
+	public void validerEnchere(Enchere enchere) throws BLLException {
+		boolean valide = true;
+		StringBuffer sb = new StringBuffer();
+
+		if (enchere == null) {
+			throw new BLLException("enchère null");
+		}
+
+		if (enchere.getDateEnchere()==null) {
+			sb.append("Date obligatoire.\n");
+			valide = false;
+		}
+		if (enchere.getVente()==null) {
+			sb.append("Description obligatoire.\n");
+			valide = false;
+		}
+		if (enchere.getUtil() == null) {
+			sb.append("Utilisateur obligatoire.\n");
+			valide = false;
+		}
+		if (!valide) {
+			throw new BLLException(sb.toString());
+		}
+	}
 
 	/*************************************************************/
 	/******** GESTION DES LISTES D'ACHAT OU DE VENTE *************/ 
@@ -283,6 +350,15 @@ public class EncheresManager {
 		}
 		return categories;
 	}
-
+	public Categorie getCategorie(int noCategorie) throws BLLException{
+		Categorie categorie = null;
+		try{
+			categorie = categorieDAO.selectById(noCategorie);
+		}catch (DALException e ) {
+			e.printStackTrace();
+			throw new BLLException("Erreur selectById categorie");
+		}
+		return categorie;
+	}
 
 }

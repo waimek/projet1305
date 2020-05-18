@@ -11,7 +11,9 @@ import fr.eni.ecole.troc_encheres.bo.Utilisateur;
 import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 import fr.eni.ecole.troc_encheres.dal.ConnectionProvider;
 import fr.eni.ecole.troc_encheres.dal.DAO;
-
+/*
+ * @author Edouard
+ */
 public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 
 	@Override
@@ -54,7 +56,7 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 
 		try {
 			con = ConnectionProvider.getConnection();
-			PreparedStatement query = con.prepareStatement("UPDATE utilisateurs SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=md5(?) WHERE no_utilisateur=?");
+			PreparedStatement query = con.prepareStatement("UPDATE utilisateurs SET pseudo=?, nom=?, prenom=?, email=?, tel=?, rue=?, cp=?, ville=?, mdp=md5(?) WHERE no_utilisateur=?");
 			query.setString(1, util.getPseudo());
 			query.setString(2, util.getNom());
 			query.setString(3, util.getPrenom());
@@ -94,12 +96,12 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 			con = ConnectionProvider.getConnection();
 			stmt = con.createStatement();
 			PreparedStatement query = con.prepareStatement(
-					"select * from utilisateurs where id = ?");
+					"select * from utilisateurs where no_utilisateur = ?");
 			query.setInt(1, idUtil);
 			ResultSet rs = query.executeQuery();
 			if (rs.next()) {
-				util = new Utilisateur(rs.getInt("numero"),rs.getString("pseudo"),rs.getString("nom"), rs.getString("prenom"), rs.getString("email"),
-						rs.getString("telephone"), rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit"));
+				util = new Utilisateur(rs.getInt("no_utilisateur"),rs.getString("pseudo"),rs.getString("nom"), rs.getString("prenom"), rs.getString("email"),
+						rs.getString("tel"), rs.getString("rue"), rs.getString("cp"), rs.getString("ville"), rs.getString("mdp"), rs.getInt("credit"));
 			}
 			try {
 				rs.close();

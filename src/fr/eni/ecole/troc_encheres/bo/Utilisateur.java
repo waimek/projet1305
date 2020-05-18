@@ -1,5 +1,7 @@
 package fr.eni.ecole.troc_encheres.bo;
-
+/*
+ * @author Edouard
+ */
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,14 +42,9 @@ public class Utilisateur implements Serializable {
 	}
 	
 	public Utilisateur() {
-		super();
+		
 	}
-
-	public Utilisateur(String pseudo, String mdp) {
-		super();
-		this.pseudo = pseudo;
-		this.mdp = mdp;
-	}
+ 
 
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String tel, String rue, String cp,
 			String ville, String mdp, int credit) {

@@ -1,5 +1,7 @@
 package fr.eni.ecole.troc_encheres.dal;
-
+/*
+ * @author Edouard
+ */
 import fr.eni.ecole.troc_encheres.dal.jdbc.CategorieDAOJdbcImpl;
 import fr.eni.ecole.troc_encheres.dal.jdbc.EnchereDAOJdbcImpl;
 import fr.eni.ecole.troc_encheres.dal.jdbc.RetraitDAOJdbcImpl;

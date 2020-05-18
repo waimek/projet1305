@@ -12,7 +12,9 @@ import fr.eni.ecole.troc_encheres.bo.Categorie;
 import fr.eni.ecole.troc_encheres.dal.ConnectionProvider;
 import fr.eni.ecole.troc_encheres.dal.DAO;
 import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
-
+/*
+ * @author Edouard
+ */
 
 public class CategorieDAOJdbcImpl implements DAO<Categorie>{
 
@@ -38,7 +40,7 @@ public class CategorieDAOJdbcImpl implements DAO<Categorie>{
             query.setInt(1, idCat);
             ResultSet rs = query.executeQuery();
             if (rs.next()) {
-                categorie = new Categorie(rs.getInt("numero"), rs.getString("libelle"));
+                categorie = new Categorie(rs.getInt("no_categorie"), rs.getString("libelle"));
             }
             try {
                 rs.close();
@@ -70,7 +72,7 @@ public class CategorieDAOJdbcImpl implements DAO<Categorie>{
 	            ResultSet rs = stmt.executeQuery("select * from categories order by libelle asc");
 	            Categorie categorie = null;
 	            while (rs.next()) {
-	            	categorie = new Categorie(rs.getInt("numero"), rs.getString("libelle"));
+	            	categorie = new Categorie(rs.getInt("no_categorie"), rs.getString("libelle"));
 	                categories.add(categorie);
 	            }
 	        } catch (SQLException throwables) {

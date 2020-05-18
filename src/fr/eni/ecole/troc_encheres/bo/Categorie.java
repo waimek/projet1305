@@ -1,5 +1,7 @@
 package fr.eni.ecole.troc_encheres.bo;
-
+/*
+ * @author Edouard
+ */
 public class Categorie {
 
 	private int numero; 

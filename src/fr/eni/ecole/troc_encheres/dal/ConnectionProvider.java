@@ -1,5 +1,7 @@
 package fr.eni.ecole.troc_encheres.dal;
-
+/*
+ * @author Edouard
+ */
 import java.sql.Connection;
 import java.sql.SQLException;
 

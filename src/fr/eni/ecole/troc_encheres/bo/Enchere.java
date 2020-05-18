@@ -1,5 +1,7 @@
 package fr.eni.ecole.troc_encheres.bo;
-
+/*
+ * @author Edouard
+ */
 import java.util.Date;
 
 public class Enchere {
@@ -33,4 +35,10 @@ public class Enchere {
 	public void setVente(Vente vente) {
 		this.vente = vente;
 	}
+
+	@Override
+	public String toString() {
+		return "Enchere [dateEnchere=" + dateEnchere + ", util=" + util + ", vente=" + vente + "]";
+	}
+	
 }

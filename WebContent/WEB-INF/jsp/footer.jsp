@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 </div>
 <!-- Footer -->
-<footer class="page-footer font-small unique-color-dark fixed-bottom">
+<footer class="page-footer font-small unique-color-dark">
 
 
 
