@@ -246,20 +246,6 @@ public class EncheresManager {
 	}
 	/*	
 	// liste des achats d'un utilisateur
-<<<<<<< Updated upstream
-//	public List<Vente> getListAchatUtilisateur(int idUtilisateur) throws BLLException {
-//		List<Vente> achat = null;
-//		try {
-//			achat = ((VenteDAOJdbcImpl)venteDAO).selectAchatsByUtilisateur(idUtilisateur);
-//		} catch (DALException e) {
-//			e.printStackTrace();
-//			throw new BLLException("Erreur get");
-//		}
-//		return achat;
-//	}
-<<<<<<< HEAD
-
-=======
 	public List<Vente> getListAchatUtilisateur(int idUtilisateur) throws BLLException {
 		List<Vente> achat = null;
 		try {
@@ -272,12 +258,12 @@ public class EncheresManager {
 	}
 	 */
 
-	public List<Vente> getListFiltreRecherche(String nomArticle, int idArticle, int monNoUtilisateur, 
+	public List<Vente> getListFiltreRecherche(String nomArticle, int monNoUtilisateur, 
 			int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, 
 			boolean autresEncheres) throws BLLException {
 		List<Vente> listFiltreRecherche = null;
 		try {
-			listFiltreRecherche = ((VenteDAOJdbcImpl)venteDAO).selectByPlusieursChamps(nomArticle, idArticle, monNoUtilisateur, 
+			listFiltreRecherche = ((VenteDAOJdbcImpl)venteDAO).selectByPlusieursChamps(nomArticle, monNoUtilisateur, 
 					noCategorie, mesVentes, mesEncheresEnCours, mesAcquisitions, autresEncheres);
 		} catch (DALException e) {
 			e.printStackTrace();
