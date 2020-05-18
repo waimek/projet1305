@@ -69,7 +69,7 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 
 			int nbRows = query.executeUpdate();
 			if (nbRows == 0 || nbRows == -1) {
-				throw new DALException("Erreur de mise � jour");
+				throw new DALException("Erreur de mise à jour");
 			}
 			query.close();
 		} catch (SQLException e) {
@@ -102,6 +102,46 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 			if (rs.next()) {
 				util = new Utilisateur(rs.getInt("no_utilisateur"),rs.getString("pseudo"),rs.getString("nom"), rs.getString("prenom"), rs.getString("email"),
 						rs.getString("tel"), rs.getString("rue"), rs.getString("cp"), rs.getString("ville"), rs.getString("mdp"), rs.getInt("credit"));
+			}
+			try {
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new DALException("Erreur closeResult");
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				stmt.close();
+			} catch (Exception e) {
+				throw new DALException("Erreur fermeture");
+			}
+		}
+		return util;
+	}
+	
+	
+/*
+ * @author Dominika
+ * recherche d'un utilisateur par son pseudo 
+ */
+	public Utilisateur selectByPseudo(String pseudo) throws DALException {
+		Utilisateur util = null;
+		Connection con = null;
+		Statement stmt = null;
+		try( con = ConnectionProvider.getConnection();
+				) {
+			try { 
+			stmt = con.createStatement();
+			PreparedStatement query = con.prepareStatement(
+					"select * from utilisateurs where id = ?");
+			query.setString(1, pseudo);
+			ResultSet rs = query.executeQuery();
+			if (rs.next()) {
+				util = new Utilisateur(rs.getInt("numero"),rs.getString("pseudo"),rs.getString("nom"), rs.getString("prenom"), rs.getString("email"),
+						rs.getString("telephone"), rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit"));
 			}
 			try {
 				rs.close();

@@ -120,7 +120,7 @@ public class EncheresManager {
 			valide = false;
 		}
 		if (util.getTel().trim().length() ==0) {
-			sb.append("T�l�phone obligatoire.\n");
+			sb.append("Téléphone obligatoire.\n");
 			valide = false;
 		}
 		if (util.getRue().trim().length() ==0) {
@@ -137,6 +137,7 @@ public class EncheresManager {
 		}
 		if (util.getMdp().trim().length() ==0) {
 			sb.append("Mot de passe obligatoire.\n");
+			
 			valide = false;
 		}
 		if (!valide) {

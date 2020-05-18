@@ -3,7 +3,7 @@
 <Resource name="jdbc/pool_cnx" 
 driverClassName="com.mysql.cj.jdbc.Driver" 
 type="javax.sql.DataSource"
-url ="jdbc:mysql://localhost:8080/troc_encheres"
+url ="jdbc:mysql://localhost:8889/troc_encheres?serverTimezone=UTC"
 username="trocMonsieur"
 password="encheres"
 maxTotal="100"
