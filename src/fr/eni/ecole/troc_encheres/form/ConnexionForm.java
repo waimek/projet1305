@@ -25,11 +25,13 @@ public final class ConnexionForm {
 	public Utilisateur connecterUtilisateur(HttpServletRequest request) {
 		/* Récupération des champs du formulaire */
 		String pseudo = getValeurChamp(request, PSEUDO);
+		System.out.println("le peudonyme : " + pseudo);
 		String mdp = getValeurChamp(request, MDP);
+		System.out.println("Le mot de passe : " + mdp);
 
 		Utilisateur utilisateur = new Utilisateur();
 
-		/* Validation du champ email. */
+		/* Validation du champ pseudo. */
 		try {
 			validationPseudo(pseudo);
 		} catch (Exception e) {
@@ -50,6 +52,7 @@ public final class ConnexionForm {
 			resultat = "Succès de la connexion.";
 		} else {
 			resultat = "Échec de la connexion.";
+			System.out.println("Voici l'erreur : " + erreurs.toString());
 		}
 
 		return utilisateur;
@@ -58,9 +61,8 @@ public final class ConnexionForm {
 	/**
 	 * Valide le pseudo saisi
 	 */
-	@SuppressWarnings("unused")
 	private void validationPseudo(String pseudo) throws Exception {
-		if (pseudo != null && !pseudo.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")) {
+		if (pseudo == null) {
 			throw new Exception("Merci de saisir un pseudo valide.");
 		}
 	}
@@ -68,9 +70,9 @@ public final class ConnexionForm {
 	/**
 	 * Valide le mot de passe saisi.
 	 */
-	private void validationMotDePasse(String motDePasse) throws Exception {
-		if (motDePasse != null) {
-			if (motDePasse.length() < 3) {
+	private void validationMotDePasse(String mdp) throws Exception {
+		if (mdp != null) {
+			if (mdp.length() < 3) {
 				throw new Exception("Le mot de passe doit contenir au moins 3 caractères.");
 			}
 		} else {

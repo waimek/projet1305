@@ -9,14 +9,16 @@
 <form action="${pageContext.servletContext.contextPath}/connexion"
 	method="post">
 	<div class="form-group">
-		<label for="pseudoInput">Pseudo</label> <input type="text"
-			value="<c:out value="${utilisateur.pseudo}"/>" /> <span class="erreur">${form.erreurs['pseudo']}</span>
+		<label for="nom">Pseudo</label>
+		<input type="text" id="pseudo" name="pseudo"
+			value="<c:out value="${util.pseudo}"/>" /> <span class="erreur">${form.erreurs['pseudo']}</span>
 
 	</div>
 	<div class="form-group">
-		<label for="exampleInputPassword1">Mot de passe</label> <input
-			type="password" class="form-control" id="exampleInputPassword1"
-			value="<c:out value="${utilisateur.mdp}"/>" /> <span class="erreur">${form.erreurs['mdp']}</span>
+		<label for="password">Mot de passe</label>
+		<input type="password" name="mdp"
+			class="form-control" id="mdp" value="<c:out value="${util.mdp}"/>" />
+		<span class="erreur">${form.erreurs['mdp']}</span>
 	</div>
 	<input type="submit" value="Connexion" class="sansLabel" /> <br />
 
