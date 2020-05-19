@@ -47,36 +47,18 @@ public class EncheresManager {
 		}
 	}
 
-	
-	/*
-	 * @author Dominika
-	 * méthode addUtilFromServlet permet créer un nouveau compte à partir d'un formulaire
-	 */
-	public void addUtilFromServlet( String pseudo, String nom, String prenom, String email, String tel, String rue,
-			String cp, String ville, String mdp ) throws BLLException {
-		
-		// construction utilisateur depuis la servlet
-		Utilisateur util = new Utilisateur( pseudo,  nom,  prenom,  email,  tel,  rue, cp,  ville,  mdp);
-		try {
-			validerPseudo(pseudo);
-			validerTel(tel);
-			validerEmail(email);
-			
-		} catch (DALException e) {
-			// TODO: handle exception
-		}
-		
-		// Ajout de l'utilisateur 
-		addUtil(util);
 
-	}
 	/*
-	 * @author Edouard
+	 * @author Edouard/Dominika
 	 * ajout d'un nouveau utilisateur dans la BDD
 	 */
 	public void addUtil(Utilisateur util) throws BLLException {
 		try {
+			validerPseudo(util);
+			validerTel(util);
+			validerEmail(util);
 			validerUtil(util);
+			System.out.println("test");
 			utilDAO.insert(util);
 		} catch (DALException e) {
 			e.printStackTrace();
@@ -109,11 +91,14 @@ public class EncheresManager {
 	 * author Dominika
 	 * méthode qui permet de vérifier si le pseudo est déjà utilisé dans la base de données 
 	 */
-	public void validerPseudo(String pseudo) throws BLLException, DALException{
-		Utilisateur util = null;
-		util = ((UtilisateurDAOJdbcImpl)utilDAO).selectByPseudo( pseudo);
+	public void validerPseudo(Utilisateur util) throws BLLException, DALException{
+		String pseudo = util.getPseudo();
+		int id=-1;
+		id =utilDAO.selectIdByUser(pseudo);
+		int idCurrent=-1;
+		idCurrent=util.getNumero();
 		
-		if (util != null) {
+		if (id != -1 && idCurrent != id) {
 			throw new BLLException("Pseudo déjà utilisé");
 		}
 	}
@@ -122,11 +107,15 @@ public class EncheresManager {
 	 * author Dominika
 	 * méthode qui permet de vérifier si le numéro de téléphone est déjà utilisé dans la base de données 
 	 */
-	public void validerTel(String tel) throws BLLException, DALException{
-		Utilisateur util = null;
-		util = ((UtilisateurDAOJdbcImpl)utilDAO).selectByTel(tel);
+	public void validerTel(Utilisateur util) throws BLLException, DALException{
+	
+		String tel = util.getTel();
+		int id=-1;
+		id = utilDAO.selectIdByTel(tel);
+		int idCurrent=-1;
+		idCurrent=util.getNumero();
 		
-		if (util != null) {
+		if (id != -1 && idCurrent != id) {
 			throw new BLLException("Numéro de téléphone déjà utilisé");
 		}
 	}
@@ -135,11 +124,15 @@ public class EncheresManager {
 	 * author Dominika
 	 * méthode qui permet de vérifier si l'adresse email est déjà utilisé dans la base de données 
 	 */
-	public void validerEmail(String tel) throws BLLException, DALException{
-		Utilisateur util = null;
-		util = ((UtilisateurDAOJdbcImpl)utilDAO).selectByEmail(tel);
+	public void validerEmail(Utilisateur util) throws BLLException, DALException{
 		
-		if (util != null) {
+		String email = util.getEmail();
+		int id=-1;
+		id = utilDAO.selectIdByEmail(email);
+		int idCurrent=-1;
+		idCurrent=util.getNumero();
+		
+		if (id != -1 && idCurrent != id) {
 			throw new BLLException("Adresse email déjà utilisé");
 		}
 	}

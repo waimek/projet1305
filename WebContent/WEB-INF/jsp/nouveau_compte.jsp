@@ -80,35 +80,8 @@ if (listeErreur != null) { %>
 	</div>
 
 
-
-
-
-	<!-- 	<label for="pseudo" id="lblPseudo">Pseudo</label> <input type="text" -->
-	<!-- 		name="pseudo" id="pseudo" required><br> <label for="nom" -->
-	<!-- 		id="lblNom">Nom</label> <input type="text" name="nom" id="nom" -->
-	<!-- 		required><br> <label for="prenom" id="lblPrenom">Prénom</label> -->
-	<!-- 	<input type="text" name="prénom" id="prénom" required><br> -->
-
-	<!-- 	<label for="email" id="lblEmail">Email</label> <input type="email" -->
-	<!-- 		name="email" id="email" required><br> <label for="tel" -->
-	<!-- 		id="lblTel">Téléphone</label> <input type="tel" name="tel" id="tel" -->
-	<!-- 		required><br> <label for="rue" id="lblRue">Rue</label> <input -->
-	<!-- 		type="text" name="rue" id="rue"><br> <label for="cp" -->
-	<!-- 		id="lblCP">Code postal</label> <input type="text" name="cp" id="cp"><br> -->
-
-	<!-- 	<label for="ville" id="lblVille">Ville</label> <input type="text" -->
-	<!-- 		name="ville" id="ville"><br> -->
-
-	<!-- 	<label for="mdp" id="lblMdp">Mot de passe</label>  -->
-	<!-- 	<input type="password" name="mdp" id="mdp" required><br> -->
-
-	<!-- 	<label for="mdpConf" id="lblMdpConf">Confirmation</label>  -->
-	<!-- 	<input type="password" name="mdpConf" id="mdpConf" required><br> -->
-
-	<button type="submit" class="btn btn-info">Valider</button>
-	<button type="reset" class="btn btn-info">Annuler</button>
+	<button type="submit" class="btn btn-primary">Valider</button>
+	<button type="reset" class="btn btn-primary">Annuler</button>
 </form>
-
-
 
 <%@ include file="footer.jsp"%>

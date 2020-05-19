@@ -315,4 +315,23 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
         return ventes;
 	}
 
+	@Override
+	public int selectIdByUser(String pseudo) throws DALException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int selectIdByTel(String tel) throws DALException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int selectIdByEmail(String email) throws DALException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
 }
