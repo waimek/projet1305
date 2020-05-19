@@ -16,6 +16,7 @@
 	integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
 	crossorigin="anonymous">
 </head>
+<div class="container">
 <h1>Trocencheres.org</h1>
 <!-- Ceci est un commentaire de type test -->
 <form action="${pageContext.servletContext.contextPath}/connexion"
@@ -47,6 +48,7 @@
 
 	<p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
 </form>
+</div>
 <c:choose>
 	<c:when test="${!empty sessionScope.sessionUtilisateur}">
 		<p class="succes">Vous êtes connecté(e) avec le pseudo :
