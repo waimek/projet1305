@@ -94,7 +94,7 @@ public class EncheresManager {
 	public void validerPseudo(Utilisateur util) throws BLLException, DALException{
 		String pseudo = util.getPseudo();
 		int id=-1;
-		id =utilDAO.selectIdByUser(pseudo);
+		id =((UtilisateurDAOJdbcImpl) utilDAO).selectIdByUser(pseudo);
 		int idCurrent=-1;
 		idCurrent=util.getNumero();
 		
@@ -111,7 +111,7 @@ public class EncheresManager {
 	
 		String tel = util.getTel();
 		int id=-1;
-		id = utilDAO.selectIdByTel(tel);
+		id = ((UtilisateurDAOJdbcImpl) utilDAO).selectIdByTel(tel);
 		int idCurrent=-1;
 		idCurrent=util.getNumero();
 		
@@ -128,7 +128,7 @@ public class EncheresManager {
 		
 		String email = util.getEmail();
 		int id=-1;
-		id = utilDAO.selectIdByEmail(email);
+		id = ((UtilisateurDAOJdbcImpl) utilDAO).selectIdByEmail(email);
 		int idCurrent=-1;
 		idCurrent=util.getNumero();
 		
