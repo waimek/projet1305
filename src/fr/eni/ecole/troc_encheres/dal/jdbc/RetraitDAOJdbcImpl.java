@@ -105,4 +105,22 @@ public class RetraitDAOJdbcImpl implements DAO<Retrait>{
 	public void delete(int idObj) throws DALException {
 	}
 
+	@Override
+	public Retrait selectByPseudo(String pseudo) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Retrait selectByTel(String tel) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Retrait selectByEmail(String email) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -1,8 +1,24 @@
 <!-- author Dominika -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
 <%@ include file="entete.jsp"%>
 <h1>Créer un compte</h1>
+
+<%
+	List<String> listeErreur = (List<String>) request.getAttribute("listeErreur");
+if (listeErreur != null) { %>
+	<p style="color: red;">Erreur :
+	<% 
+	for (int i = 0; i < listeErreur.size(); i++) {
+%>
+	<%=listeErreur.get(i)%></p>
+<%
+}
+}
+%>
+
+
 <form action="${pageContext.servletContext.contextPath}/nouveauCompte"
 	method="post">
 	<div class="form-row">
@@ -42,8 +58,8 @@
 
 	<div class="form-row">
 		<div class="col">
-			<input type="text" class="form-control" placeholder="Code postale"
-				name="cp" id="cp" required>
+			<input type="text" class="form-control" placeholder="Code postal"
+				name="cp" id="cp" pattern="[0-9]{5}"required>
 		</div>
 		<div class="col">
 			<input type="text" class="form-control" placeholder="Ville"
@@ -54,12 +70,12 @@
 
 	<div class="form-row">
 		<div class="col">
-			<input type="password" class="form-control" placeholder="Mot de passe"
-				name="mdp" id="mdp" required>
+			<input type="password" class="form-control"
+				placeholder="Mot de passe" name="mdp" id="mdp" required>
 		</div>
 		<div class="col">
-			<input type="password" class="form-control" placeholder="Confirmation"
-				name="mdpConf" id="mdpConf" required>
+			<input type="password" class="form-control"
+				placeholder="Confirmation" name="mdpConf" id="mdpConf" required>
 		</div>
 	</div>
 
@@ -92,12 +108,6 @@
 	<button type="submit" class="btn btn-info">Valider</button>
 	<button type="reset" class="btn btn-info">Annuler</button>
 </form>
-
-
-
-
-
-
 
 
 
