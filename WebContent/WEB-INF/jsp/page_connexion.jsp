@@ -31,7 +31,7 @@
 	</div>
 	<div class="form-group">
 		<label for="password">Mot de passe</label> <input type="password"
-			name="mdp" class="form-control" id="mdp"
+			name="textMdp" class="form-control" id="textMdp"
 			value="<c:out value="${util.mdp}"/>" /><span class="erreur">${form.erreurs['mdp']}</span>
 
 		<%-- 		<c:out value="${num % 2 eq 0 ? 'even': 'odd'}" /> --%>

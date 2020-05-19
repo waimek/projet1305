@@ -10,12 +10,9 @@ import fr.eni.ecole.troc_encheres.dal.Factory;
 import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 import fr.eni.ecole.troc_encheres.dal.jdbc.UtilisateurDAOJdbcImpl;
 
-/**
- * @author Lucille
- */
 public final class ConnexionForm {
 	private static final String IDENTIFIANT = "identifiant";
-	private static final String MDP = "mdp";
+	private static final String TEXTMDP = "textMdp";
 
 	private String resultat;
 	private Map<String, String> erreurs = new HashMap<String, String>();
@@ -45,7 +42,7 @@ public final class ConnexionForm {
 		
 		System.out.println("Le pseudo est : " + pseudo);
 		
-		String mdp = getValeurChamp(request, MDP);
+		String mdp = getValeurChamp(request, TEXTMDP);
 		System.out.println("Le mdp est : " + mdp);
 		
 
@@ -78,7 +75,7 @@ public final class ConnexionForm {
 			validationMotDePasse(mdp);
 			utilisateur.setMdp(mdp);
 		} catch (Exception e) {
-			setErreur(MDP, e.getMessage());
+			setErreur(TEXTMDP, e.getMessage());
 		}
 		//utilisateur.setMdp était là
 
@@ -171,8 +168,8 @@ public final class ConnexionForm {
 	 * Valide le mot de passe saisi.
 	 */
 	private void validationMotDePasse(String mdp) throws Exception {
-		UtilisateurDAOJdbcImpl daoUtilisateur;
-		String mdpOK = null;
+//		UtilisateurDAOJdbcImpl daoUtilisateur;
+//		String mdpOK = null;
 		if (mdp != null) {
 			if (mdp.length() < 3) {
 				throw new Exception("Le mot de passe doit contenir au moins 3 caractères.");
@@ -181,7 +178,8 @@ public final class ConnexionForm {
 			throw new Exception("Merci de saisir votre mot de passe.");
 		}
 //		Test de correspondance
-		daoUtilisateur = (UtilisateurDAOJdbcImpl) Factory.getUtilisateurDAO();
+//		daoUtilisateur = (UtilisateurDAOJdbcImpl) Factory.getUtilisateurDAO();
+//		mdpOK = daoUtilisateur.mdpExist(mdp);
 //		Pour le test de mot de passe, il faut des couples [pseudo, mdp] ou [email, mdp]
 	}
 

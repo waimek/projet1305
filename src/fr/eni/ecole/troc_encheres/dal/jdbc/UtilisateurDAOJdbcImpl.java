@@ -341,4 +341,9 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		return emailVerification;
 
 	}
+	public String mdpExist(String mdp) {
+		return mdp;
+		// TODO Auto-generated method stub
+
+	}
 }

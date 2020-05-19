@@ -13,9 +13,6 @@ import fr.eni.ecole.troc_encheres.bo.Utilisateur;
 import fr.eni.ecole.troc_encheres.form.ConnexionForm;
 
 /**
- * @author Lucille
- */
-/**
  * Servlet implementation class ServletDeConnexion
  */
 @WebServlet("/connexion")
