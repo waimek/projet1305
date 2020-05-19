@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class DeconnexionServlet
+ * @author Lucille
  */
 @WebServlet("/deconnexion")
 public class DeconnexionServlet extends HttpServlet {

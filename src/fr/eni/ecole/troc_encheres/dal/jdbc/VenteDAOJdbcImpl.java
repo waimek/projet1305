@@ -17,7 +17,8 @@ import fr.eni.ecole.troc_encheres.bo.Vente;
 import fr.eni.ecole.troc_encheres.dal.ConnectionProvider;
 import fr.eni.ecole.troc_encheres.dal.DAO;
 import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
-/*
+
+/**
  * @author Edouard
  */
 public class VenteDAOJdbcImpl implements DAO<Vente> {

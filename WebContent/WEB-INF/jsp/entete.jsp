@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- Auteur : Edouard -->
 <meta charset="UTF-8">
 <title>TrocEncheres</title>
 <link rel="stylesheet"

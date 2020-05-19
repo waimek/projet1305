@@ -4,8 +4,8 @@
 
 <%@ include file="entete.jsp"%>
 
-
-<form method="post" action="#">
+<!-- Auteur : Matthieu -->
+<form method="post" action="#" enctype="application/x-www-form-urlencoded">
 	<div>
 		<p>Filtres :</p>
 		<input type="checkbox" name="mesVentes" id="mesVentes"
@@ -46,8 +46,7 @@
 </form>
 
 <div class="row">
-	<c:forEach var="vente" items="${listeVentes}"
-		varStatus="status">
+	<c:forEach var="vente" items="${listeRecherche}" >
 		<div class="col-sm-6">
 			<div class="card">
 				<div class="card-body">

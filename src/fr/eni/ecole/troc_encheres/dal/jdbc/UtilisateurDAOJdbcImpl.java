@@ -12,7 +12,7 @@ import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 import fr.eni.ecole.troc_encheres.dal.ConnectionProvider;
 import fr.eni.ecole.troc_encheres.dal.DAO;
 
-/*
+/**
  * @author Edouard
  */
 public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{

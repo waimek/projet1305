@@ -1,7 +1,5 @@
 package fr.eni.ecole.troc_encheres.dal;
-/*
- * @author Edouard
- */
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -9,6 +7,10 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+/**
+ * @author Edouard
+ */
 
 public abstract class ConnectionProvider {
 

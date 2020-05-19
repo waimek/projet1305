@@ -53,10 +53,10 @@ public class RechercheServlet extends HttpServlet {
 		System.out.println("info saisie : " + request.getParameter("textRecherche"));
 		
 		// traitement des informations dans le filtre
-		boolean mesAcquisitions = (request.getParameter("mesVentes").equals("on"))?true:false;
-		boolean mesEncheresEnCours = (request.getParameter("mesEncheresEnCours").equals("on"))?true:false;
-		boolean mesVentes = (request.getParameter("mesAcquisitions").equals("on"))?true:false;
-		boolean autresEncheres = (request.getParameter("autresEncheres").equals("on"))?true:false;
+		boolean mesAcquisitions = ("on".equals(request.getParameter("mesAcquisitions")))?true:false;
+		boolean mesEncheresEnCours = ("on".equals(request.getParameter("mesEncheresEnCours")))?true:false;
+		boolean mesVentes = ("on".equals(request.getParameter("mesVentes")))?true:false;
+		boolean autresEncheres = ("on".equals(request.getParameter("autresEncheres")))?true:false;
 		
 		// traitement du choix de la/les categorie/s
 		// si no categorie = 0 alors on selection l'ensemble des categories
@@ -67,9 +67,12 @@ public class RechercheServlet extends HttpServlet {
 		
 		// faire la recherche par rapport à l'utilisateur
 		HttpSession session = request.getSession();
-		int monNoUtilisateur = (int) session.getAttribute("utilisateur");
 		// TODO gerer le cas si l'utilisateur n'a plus de session
+		//int monNoUtilisateur = (int) session.getAttribute("utilisateur");
+		// test avec un utilisateur en dur
+		int monNoUtilisateur = 3;
 		
+		System.out.println("monNoUtilisateur : " + monNoUtilisateur);
 		
 		List<Vente> listeRecherche = null;
 		try {
@@ -78,6 +81,9 @@ public class RechercheServlet extends HttpServlet {
 		} catch (BLLException e) {
 			e.printStackTrace();
 		}
+		
+		//System.out.println("listeRecherche : " + listeRecherche);
+		
 		request.setAttribute("listeRecherche", listeRecherche);
 		
 		

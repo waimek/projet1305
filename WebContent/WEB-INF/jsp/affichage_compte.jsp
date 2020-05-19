@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- Auteur : Lucille -->
 <meta charset="UTF-8">
 <title>MonCompte</title>
 </head>

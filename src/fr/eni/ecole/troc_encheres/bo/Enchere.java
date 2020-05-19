@@ -1,9 +1,9 @@
 package fr.eni.ecole.troc_encheres.bo;
-/*
- * @author Edouard
- */
 import java.util.Date;
 
+/**
+ * @author Edouard
+ */
 public class Enchere {
 	
 	private Date dateEnchere;

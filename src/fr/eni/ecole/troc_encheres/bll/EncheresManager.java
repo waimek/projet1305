@@ -167,7 +167,10 @@ public class EncheresManager {
 		}
 	}
 	
-	/*
+	/**
+	 * @author Edouard
+	 * @param util
+	 * @throws BLLException
 	 * Validation des attributs d'utilisateur
 	 */
 	public void validerUtil(Utilisateur util) throws BLLException {
@@ -225,6 +228,9 @@ public class EncheresManager {
 	/******************** GESTION VENTE **************************/ 
 	/*************************************************************/
 
+	/**
+	 * @author Matthieu
+	 */
 	// ajouter une vente
 	public void addVente(Vente vente) throws BLLException {
 		try {
@@ -236,6 +242,9 @@ public class EncheresManager {
 		}
 	}
 	
+	/**
+	 * @author Edouard
+	 */
 	public void annulerVente(int idVente) throws BLLException{
 		try {
 			venteDAO.delete(idVente);
@@ -245,6 +254,9 @@ public class EncheresManager {
 		}
 	}
 
+	/**
+	 * @author Edouard/Matthieu
+	 */
 	public List<Vente> getVentes(){
 		List<Vente> ventes = null;
 		try {
@@ -255,6 +267,9 @@ public class EncheresManager {
 		return ventes; 
 	}
 	
+	/**
+	 * @author Edouard/Matthieu
+	 */
 	public Vente getVente(int idVente){
 		Vente vente = null;
 		try {
@@ -265,6 +280,9 @@ public class EncheresManager {
 		return vente; 
 	}
 
+	/**
+	 * @author Edouard
+	 */
 	public void validerVente(Vente vente) throws BLLException {
 		boolean valide = true;
 		Date dateDuJour = new Date();
@@ -304,7 +322,9 @@ public class EncheresManager {
 	/******************** GESTION ENCHERE ************************/ 
 	/*************************************************************/
 
-
+	/**
+	 * @author Edouard
+	 */
 	public void encherir(Enchere enchere) throws BLLException {
 		try {
 			validerEnchere(enchere); //Validation nouvelle Enchere 
@@ -330,6 +350,9 @@ public class EncheresManager {
 		}
 	}
 	
+	/**
+	 * @author Edouard
+	 */
 	public Enchere getDerniereEnchere(int noVente) throws BLLException {
 		Enchere enchere = null;
 		try {
@@ -360,6 +383,9 @@ public class EncheresManager {
 		
 	}*/
 	
+	/**
+	 * @author Edouard
+	 */
 	public void validerEnchere(Enchere enchere) throws BLLException {
 		boolean valide = true;
 		StringBuffer sb = new StringBuffer();
@@ -390,7 +416,9 @@ public class EncheresManager {
 	/*************************************************************/
 
 	// liste des ventes d'un utilisateur
-
+	/**
+	 * @author Matthieu
+	 */
 	public List<Vente> getListVenteUtilisateur(int idUtilisateur) throws BLLException {
 		List<Vente> listVentes =null;
 		try {
@@ -417,6 +445,9 @@ public class EncheresManager {
 	}
 	 */
 
+	/**
+	 * @author Matthieu
+	 */
 	public List<Vente> getListFiltreRecherche(String nomArticle, int monNoUtilisateur, 
 			int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, 
 			boolean autresEncheres) throws BLLException {
@@ -431,6 +462,9 @@ public class EncheresManager {
 		return listFiltreRecherche;
 	}
 
+	/**
+	 * @author Edouard
+	 */
 	public List<Categorie> getCategories(){
 		List<Categorie> categories = null ; 
 		try {
@@ -440,6 +474,10 @@ public class EncheresManager {
 		}
 		return categories;
 	}
+	
+	/**
+	 * @author Edouard
+	 */
 	public Categorie getCategorie(int noCategorie) throws BLLException{
 		Categorie categorie = null;
 		try{

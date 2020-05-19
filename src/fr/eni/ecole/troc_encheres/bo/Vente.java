@@ -2,6 +2,9 @@ package fr.eni.ecole.troc_encheres.bo;
 
 import java.util.Date;
 
+/**
+ * @author Edouard
+ */
 public class Vente {
 	
 	private int numero;

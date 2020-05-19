@@ -1,10 +1,11 @@
 package fr.eni.ecole.troc_encheres.dal;
-import fr.eni.ecole.troc_encheres.bo.Utilisateur;
-/*
- * @author Edouard
- */
+
 import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 import java.util.List;
+
+/**
+ * @author Edouard
+ */
 
 public interface DAO<T> {
 	

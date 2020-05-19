@@ -1,13 +1,14 @@
 package fr.eni.ecole.troc_encheres.dal;
-/*
- * @author Edouard
- */
+
 import fr.eni.ecole.troc_encheres.dal.jdbc.CategorieDAOJdbcImpl;
 import fr.eni.ecole.troc_encheres.dal.jdbc.EnchereDAOJdbcImpl;
 import fr.eni.ecole.troc_encheres.dal.jdbc.RetraitDAOJdbcImpl;
 import fr.eni.ecole.troc_encheres.dal.jdbc.UtilisateurDAOJdbcImpl;
 import fr.eni.ecole.troc_encheres.dal.jdbc.VenteDAOJdbcImpl;
 
+/**
+ * @author Edouard
+ */
 public class Factory {
 	
 	public static DAO getUtilisateurDAO() {

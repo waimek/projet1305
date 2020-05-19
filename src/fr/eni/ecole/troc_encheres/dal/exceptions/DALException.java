@@ -1,5 +1,10 @@
 package fr.eni.ecole.troc_encheres.dal.exceptions;
 
+/**
+ * 
+ * @author Edouard
+ *
+ */
 public class DALException extends Exception {
 	//Constructeurs
 	public DALException() {
@@ -14,7 +19,7 @@ public class DALException extends Exception {
 		super(message, exception);
 	}
 
-	//Méthodes
+	//Mï¿½thodes
 	@Override
 	public String getMessage() {
 		StringBuffer sb = new StringBuffer("Couche DAL - ");

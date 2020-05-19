@@ -1,11 +1,11 @@
 package fr.eni.ecole.troc_encheres.bo;
-/*
- * @author Edouard
- */
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Edouard
+ */
 public class Utilisateur implements Serializable {
 
 

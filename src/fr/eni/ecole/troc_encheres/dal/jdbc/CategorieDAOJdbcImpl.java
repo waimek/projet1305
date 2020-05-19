@@ -12,7 +12,8 @@ import fr.eni.ecole.troc_encheres.bo.Categorie;
 import fr.eni.ecole.troc_encheres.dal.ConnectionProvider;
 import fr.eni.ecole.troc_encheres.dal.DAO;
 import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
-/*
+
+/**
  * @author Edouard
  */
 

@@ -1,5 +1,10 @@
 package fr.eni.ecole.troc_encheres.bll.exceptions;
 
+/***
+ * 
+ * @author Edouard
+ *
+ */
 public class BLLException extends Exception {
     //Constructeurs
     public BLLException() {
