@@ -122,7 +122,7 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		return util;
 	}
 
-	@Override
+
 	/*
 	 * @author Dominika
 	 * recherche d'un utilisateur par son pseudo 
@@ -162,7 +162,7 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		return (Utilisateur) util;
 	}
 
-	@Override
+
 	/*
 	 * @author Dominika
 	 * recherche d'un utilisateur par son numéro de téléphone 
@@ -202,7 +202,7 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		return (Utilisateur) util;
 	}
 
-	@Override
+
 	/*
 	 * @author Dominika
 	 * recherche d'un utilisateur par son numéro de téléphone 

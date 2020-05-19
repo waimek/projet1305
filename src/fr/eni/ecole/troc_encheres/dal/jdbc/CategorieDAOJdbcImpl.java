@@ -94,23 +94,6 @@ public class CategorieDAOJdbcImpl implements DAO<Categorie>{
 	public void delete(int idObj) throws DALException {
 	}
 
-	@Override
-	public Categorie selectByPseudo(String pseudo) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public Categorie selectByTel(String tel) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Categorie selectByEmail(String email) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 
 }

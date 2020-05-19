@@ -13,6 +13,7 @@ import fr.eni.ecole.troc_encheres.dal.Factory;
 import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 import fr.eni.ecole.troc_encheres.dal.jdbc.EnchereDAOJdbcImpl;
 import fr.eni.ecole.troc_encheres.dal.jdbc.VenteDAOJdbcImpl;
+import fr.eni.ecole.troc_encheres.dal.jdbc.UtilisateurDAOJdbcImpl;
 
 public class EncheresManager {
 
@@ -110,7 +111,7 @@ public class EncheresManager {
 	 */
 	public void validerPseudo(String pseudo) throws BLLException, DALException{
 		Utilisateur util = null;
-		util = utilDAO.selectByPseudo( pseudo);
+		util = ((UtilisateurDAOJdbcImpl)utilDAO).selectByPseudo( pseudo);
 		
 		if (util != null) {
 			throw new BLLException("Pseudo déjà utilisé");
@@ -123,7 +124,7 @@ public class EncheresManager {
 	 */
 	public void validerTel(String tel) throws BLLException, DALException{
 		Utilisateur util = null;
-		util = utilDAO.selectByTel(tel);
+		util = ((UtilisateurDAOJdbcImpl)utilDAO).selectByTel(tel);
 		
 		if (util != null) {
 			throw new BLLException("Numéro de téléphone déjà utilisé");
@@ -136,7 +137,7 @@ public class EncheresManager {
 	 */
 	public void validerEmail(String tel) throws BLLException, DALException{
 		Utilisateur util = null;
-		util = utilDAO.selectByEmail(tel);
+		util = ((UtilisateurDAOJdbcImpl)utilDAO).selectByEmail(tel);
 		
 		if (util != null) {
 			throw new BLLException("Adresse email déjà utilisé");
