@@ -29,10 +29,12 @@
 					href="${pageContext.servletContext.contextPath}/connexion">Bonjour ${sessionScope.sessionUtilisateur.pseudo}
 						<span class="sr-only">(current)</span>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Mon
+				<li class="nav-item"><a class="nav-link" href="/WEB-INF/jsp/affichage_compte.jsp">Mon
 						compte</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Enchères</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Recherche</a></li>
+				<li class="nav-item"><a class="nav-link" href="${pageContext.servletContext.contextPath}/connexion">Connexion</a></li>
+				<li class="nav-item"><a class="nav-link" href="${pageContext.servletContext.contextPath}/deconnexion">Déconnexion</a></li>
 			</ul>
 			<span class="navbar-text"> Navbar text with an inline element
 			</span>

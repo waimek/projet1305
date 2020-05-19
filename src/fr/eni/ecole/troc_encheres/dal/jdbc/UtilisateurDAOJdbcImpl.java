@@ -41,6 +41,7 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 				e.printStackTrace();
 				con.rollback();
 				throw e;
+				
 			}
 		} catch (SQLException throwables) {
 			throw new DALException("Erreur insert");
@@ -123,124 +124,6 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 	}
 
 
-	/*
-	 * @author Dominika
-	 * recherche d'un utilisateur par son pseudo 
-	 */
-	public Utilisateur selectByPseudo(String pseudo) throws DALException {
-		Utilisateur util = null;
-		Connection con = null;
-		Statement stmt = null;
-		try {
-			con = ConnectionProvider.getConnection();
-			stmt = con.createStatement();
-			PreparedStatement query = con.prepareStatement(
-					"select * from utilisateurs where pseudo = ?");
-
-			query.setString(1, pseudo);
-			ResultSet rs = query.executeQuery();
-			if (rs.next()) {
-				util = new Utilisateur(rs.getInt("no_utilisateur"),rs.getString("pseudo"),rs.getString("nom"), rs.getString("prenom"), rs.getString("email"),
-						rs.getString("tel"), rs.getString("rue"), rs.getString("cp"), rs.getString("ville"), rs.getString("mdp"), rs.getInt("credit"));
-			}
-			try {
-				rs.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new DALException("Erreur closeResult");
-			}
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
-		} finally {
-			try {
-				con.close();
-				stmt.close();
-			} catch (Exception e) {
-				throw new DALException("Erreur fermeture");
-			}
-		}
-		return (Utilisateur) util;
-	}
-
-
-	/*
-	 * @author Dominika
-	 * recherche d'un utilisateur par son numéro de téléphone 
-	 */
-	public Utilisateur selectByTel(String tel) throws DALException {
-		Utilisateur util = null;
-		Connection con = null;
-		Statement stmt = null;
-		try {
-			con = ConnectionProvider.getConnection();
-			stmt = con.createStatement();
-			PreparedStatement query = con.prepareStatement(
-					"select * from utilisateurs where tel = ?");
-
-			query.setString(1, tel);
-			ResultSet rs = query.executeQuery();
-			if (rs.next()) {
-				util = new Utilisateur(rs.getInt("no_utilisateur"),rs.getString("pseudo"),rs.getString("nom"), rs.getString("prenom"), rs.getString("email"),
-						rs.getString("tel"), rs.getString("rue"), rs.getString("cp"), rs.getString("ville"), rs.getString("mdp"), rs.getInt("credit"));
-			}
-			try {
-				rs.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new DALException("Erreur closeResult");
-			}
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
-		} finally {
-			try {
-				con.close();
-				stmt.close();
-			} catch (Exception e) {
-				throw new DALException("Erreur fermeture");
-			}
-		}
-		return (Utilisateur) util;
-	}
-
-
-	/*
-	 * @author Dominika
-	 * recherche d'un utilisateur par son numéro de téléphone 
-	 */
-	public Utilisateur selectByEmail(String email) throws DALException {
-		Utilisateur util = null;
-		Connection con = null;
-		Statement stmt = null;
-		try {
-			con = ConnectionProvider.getConnection();
-			stmt = con.createStatement();
-			PreparedStatement query = con.prepareStatement(
-					"select * from utilisateurs where email = ?");
-
-			query.setString(1, email);
-			ResultSet rs = query.executeQuery();
-			if (rs.next()) {
-				util = new Utilisateur(rs.getInt("no_utilisateur"),rs.getString("pseudo"),rs.getString("nom"), rs.getString("prenom"), rs.getString("email"),
-						rs.getString("tel"), rs.getString("rue"), rs.getString("cp"), rs.getString("ville"), rs.getString("mdp"), rs.getInt("credit"));
-			}
-			try {
-				rs.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new DALException("Erreur closeResult");
-			}
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
-		} finally {
-			try {
-				con.close();
-				stmt.close();
-			} catch (Exception e) {
-				throw new DALException("Erreur fermeture");
-			}
-		}
-		return (Utilisateur) util;
-	}	
 	@Override
 	public List<Utilisateur> selectAll() throws DALException {
 		return null;
@@ -272,8 +155,122 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 			}
 		}
 	}
-
+	/*
+	 * recherche d'un no_utilisateur par son pseudo 
+	 */
+	
 	//	Ça implique que le pseudo soit une clef étrangère == il ne faut pas qu'il y ait deux fois le même pseudo
+//	public int selectIdByUser(String pseudo) throws DALException {
+//		int no_utilisateur = -1;
+//		Utilisateur util = null;
+//		Connection con = null;
+//		Statement stmt = null;
+//		try {
+//			con = ConnectionProvider.getConnection();
+//			stmt = con.createStatement();
+//			PreparedStatement query = con.prepareStatement("select no_utilisateur from utilisateurs where pseudo = ?");
+//			query.setString(1, pseudo);
+//			ResultSet rs = query.executeQuery();
+//			if (rs.next()) {
+//				no_utilisateur = rs.getInt("no_utilisateur");
+//			}
+//			try {
+//				rs.close();
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				throw new DALException("Erreur closeResult");
+//			}
+//		} catch (SQLException throwables) {
+//			throwables.printStackTrace();
+//		} finally {
+//			try {
+//				con.close();
+//				stmt.close();
+//			} catch (Exception e) {
+//				throw new DALException("Erreur fermeture");
+//			}
+//		}
+//		return no_utilisateur;
+//	}
+//	
+	
+	
+	/*
+	 * @author Dominika
+	 * recherche d'un no_utilisateur par son numéro de téléphone 
+	 */
+	public int selectIdByTel(String tel) throws DALException {
+		int no_utilisateur = -1;
+		Utilisateur util = null;
+		Connection con = null;
+		Statement stmt = null;
+		try {
+			con = ConnectionProvider.getConnection();
+			stmt = con.createStatement();
+			PreparedStatement query = con.prepareStatement("select no_utilisateur from utilisateurs where tel = ?");
+			query.setString(1, tel);
+			ResultSet rs = query.executeQuery();
+			if (rs.next()) {
+				no_utilisateur = rs.getInt("no_utilisateur");
+			}
+			try {
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new DALException("Erreur closeResult");
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				stmt.close();
+			} catch (Exception e) {
+				throw new DALException("Erreur fermeture");
+			}
+		}
+		return no_utilisateur;
+	}
+	
+	
+	/*
+	 * @author Dominika
+	 * recherche d'un no_utilisateur par son adresse email 
+	 */
+	public int selectIdByEmail(String email) throws DALException {
+		int no_utilisateur = -1;
+		Utilisateur util = null;
+		Connection con = null;
+		Statement stmt = null;
+		try {
+			con = ConnectionProvider.getConnection();
+			stmt = con.createStatement();
+			PreparedStatement query = con.prepareStatement("select no_utilisateur from utilisateurs where email = ?");
+			query.setString(1, email);
+			ResultSet rs = query.executeQuery();
+			if (rs.next()) {
+				no_utilisateur = rs.getInt("no_utilisateur");
+			}
+			try {
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new DALException("Erreur closeResult");
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				stmt.close();
+			} catch (Exception e) {
+				throw new DALException("Erreur fermeture");
+			}
+		}
+		return no_utilisateur;
+	}
+
+//	Ça implique que le pseudo soit une clef étrangère == il ne faut pas qu'il y ait deux fois le même pseudo
 	public int selectIdByUser(String pseudo) throws DALException {
 		int no_utilisateur = -1;
 		Utilisateur util = null;
@@ -306,5 +303,109 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		}
 		return no_utilisateur;
 	}
-	// Ajouter au besoin selectByX pour les recherches
+	
+	//Select By email
+	public int selectIdByUserMail(String email) throws DALException {
+		int no_utilisateur = -1;
+		Utilisateur util = null;
+		Connection con = null;
+		Statement stmt = null;
+		try {
+			con = ConnectionProvider.getConnection();
+			stmt = con.createStatement();
+			PreparedStatement query = con.prepareStatement("select no_utilisateur from utilisateurs where email = ?");
+			query.setString(1, email);
+			ResultSet rs = query.executeQuery();
+			if (rs.next()) {
+				no_utilisateur = rs.getInt("no_utilisateur");
+			}
+			try {
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new DALException("Erreur closeResult");
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				stmt.close();
+			} catch (Exception e) {
+				throw new DALException("Erreur fermeture");
+			}
+		}
+		return no_utilisateur;
+	}
+	
+	//Vérification couple pseudo & mdp
+	public String pseudoExist(String pseudo) throws DALException {
+		String pseudoVerification = null;
+		Utilisateur util = null;
+		Connection con = null;
+		Statement stmt = null;
+		
+		try {
+			con = ConnectionProvider.getConnection();
+			stmt = con.createStatement();
+			PreparedStatement query = con.prepareStatement("SELECT pseudo FROM utilisateurs WHERE pseudo = ?");
+			query.setString (1, pseudo);
+			ResultSet rs = query.executeQuery();
+			if (rs.next()) {
+				pseudoVerification = rs.getString("pseudo");
+			}
+			try {
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new DALException("Erreur closeResult");
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				stmt.close();
+			} catch (Exception e) {
+				throw new DALException("Erreur fermeture");
+			}
+		}
+		return pseudoVerification;
+	}
+	//Vérification couple email & mdp
+	public String emailExist(String email) throws DALException{
+		String emailVerification = null;
+		Utilisateur util = null;
+		Connection con = null;
+		Statement stmt = null;
+		
+		try {
+			con = ConnectionProvider.getConnection();
+			stmt = con.createStatement();
+			PreparedStatement query = con.prepareStatement("SELECT pseudo FROM utilisateurs WHERE pseudo = ?");
+			query.setString (1, email);
+			ResultSet rs = query.executeQuery();
+			if (rs.next()) {
+				emailVerification = rs.getString("pseudo");
+			}
+			try {
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new DALException("Erreur closeResult");
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				stmt.close();
+			} catch (Exception e) {
+				throw new DALException("Erreur fermeture");
+			}
+		}
+		return emailVerification;
+		// TODO Auto-generated method stub
+
+	}
 }

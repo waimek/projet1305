@@ -9,18 +9,24 @@
 <form action="${pageContext.servletContext.contextPath}/connexion"
 	method="post">
 	<div class="form-group">
-		<label for="nom">Pseudo</label> <input type="text" id="pseudo"
-			name="pseudo" class="form-control" value="<c:out value="${util.pseudo}"/>" /> <span
-			class="erreur">${form.erreurs['pseudo']}</span>
+		<label for="nom">Pseudo</label> 
+	<input type="text" id="identifiant"
+			name="identifiant"
+			value="<c:out value="${CHOIX == true ? util.pseudo : util.email}"/>" />
+<%-- 		<input type="text" id="identifiant" name="identifiant"
+			value="<c:out value="${util.pseudo}"/>" /> --%>
+		<span class="erreur">${form.erreurs['pseudo']}</span>
 
 	</div>
 	<div class="form-group">
 		<label for="password">Mot de passe</label> <input type="password"
 			name="mdp" class="form-control" id="mdp"
-			value="<c:out value="${util.mdp}"/>" /> <span class="erreur">${form.erreurs['mdp']}</span>
+			value="<c:out value="${util.mdp}"/>" /><span class="erreur">${form.erreurs['mdp']}</span>
+
+		<%-- 		<c:out value="${num % 2 eq 0 ? 'even': 'odd'}" /> --%>
+
 	</div>
-	<input type="submit" value="Connexion" class="sansLabel"/>
-	<br />
+	<input type="submit" value="Connexion" class="sansLabel" /> <br />
 	<div class="form-check">
 		<input class="form-check-input" type="checkbox" value=""
 			id="defaultCheck1"> <label class="form-check-label"

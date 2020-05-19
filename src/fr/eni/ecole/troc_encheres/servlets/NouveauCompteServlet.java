@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.ecole.troc_encheres.bll.EncheresManager;
 import fr.eni.ecole.troc_encheres.bll.exceptions.BLLException;
+import fr.eni.ecole.troc_encheres.bo.Utilisateur;
 import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 
 /**
@@ -66,7 +67,8 @@ public class NouveauCompteServlet extends HttpServlet {
 
 		
 
-
+		Utilisateur util = new Utilisateur(pseudo,  nom,  prenom,  email,  tel,  rue, cp,  ville,  mdp);
+		System.out.println(util);
 		if (!mdp.equals(mdpConf)) {
 
 			listeErreur.add("Veuillez saisir 2 fois le même mot de passe.");
@@ -74,7 +76,7 @@ public class NouveauCompteServlet extends HttpServlet {
 		else	{
 
 			try {
-				EncheresManager.get().addUtilFromServlet(pseudo,  nom,  prenom,  email,  tel,  rue, cp,  ville,  mdp);
+				EncheresManager.get().addUtil(util);
 			}
 
 			catch (Exception e) {

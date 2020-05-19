@@ -11,8 +11,9 @@ import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 import fr.eni.ecole.troc_encheres.dal.jdbc.UtilisateurDAOJdbcImpl;
 
 public final class ConnexionForm {
-	private static final String PSEUDO = "pseudo";
+	private static final String PSEUDO = "identifiant";
 	private static final String MDP = "mdp";
+	private static final boolean CHOIX = true;
 
 	private String resultat;
 	private Map<String, String> erreurs = new HashMap<String, String>();
@@ -29,20 +30,35 @@ public final class ConnexionForm {
 		System.out.println("Début de la procédure de connexion");
 		/* Récupération des champs du formulaire */
 		String pseudo = getValeurChamp(request, PSEUDO);
+		System.out.println("Le pseudo est : " + pseudo);
 		String mdp = getValeurChamp(request, MDP);
+		System.out.println("Le mdp est : " + mdp);
+		String email = getValeurChamp(request, PSEUDO);
+		System.out.println("Le mail est : " + email);
 
 		Utilisateur utilisateur = new Utilisateur();
 		UtilisateurDAOJdbcImpl daoUtilisateur;
-		/* Validation du champ pseudo. */
-		try {
-			validationPseudo(pseudo);
-		} catch (Exception e) {
-			setErreur(PSEUDO, e.getMessage());
+		/* Si le champs choisi est pseudo */
+		if (CHOIX) {
+			/* Validation du champ pseudo. */
+			try {
+				validationPseudo(pseudo);
+			} catch (Exception e) {
+				setErreur(PSEUDO, e.getMessage());
+			}
+			utilisateur.setPseudo(pseudo);
+		} else if (CHOIX == false) {
+			try {
+				validationEmail(email);
+			} catch (Exception e) {
+				setErreur(PSEUDO, e.getMessage());
+			}
+			utilisateur.setEmail(email);
 		}
-		utilisateur.setPseudo(pseudo);
 
 		/* Validation du champ mot de passe. */
-		try {
+		try
+		{
 			validationMotDePasse(mdp);
 		} catch (Exception e) {
 			setErreur(MDP, e.getMessage());
@@ -54,16 +70,24 @@ public final class ConnexionForm {
 			resultat = "Succès de la connexion.";
 		} else {
 			resultat = "Échec de la connexion.";
+//			Il faut sortir de là si l'utilisateur n'existe pas
 			System.out.println("Voici l'erreur : " + erreurs.toString());
 		}
-		
-		/*Récupération id utilisateur*/
-		/*Etape 1 : Récupération de la dao grâce à la factory*/
+
+		/* Récupération id utilisateur */
+		/* Etape 1 : Récupération de la dao grâce à la factory */
 		daoUtilisateur = (UtilisateurDAOJdbcImpl) Factory.getUtilisateurDAO();
-		/*On utilise la DAO pour récupérer l'id à partir du pseudo*/
+
+		/* On utilise la DAO pour récupérer l'id à partir du pseudo */
 		try {
-			/*On set l'id à l'utilisateur*/
-			utilisateur.setNumero(daoUtilisateur.selectIdByUser(pseudo));
+			if (CHOIX) {
+
+				/* On set l'id à l'utilisateur */
+				utilisateur.setNumero(daoUtilisateur.selectIdByUser(pseudo));
+			} else {
+
+				utilisateur.setNumero(daoUtilisateur.selectIdByUserMail(email));
+			}
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -74,11 +98,54 @@ public final class ConnexionForm {
 	}
 
 	/**
+	 * 
 	 * Valide le pseudo saisi
 	 */
 	private void validationPseudo(String pseudo) throws Exception {
+		UtilisateurDAOJdbcImpl daoUtilisateur;
+		String pseudoOk = null;
+
+//		Vérifie si le pseudo est null
 		if (pseudo == null) {
 			throw new Exception("Merci de saisir un pseudo valide.");
+		}
+
+//		Vérifier si le pseudo existe dans la base
+//		1)	Récupération daofactory + utilisation procédure et requetage dessus
+		daoUtilisateur = (UtilisateurDAOJdbcImpl) Factory.getUtilisateurDAO();
+
+		pseudoOk = daoUtilisateur.pseudoExist(pseudo);
+		System.out.println("Ce qu'il y a dans ma variable " + pseudoOk);
+		if (pseudoOk.equals(pseudo)) {
+			resultat = "Le pseudo est bon.";
+			System.out.println("Le pseudo est bon");
+		} else {
+			resultat = "Le pseudo n'est pas bon. Veuillez recommencer";
+			System.out.println("Le pseudo ne correspond pas");
+		}
+	}
+
+	/**
+	 * Valide le email saisi
+	 */
+	private void validationEmail(String email) throws Exception {
+		UtilisateurDAOJdbcImpl daoUtilisateur;
+		String emailOK = null;
+		if (email == null) {
+			throw new Exception("Merci de saisir un email valide.");
+		}
+//		Vérifier si le mail existe dans la base
+//		Récupération daofactory + utilisation procédure et requetage dessus
+		daoUtilisateur = (UtilisateurDAOJdbcImpl) Factory.getUtilisateurDAO();
+
+		emailOK = daoUtilisateur.emailExist(email);
+		System.out.println("Ce qu'il y a dans ma variable " + emailOK);
+		if (emailOK.equals(email)) {
+			resultat = "Le pseudo est bon.";
+			System.out.println("Le pseudo est bon");
+		} else {
+			resultat = "Le pseudo n'est pas bon. Veuillez recommencer";
+			System.out.println("Le pseudo ne correspond pas");
 		}
 	}
 
@@ -86,6 +153,8 @@ public final class ConnexionForm {
 	 * Valide le mot de passe saisi.
 	 */
 	private void validationMotDePasse(String mdp) throws Exception {
+		UtilisateurDAOJdbcImpl daoUtilisateur;
+		String mdpOK = null;
 		if (mdp != null) {
 			if (mdp.length() < 3) {
 				throw new Exception("Le mot de passe doit contenir au moins 3 caractères.");
@@ -93,6 +162,8 @@ public final class ConnexionForm {
 		} else {
 			throw new Exception("Merci de saisir votre mot de passe.");
 		}
+//		Test de correspondance
+//		Pour le test de mot de passe, il faut des couples [pseudo, mdp] ou [email, mdp]
 	}
 
 	/*
