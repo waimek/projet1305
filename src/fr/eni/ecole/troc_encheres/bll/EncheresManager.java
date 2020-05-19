@@ -285,8 +285,14 @@ public class EncheresManager {
 		try {
 			validerEnchere(enchere);
 			validerVente(enchere.getVente());
+			Enchere derniereEnchere = getDerniereEnchere(enchere.getVente().getNumero()); 
+			Utilisateur derniereEnchereUtil = derniereEnchere.getUtil();
+			derniereEnchereUtil.setCredit(derniereEnchere.getVente().getPrixVente() + derniereEnchereUtil.getCredit());
+			validerUtil(derniereEnchereUtil);
+			utilDAO.update(derniereEnchereUtil);
 			venteDAO.update(enchere.getVente());
 			Utilisateur util = enchere.getUtil();
+			
 			util.setCredit(util.getCredit()-enchere.getVente().getPrixVente());
 			utilDAO.update(util);
 			enchereDAO.insert(enchere);
