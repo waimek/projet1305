@@ -54,8 +54,9 @@ public class GestionVenteServlet extends HttpServlet {
 		if (action.equals("detailsVente")) {
 			int noVente = Integer.parseInt(request.getParameter("noVente"));
 			Vente vente = manager.getVente(noVente);
+			
 			HttpSession session = request.getSession();
-			session.setAttribute("no_utilisateur", "2");
+		
 			session = request.getSession();
 			
 			String page = "";
@@ -68,11 +69,13 @@ public class GestionVenteServlet extends HttpServlet {
 				Enchere derniereEnchere = null;
 				try {
 					derniereEnchere = manager.getDerniereEnchere(vente.getNumero());
-					System.out.println(derniereEnchere );
+					
 				} catch (BLLException e) {
 					e.printStackTrace();
 				}
-				request.setAttribute("acheteur", derniereEnchere.getUtil());
+				if (derniereEnchere !=null) {
+					request.setAttribute("acheteur", derniereEnchere.getUtil());
+				}
 			}
 			request.setAttribute("vente", vente);
 			request.getRequestDispatcher(page).forward(request, response);
@@ -84,7 +87,10 @@ public class GestionVenteServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}/*
+		}
+		
+		
+		/*
 		if(action.equals("annulerEnchere")) {
 			try {
 				manager.supprimerDerniereEnchere(Integer.parseInt(request.getParameter("noVente")));
@@ -138,10 +144,17 @@ public class GestionVenteServlet extends HttpServlet {
 				Vente vente = manager.getVente(noVente);
 				Utilisateur util = manager.getUtil(noUtilisateur);
 				Date date = new Date();
+				String alert = "";
 				if (montant > vente.getPrixVente()) {
 					vente.setPrixVente(montant);
 					manager.encherir(new Enchere(date, util, vente));
+					alert = "<div class=\"alert alert-success\" role=\"alert\">Merci pour votre enchère </div>"; 
+				} else {
+					alert = "<div class=\"alert alert-danger\" role=\"alert\">Vous ne pouvez pas proposer un montant inférieur à la meilleure offre</div>";
 				}
+				request.setAttribute("alert", alert);
+				request.setAttribute("vente", vente);
+				request.getRequestDispatcher("/WEB-INF/jsp/enchere.jsp").forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

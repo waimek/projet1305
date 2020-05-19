@@ -13,10 +13,7 @@ import fr.eni.ecole.troc_encheres.dal.Factory;
 import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 import fr.eni.ecole.troc_encheres.dal.jdbc.EnchereDAOJdbcImpl;
 import fr.eni.ecole.troc_encheres.dal.jdbc.VenteDAOJdbcImpl;
-/*
- * @author Edouard / Matthieu
- * 
- */
+
 public class EncheresManager {
 
 	private static EncheresManager instance;

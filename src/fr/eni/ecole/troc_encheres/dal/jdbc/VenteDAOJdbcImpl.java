@@ -116,7 +116,8 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
         try {
             con = ConnectionProvider.getConnection();
             stmt = con.createStatement();
-            PreparedStatement query = con.prepareStatement("select * from ventes join utilisateurs on utilisateurs.no_utilisateur= ventes.no_utilisateur join categories on categories.no_categorie = ventes.no_categorie join retraits on retraits.no_vente = ventes.no_vente where ventes.no_vente = ?");
+            PreparedStatement query = con.prepareStatement("select * from ventes left join utilisateurs on utilisateurs.no_utilisateur= ventes.no_utilisateur left join categories on categories.no_categorie = ventes.no_categorie left join retraits on retraits.no_vente = ventes.no_vente where ventes.no_vente = ?");
+            
             query.setInt(1, idVente);
             ResultSet rs = query.executeQuery();
             if (rs.next()) {

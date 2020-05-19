@@ -10,7 +10,7 @@
 	method="post">
 	<div class="form-group">
 		<label for="nom">Pseudo</label> <input type="text" id="pseudo"
-			name="pseudo" value="<c:out value="${util.pseudo}"/>" /> <span
+			name="pseudo" class="form-control" value="<c:out value="${util.pseudo}"/>" /> <span
 			class="erreur">${form.erreurs['pseudo']}</span>
 
 	</div>

@@ -12,11 +12,11 @@
 
 	<div class="form-group">
 		<label for="article" id="lblArticle">Article :</label> <input
-			type="text" id="article" name="article" class="form-control" />
+			type="text" id="article" name="article" class="form-control" required/>
 	</div>
 	<div class="form-group">
 		<label for="description" id="lblDescription">Description :</label>
-		<textarea name="description" id="description" class="form-control"></textarea>
+		<textarea name="description" id="description" class="form-control" required></textarea>
 	</div>
 	<div class="form-group">
 		<label for="categorie" id="lblCategorie">Catégorie :</label> <select
@@ -28,27 +28,27 @@
 	</div>
 	<div class="form-group">
 		<label class="form-label" for="miseAPrix" id="lblMiseAPrix">Mise à prix :</label> <input
-			type="text" id="miseAPrix" name="miseAPrix"  class="form-control"/>
+			type="text" id="miseAPrix" name="miseAPrix"  class="form-control" required/>
 	</div>
 	<div class="form-group">
 		<label class="form-label" for="dateFinEncheres" id="lblDateFinEncheres">Fin de
 			l'enchère :</label> <input type="date" id="dateFinEncheres"
-			name="dateFinEncheres"  class="form-control" />
+			name="dateFinEncheres"  class="form-control" required/>
 	</div>
 	<div class="bg-info">
 	<legend class="form-label">Retrait</legend>
 	
 		<div class="form-group">
 			<label class="form-label" for="rue" id="lblRue">Rue :</label> <input type="text"
-				id="rue" name="rue"  class="form-control"/>
+				id="rue" name="rue"  class="form-control" required/>
 		</div>
 		<div class="form-group">
 			<label class="form-label" for="codePostal" id="lblCodePostal">Code postal :</label> <input
-				type="text" class="form-control" id="codePostal" name="codePostal" />
+				type="text" class="form-control" id="codePostal" name="codePostal" required/>
 		</div>
 		<div class="form-group">
 			<label class="form-label" for="ville" id="lblVille">Ville :</label> <input
-				type="text"  class="form-control" id="ville" name="ville" />
+				type="text"  class="form-control" id="ville" name="ville" required/>
 		</div>
 	</div>
 	<fieldset>

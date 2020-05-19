@@ -26,9 +26,9 @@ public class EnchereDAOJdbcImpl implements DAO<Enchere>{
         PreparedStatement stmt = null;
         try {
             con = ConnectionProvider.getConnection();
-            stmt = con.prepareStatement("insert into encheres (date_enchere, no_utilisateur, no_vente) values (?,?,?)");
-            stmt.setDate(1,(Date)enchere.getDateEnchere());
-            stmt.setInt(2, enchere.getUtil().getNumero());
+            stmt = con.prepareStatement("insert into encheres (date_enchere, no_utilisateur, no_vente) values (now(),?,?)");
+            //stmt.setDate(1, new java.sql.Date(enchere.getDateEnchere().getTime()));
+            stmt.setInt(1, enchere.getUtil().getNumero());
             stmt.setInt(2, enchere.getVente().getNumero());
             int rows = stmt.executeUpdate();
 

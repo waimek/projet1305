@@ -2,9 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="entete.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt" %>
+<jsp:useBean id="now" class="java.util.Date" />
+<fmt:setLocale value="fr_FR" />
 <!-- Auteur : Edouard -->
 <h2 class="text-center h2">Détail vente</h2>
-<c:if test="${not empty acheteur}">
+<c:if test="${not empty acheteur && vente.dateFinEncheres.time < now.time}">
 	<h3 class="text-center h3">${acheteur.pseudo} a remporté l'enchère</h3>
 </c:if>
 	<h4 class="h4">${ vente.nomArticle}</h4>
@@ -37,13 +40,13 @@
 	</tr>
 </table>
 
-<c:if test="${empty acheteur }">
+<c:if test="${empty acheteur && vente.dateFinEncheres.time > now.time}">
 	<a class="btn btn-primary"
-		href="${pageContext.servletContext.contextPath}/GestionVenteServlet?action=annulerVente&noVente=${vente.numero}"
-		role="button">Annuler la vente</a>
+		href ="#"
+		role="button">Annuler la vente</a><!-- href="${pageContext.servletContext.contextPath}/GestionVenteServlet?action=annulerVente&noVente=${vente.numero}"-->
 </c:if>
 
-<c:if test="${not empty acheteur }">
+<c:if test="${not empty acheteur && vente.dateFinEncheres.time < now.time}">
 	<c:if test="${not empty retrait}">
 		<a class="btn btn-primary"
 			href="${pageContext.servletContext.contextPath}/RechercheServlet?action=validerRetrait&noVente=${vente.numero}"
