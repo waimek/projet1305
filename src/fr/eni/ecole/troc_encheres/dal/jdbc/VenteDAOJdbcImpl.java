@@ -315,23 +315,41 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
         return ventes;
 	}
 
-	@Override
-	public int selectIdByUser(String pseudo) throws DALException {
-		// TODO Auto-generated method stub
-		return 0;
+	
+	public List<Vente> selectVentesTerminees() throws DALException {
+		List<Vente> ventes = new ArrayList<>();
+        Connection con = null;
+        try {
+            con = ConnectionProvider.getConnection();
+            
+            PreparedStatement stmt = con.prepareStatement("select * from ventes "
+            		+ "join utilisateurs on utilisateurs.no_utilisateur= ventes.no_utilisateur "
+            		+ "join categories on categories.no_categorie = ventes.no_categorie "
+            		+ "join retraits on retraits.no_vente = ventes.no_vente "
+            		+ "where date(date_fin_encheres) = date(now())");
+            ResultSet rs = stmt.executeQuery();
+            Vente vente = null;
+            while (rs.next()) {
+                vente = new Vente(rs.getInt("no_vente"), rs.getString("nom_article"), rs.getString("description"), rs.getDate("date_fin_encheres"), rs.getInt("miseAPrix"), rs.getInt("prix_vente"), 
+                		new Utilisateur(rs.getInt("no_utilisateur"), rs.getString("pseudo"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit")), 
+                		new Categorie(rs.getInt("no_vente"), rs.getString("libelle")));
+                
+                vente.setRetrait(new Retrait(vente, rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville")));
+                ventes.add(vente);
+            }
+            stmt.close();
+            rs.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                
+                con.close();
+
+            } catch (Exception e) {
+                throw new DALException("Erreur fermeture");
+            }
+        }
+        return ventes;
 	}
-
-	@Override
-	public int selectIdByTel(String tel) throws DALException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int selectIdByEmail(String email) throws DALException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
 }

@@ -2,6 +2,8 @@ package fr.eni.ecole.troc_encheres.bll;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import fr.eni.ecole.troc_encheres.bll.exceptions.BLLException;
 import fr.eni.ecole.troc_encheres.bo.Categorie;
@@ -35,6 +37,29 @@ public class EncheresManager {
 		venteDAO = Factory.getVenteDAO();
 		categorieDAO = Factory.getCategorieDAO();
 		enchereDAO = Factory.getEnchereDAO();
+		
+		//Gestion de la fin des enchères Auteur : Edouard
+		TimerTask repeatedTask = new TimerTask() {
+	        public void run(){
+	            List<Vente> listeVenteTerminees = null; 
+	            try{
+	            	listeVenteTerminees = ((VenteDAOJdbcImpl)venteDAO).selectVentesTerminees();
+	            for (Vente vente : listeVenteTerminees) {
+	            	Utilisateur vendeur = vente.getUtil();
+	            	vendeur.setCredit(vendeur.getCredit()+vente.getPrixVente());
+	            }
+	            System.out.println("Mise à jour des transactions terminées");
+	            }catch(Exception e) {
+	            	e.printStackTrace();
+	            }
+	        }
+	    };
+	    Timer timer = new Timer("Timer");
+	     
+	    long delay = 1000L;
+	    long period = 1000L * 60L * 60L * 24L;
+	    timer.scheduleAtFixedRate(repeatedTask, delay, period);
+
 	}
 
 	public void updateUtil(Utilisateur util) throws BLLException {
@@ -94,7 +119,7 @@ public class EncheresManager {
 	public void validerPseudo(Utilisateur util) throws BLLException, DALException{
 		String pseudo = util.getPseudo();
 		int id=-1;
-		id =utilDAO.selectIdByUser(pseudo);
+		id =((UtilisateurDAOJdbcImpl)utilDAO).selectIdByUser(pseudo);
 		int idCurrent=-1;
 		idCurrent=util.getNumero();
 		
@@ -111,7 +136,7 @@ public class EncheresManager {
 	
 		String tel = util.getTel();
 		int id=-1;
-		id = utilDAO.selectIdByTel(tel);
+		id = ((UtilisateurDAOJdbcImpl)utilDAO).selectIdByTel(tel);
 		int idCurrent=-1;
 		idCurrent=util.getNumero();
 		
@@ -128,7 +153,7 @@ public class EncheresManager {
 		
 		String email = util.getEmail();
 		int id=-1;
-		id = utilDAO.selectIdByEmail(email);
+		id = ((UtilisateurDAOJdbcImpl)utilDAO).selectIdByEmail(email);
 		int idCurrent=-1;
 		idCurrent=util.getNumero();
 		
@@ -224,6 +249,7 @@ public class EncheresManager {
 		}
 		return ventes; 
 	}
+	
 	public Vente getVente(int idVente){
 		Vente vente = null;
 		try {
@@ -276,17 +302,21 @@ public class EncheresManager {
 
 	public void encherir(Enchere enchere) throws BLLException {
 		try {
-			validerEnchere(enchere);
-			validerVente(enchere.getVente());
-			Enchere derniereEnchere = getDerniereEnchere(enchere.getVente().getNumero()); 
-			Utilisateur derniereEnchereUtil = derniereEnchere.getUtil();
-			derniereEnchereUtil.setCredit(derniereEnchere.getVente().getPrixVente() + derniereEnchereUtil.getCredit());
+			validerEnchere(enchere); //Validation nouvelle Enchere 
+			validerVente(enchere.getVente()); // Validation nouvelle vente
+			Enchere derniereEnchere = getDerniereEnchere(enchere.getVente().getNumero());
+			Utilisateur derniereEnchereUtil = derniereEnchere.getUtil(); //Récupération dernière enchere 
+			int totalCredit = derniereEnchere.getVente().getPrixVente() + derniereEnchereUtil.getCredit();
+			System.out.println(totalCredit);
+			derniereEnchereUtil.setCredit(totalCredit);//Recrédit ancien enchérisseur
+			System.out.println(derniereEnchereUtil);
 			validerUtil(derniereEnchereUtil);
 			utilDAO.update(derniereEnchereUtil);
 			venteDAO.update(enchere.getVente());
-			Utilisateur util = enchere.getUtil();
-			
-			util.setCredit(util.getCredit()-enchere.getVente().getPrixVente());
+			Utilisateur util = getUtil(enchere.getUtil().getNumero());
+			int totalDebit = util.getCredit()-enchere.getVente().getPrixVente();
+			System.out.println(totalDebit);
+			util.setCredit(totalDebit);//Débit nouvel enchérisseur
 			utilDAO.update(util);
 			enchereDAO.insert(enchere);
 		} catch (DALException e) {
@@ -294,6 +324,7 @@ public class EncheresManager {
 			throw new BLLException("Erreur insert");
 		}
 	}
+	
 	public Enchere getDerniereEnchere(int noVente) throws BLLException {
 		Enchere enchere = null;
 		try {
@@ -304,6 +335,7 @@ public class EncheresManager {
 		}
 		return enchere;
 	}
+	
 	/* 
 	public void supprimerDerniereEnchere(int noVente) throws BLLException{
 		try {

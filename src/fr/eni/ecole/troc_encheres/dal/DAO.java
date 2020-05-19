@@ -13,7 +13,5 @@ public interface DAO<T> {
     T selectById(int idObj) throws DALException;
     List<T> selectAll() throws DALException;
     void delete(int idObj) throws DALException;
-	int selectIdByUser(String pseudo) throws DALException;
-	int selectIdByTel(String tel) throws DALException;
-	int selectIdByEmail(String email)throws DALException;
+
 }

@@ -116,7 +116,8 @@ public class GestionVenteServlet extends HttpServlet {
 				Date dateFinEncheres = sdf.parse(request.getParameter("dateFinEncheres"));
 				int miseAPrix = Integer.parseInt(request.getParameter("miseAPrix"));
 				int prixVente = 0;
-				Utilisateur util = (Utilisateur) session.getAttribute("sessionUtilisateur");
+				int idUtil = ((Utilisateur) session.getAttribute("sessionUtilisateur")).getNumero();
+				Utilisateur util = manager.getUtil(idUtil);
 				int noCategorie = Integer.parseInt(request.getParameter("categorie"));
 				Categorie categorie = manager.getCategorie(noCategorie);
 				Vente vente = new Vente(nomArticle, description, dateFinEncheres, miseAPrix, prixVente, util,
@@ -135,11 +136,13 @@ public class GestionVenteServlet extends HttpServlet {
 				int noVente = Integer.parseInt(request.getParameter("noVente"));
 				HttpSession session = request.getSession();
 				Vente vente = manager.getVente(noVente);
-				Utilisateur util = (Utilisateur) session.getAttribute("sessionUtilisateur");
-				System.out.println(util);
+				int idUtil = ((Utilisateur) session.getAttribute("sessionUtilisateur")).getNumero();
+				Utilisateur util = manager.getUtil(idUtil);
+				System.out.println(util + "\n" + montant);
+				
 				Date date = new Date();
 				String alert = "";
-				if (util.getCredit() <= montant) {
+				if (util.getCredit() >= montant) {
 					if (montant > vente.getPrixVente()) {
 						vente.setPrixVente(montant);
 						manager.encherir(new Enchere(date, util, vente));
