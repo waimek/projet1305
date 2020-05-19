@@ -127,4 +127,22 @@ public class EnchereDAOJdbcImpl implements DAO<Enchere>{
 		}
 		return enchere;
 	}
+
+	@Override
+	public Enchere selectByPseudo(String pseudo) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Enchere selectByTel(String tel) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Enchere selectByEmail(String email) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
