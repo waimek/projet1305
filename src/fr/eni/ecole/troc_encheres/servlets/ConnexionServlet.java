@@ -41,22 +41,23 @@ public class ConnexionServlet extends HttpServlet {
 
 		/* Récupération de la session depuis la requête */
 		HttpSession session = request.getSession();
-		
+
 		/**
 		 * Si aucune erreur de validation n'a eu lieu, alors ajout du bean Utilisateur à
 		 * la session, sinon suppression du bean de la session.
 		 */
 		if (form.getErreurs().isEmpty()) {
 			session.setAttribute(ATT_SESSION_USER, utilisateur);
-		} else {
-			session.setAttribute(ATT_SESSION_USER, null);
-		}
-
-		/* Stockage du formulaire et du bean dans l'objet request */
-		request.setAttribute(ATT_FORM, form);
-		request.setAttribute(ATT_USER, utilisateur);
+			/* Stockage du formulaire et du bean dans l'objet request */
+			request.setAttribute(ATT_FORM, form);
+			request.setAttribute(ATT_USER, utilisateur);
 //		request.setAttribute(ID, idUtilisateur);
 
-		this.getServletContext().getRequestDispatcher(REDIRECTION).forward(request, response);
+			this.getServletContext().getRequestDispatcher(REDIRECTION).forward(request, response);
+		} else {
+			session.setAttribute(ATT_SESSION_USER, null);
+			this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+		}
+
 	}
 }

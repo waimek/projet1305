@@ -315,11 +315,11 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		try {
 			con = ConnectionProvider.getConnection();
 			stmt = con.createStatement();
-			PreparedStatement query = con.prepareStatement("SELECT pseudo FROM utilisateurs WHERE pseudo = ?");
+			PreparedStatement query = con.prepareStatement("SELECT email FROM utilisateurs WHERE email = ?");
 			query.setString (1, email);
 			ResultSet rs = query.executeQuery();
 			if (rs.next()) {
-				emailVerification = rs.getString("pseudo");
+				emailVerification = rs.getString("email");
 			}
 			try {
 				rs.close();
@@ -338,7 +338,6 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 			}
 		}
 		return emailVerification;
-		// TODO Auto-generated method stub
 
 	}
 }

@@ -1,19 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ include file="entete.jsp"%>
+<%-- <%@ include file="entete.jsp"%> --%>
 <%@ page import="fr.eni.ecole.troc_encheres.bo.Utilisateur"%>
-
+<%@ page import="fr.eni.ecole.troc_encheres.form.ConnexionForm" %>
+<head>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<link
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+	rel="stylesheet"
+	integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+	crossorigin="anonymous">
+</head>
 <h1>Trocencheres.org</h1>
 <!-- Ceci est un commentaire de type test -->
 <form action="${pageContext.servletContext.contextPath}/connexion"
 	method="post">
 	<div class="form-group">
-		<label for="nom">Pseudo</label> 
-	<input type="text" id="identifiant"
+		<label for="nom">Pseudo</label> <input type="text" id="identifiant"
 			name="identifiant"
-			value="<c:out value="${CHOIX == true ? util.pseudo : util.email}"/>" />
-<%-- 		<input type="text" id="identifiant" name="identifiant"
+			value="<c:out value="${variableIdentifiant.equals(pseudo) ? util.pseudo : util.email}"/>" />
+		<%-- 		<input type="text" id="identifiant" name="identifiant"
 			value="<c:out value="${util.pseudo}"/>" /> --%>
 		<span class="erreur">${form.erreurs['pseudo']}</span>
 
@@ -33,8 +43,6 @@
 			for="defaultCheck1"> Se souvenir de moi </label> </br> <a href="#">Mot
 			de passe oublié</a>
 	</div>
-	</br>
-	<button value="${sessionScope.invalidate}" name="deconnexion">Déconnexion</button>
 
 	<p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
 </form>
@@ -42,9 +50,6 @@
 	<c:when test="${!empty sessionScope.sessionUtilisateur}">
 		<p class="succes">Vous êtes connecté(e) avec le pseudo :
 			${sessionScope.sessionUtilisateur.pseudo}</p>
-	</c:when>
-	<c:when test="${sessionScope.invalidate}">
-		<p class="succes">Vous êtes déconnecté(e) de la session.</p>
 	</c:when>
 </c:choose>
 <%@ include file="footer.jsp"%>

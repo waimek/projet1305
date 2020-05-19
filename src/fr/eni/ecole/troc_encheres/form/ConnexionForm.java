@@ -11,9 +11,8 @@ import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 import fr.eni.ecole.troc_encheres.dal.jdbc.UtilisateurDAOJdbcImpl;
 
 public final class ConnexionForm {
-	private static final String PSEUDO = "identifiant";
+	private static final String IDENTIFIANT = "identifiant";
 	private static final String MDP = "mdp";
-	private static final boolean CHOIX = true;
 
 	private String resultat;
 	private Map<String, String> erreurs = new HashMap<String, String>();
@@ -29,41 +28,56 @@ public final class ConnexionForm {
 	public Utilisateur connecterUtilisateur(HttpServletRequest request) {
 		System.out.println("Début de la procédure de connexion");
 		/* Récupération des champs du formulaire */
-		String pseudo = getValeurChamp(request, PSEUDO);
+		String patternRegexMail = "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)";
+		String variableIdentifiant = getValeurChamp(request, IDENTIFIANT);
+		String email = null;
+		String pseudo = null;
+		
+		if (variableIdentifiant.matches(patternRegexMail)) {
+			email = variableIdentifiant;
+		} else {
+			pseudo = variableIdentifiant;
+		}
+		System.out.println("Le mail est : " + email);
+		
 		System.out.println("Le pseudo est : " + pseudo);
+		
 		String mdp = getValeurChamp(request, MDP);
 		System.out.println("Le mdp est : " + mdp);
-		String email = getValeurChamp(request, PSEUDO);
-		System.out.println("Le mail est : " + email);
+		
 
+		
 		Utilisateur utilisateur = new Utilisateur();
 		UtilisateurDAOJdbcImpl daoUtilisateur;
 		/* Si le champs choisi est pseudo */
-		if (CHOIX) {
+		if (variableIdentifiant.equals(pseudo)) {
 			/* Validation du champ pseudo. */
 			try {
 				validationPseudo(pseudo);
+				utilisateur.setPseudo(pseudo);
 			} catch (Exception e) {
-				setErreur(PSEUDO, e.getMessage());
+				setErreur(pseudo, e.getMessage());
 			}
-			utilisateur.setPseudo(pseudo);
-		} else if (CHOIX == false) {
+			//utilisateur.setPseudo était là
+		} else if (variableIdentifiant.equals(email)) {
 			try {
 				validationEmail(email);
+				utilisateur.setEmail(email);
 			} catch (Exception e) {
-				setErreur(PSEUDO, e.getMessage());
+				setErreur(email, e.getMessage());
 			}
-			utilisateur.setEmail(email);
+			//utilisateur.setEmail était là
 		}
 
 		/* Validation du champ mot de passe. */
 		try
 		{
 			validationMotDePasse(mdp);
+			utilisateur.setMdp(mdp);
 		} catch (Exception e) {
 			setErreur(MDP, e.getMessage());
 		}
-		utilisateur.setMdp(mdp);
+		//utilisateur.setMdp était là
 
 		/* Initialisation du résultat global de la validation. */
 		if (erreurs.isEmpty()) {
@@ -80,7 +94,7 @@ public final class ConnexionForm {
 
 		/* On utilise la DAO pour récupérer l'id à partir du pseudo */
 		try {
-			if (CHOIX) {
+			if (variableIdentifiant.equals(pseudo)) {
 
 				/* On set l'id à l'utilisateur */
 				utilisateur.setNumero(daoUtilisateur.selectIdByUser(pseudo));
@@ -131,7 +145,7 @@ public final class ConnexionForm {
 	private void validationEmail(String email) throws Exception {
 		UtilisateurDAOJdbcImpl daoUtilisateur;
 		String emailOK = null;
-		if (email == null) {
+		if (email == null ) {
 			throw new Exception("Merci de saisir un email valide.");
 		}
 //		Vérifier si le mail existe dans la base
@@ -139,13 +153,14 @@ public final class ConnexionForm {
 		daoUtilisateur = (UtilisateurDAOJdbcImpl) Factory.getUtilisateurDAO();
 
 		emailOK = daoUtilisateur.emailExist(email);
-		System.out.println("Ce qu'il y a dans ma variable " + emailOK);
+		System.out.println("Trace de email " + emailOK);
+//		System.out.println("Ce qu'il y a dans ma variable " + emailOK);
 		if (emailOK.equals(email)) {
-			resultat = "Le pseudo est bon.";
-			System.out.println("Le pseudo est bon");
+			resultat = "Le mail est bon.";
+			System.out.println("Le mail est bon");
 		} else {
-			resultat = "Le pseudo n'est pas bon. Veuillez recommencer";
-			System.out.println("Le pseudo ne correspond pas");
+			resultat = "Le mail n'est pas bon. Veuillez recommencer";
+			System.out.println("Le mail ne correspond pas");
 		}
 	}
 
@@ -163,6 +178,7 @@ public final class ConnexionForm {
 			throw new Exception("Merci de saisir votre mot de passe.");
 		}
 //		Test de correspondance
+		daoUtilisateur = (UtilisateurDAOJdbcImpl) Factory.getUtilisateurDAO();
 //		Pour le test de mot de passe, il faut des couples [pseudo, mdp] ou [email, mdp]
 	}
 

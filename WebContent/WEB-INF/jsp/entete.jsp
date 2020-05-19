@@ -26,7 +26,7 @@
 		<div class="collapse navbar-collapse" id="navbarText">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item active"><a class="nav-link"
-					href="${pageContext.servletContext.contextPath}/connexion">Bonjour ${sessionScope.sessionUtilisateur.pseudo}
+					href="${pageContext.servletContext.contextPath}/connexion">Bonjour ${sessionScope.sessionUtilisateur.pseudo} ${sessionScope.sessionUtilisateur.email}
 						<span class="sr-only">(current)</span>
 				</a></li>
 				<li class="nav-item"><a class="nav-link" href="/WEB-INF/jsp/affichage_compte.jsp">Mon
