@@ -86,7 +86,7 @@ public final class ConnexionForm {
 				utilisateur.setNumero(daoUtilisateur.selectIdByUser(pseudo));
 			} else {
 
-				utilisateur.setNumero(daoUtilisateur.selectIdByUserMail(email));
+				utilisateur.setNumero(daoUtilisateur.selectIdByEmail(email));
 			}
 		} catch (DALException e) {
 			// TODO Auto-generated catch block

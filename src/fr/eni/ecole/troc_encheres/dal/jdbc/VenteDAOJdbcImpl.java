@@ -315,6 +315,7 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
         return ventes;
 	}
 
+
 	
 	public List<Vente> selectVentesTerminees() throws DALException {
 		List<Vente> ventes = new ArrayList<>();
@@ -352,4 +353,5 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
         }
         return ventes;
 	}
+
 }

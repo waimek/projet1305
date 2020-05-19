@@ -161,39 +161,39 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 	 */
 	
 	//	Ça implique que le pseudo soit une clef étrangère == il ne faut pas qu'il y ait deux fois le même pseudo
-//	public int selectIdByUser(String pseudo) throws DALException {
-//		int no_utilisateur = -1;
-//		Utilisateur util = null;
-//		Connection con = null;
-//		Statement stmt = null;
-//		try {
-//			con = ConnectionProvider.getConnection();
-//			stmt = con.createStatement();
-//			PreparedStatement query = con.prepareStatement("select no_utilisateur from utilisateurs where pseudo = ?");
-//			query.setString(1, pseudo);
-//			ResultSet rs = query.executeQuery();
-//			if (rs.next()) {
-//				no_utilisateur = rs.getInt("no_utilisateur");
-//			}
-//			try {
-//				rs.close();
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//				throw new DALException("Erreur closeResult");
-//			}
-//		} catch (SQLException throwables) {
-//			throwables.printStackTrace();
-//		} finally {
-//			try {
-//				con.close();
-//				stmt.close();
-//			} catch (Exception e) {
-//				throw new DALException("Erreur fermeture");
-//			}
-//		}
-//		return no_utilisateur;
-//	}
-//	
+	public int selectIdByUser(String pseudo) throws DALException {
+		int no_utilisateur = -1;
+		Utilisateur util = null;
+		Connection con = null;
+		Statement stmt = null;
+		try {
+			con = ConnectionProvider.getConnection();
+			stmt = con.createStatement();
+			PreparedStatement query = con.prepareStatement("select no_utilisateur from utilisateurs where pseudo = ?");
+			query.setString(1, pseudo);
+			ResultSet rs = query.executeQuery();
+			if (rs.next()) {
+				no_utilisateur = rs.getInt("no_utilisateur");
+			}
+			try {
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new DALException("Erreur closeResult");
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				stmt.close();
+			} catch (Exception e) {
+				throw new DALException("Erreur fermeture");
+			}
+		}
+		return no_utilisateur;
+	}
+	
 	
 	
 	/*
@@ -271,73 +271,6 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		return no_utilisateur;
 	}
 
-//	Ça implique que le pseudo soit une clef étrangère == il ne faut pas qu'il y ait deux fois le même pseudo
-	public int selectIdByUser(String pseudo) throws DALException {
-		int no_utilisateur = -1;
-		Utilisateur util = null;
-		Connection con = null;
-		Statement stmt = null;
-		try {
-			con = ConnectionProvider.getConnection();
-			stmt = con.createStatement();
-			PreparedStatement query = con.prepareStatement("select no_utilisateur from utilisateurs where pseudo = ?");
-			query.setString(1, pseudo);
-			ResultSet rs = query.executeQuery();
-			if (rs.next()) {
-				no_utilisateur = rs.getInt("no_utilisateur");
-			}
-			try {
-				rs.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new DALException("Erreur closeResult");
-			}
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
-		} finally {
-			try {
-				con.close();
-				stmt.close();
-			} catch (Exception e) {
-				throw new DALException("Erreur fermeture");
-			}
-		}
-		return no_utilisateur;
-	}
-	
-	//Select By email
-	public int selectIdByUserMail(String email) throws DALException {
-		int no_utilisateur = -1;
-		Utilisateur util = null;
-		Connection con = null;
-		Statement stmt = null;
-		try {
-			con = ConnectionProvider.getConnection();
-			stmt = con.createStatement();
-			PreparedStatement query = con.prepareStatement("select no_utilisateur from utilisateurs where email = ?");
-			query.setString(1, email);
-			ResultSet rs = query.executeQuery();
-			if (rs.next()) {
-				no_utilisateur = rs.getInt("no_utilisateur");
-			}
-			try {
-				rs.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new DALException("Erreur closeResult");
-			}
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
-		} finally {
-			try {
-				con.close();
-				stmt.close();
-			} catch (Exception e) {
-				throw new DALException("Erreur fermeture");
-			}
-		}
-		return no_utilisateur;
-	}
 	
 	//Vérification couple pseudo & mdp
 	public String pseudoExist(String pseudo) throws DALException {
