@@ -54,53 +54,47 @@ public class GestionVenteServlet extends HttpServlet {
 		if (action.equals("detailsVente")) {
 			int noVente = Integer.parseInt(request.getParameter("noVente"));
 			Vente vente = manager.getVente(noVente);
-			
+
 			HttpSession session = request.getSession();
-		
 			session = request.getSession();
-			
 			String page = "";
-			if (vente.getUtil().getNumero() == Integer.parseInt((String) session.getAttribute("no_utilisateur"))) {
+			if (vente.getUtil().getNumero() == ((Utilisateur) session.getAttribute("sessionUtilisateur")).getNumero()) {
 				page = "/WEB-INF/jsp/vente.jsp";
 			} else {
 				page = "/WEB-INF/jsp/enchere.jsp";
 			}
-			if (vente.getDateFinEncheres().compareTo(new Date())>0) {
+			if (vente.getDateFinEncheres().compareTo(new Date()) > 0) {
 				Enchere derniereEnchere = null;
 				try {
 					derniereEnchere = manager.getDerniereEnchere(vente.getNumero());
-					
+
 				} catch (BLLException e) {
 					e.printStackTrace();
 				}
-				if (derniereEnchere !=null) {
+				if (derniereEnchere != null) {
 					request.setAttribute("acheteur", derniereEnchere.getUtil());
 				}
 			}
 			request.setAttribute("vente", vente);
 			request.getRequestDispatcher(page).forward(request, response);
 		}
-		if(action.equals("annulerVente")) {
+		if (action.equals("annulerVente")) {
 			try {
 				manager.annulerVente(Integer.parseInt(request.getParameter("noVente")));
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		
-		
+
 		/*
-		if(action.equals("annulerEnchere")) {
-			try {
-				manager.supprimerDerniereEnchere(Integer.parseInt(request.getParameter("noVente")));
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
-		if(action.equals("validerRetrait")) {
-			
-		}*/
+		 * if(action.equals("annulerEnchere")) { try {
+		 * manager.supprimerDerniereEnchere(Integer.parseInt(request.getParameter(
+		 * "noVente"))); }catch(Exception e) { e.printStackTrace(); } }
+		 * if(action.equals("validerRetrait")) {
+		 * 
+		 * }
+		 */
 	}
 
 	/**
@@ -122,7 +116,8 @@ public class GestionVenteServlet extends HttpServlet {
 				Date dateFinEncheres = sdf.parse(request.getParameter("dateFinEncheres"));
 				int miseAPrix = Integer.parseInt(request.getParameter("miseAPrix"));
 				int prixVente = 0;
-				Utilisateur util = manager.getUtil(Integer.parseInt((String) session.getAttribute("no_utilisateur")));
+				int idUtil = ((Utilisateur) session.getAttribute("sessionUtilisateur")).getNumero();
+				Utilisateur util = manager.getUtil(idUtil);
 				int noCategorie = Integer.parseInt(request.getParameter("categorie"));
 				Categorie categorie = manager.getCategorie(noCategorie);
 				Vente vente = new Vente(nomArticle, description, dateFinEncheres, miseAPrix, prixVente, util,
@@ -140,17 +135,23 @@ public class GestionVenteServlet extends HttpServlet {
 				int montant = Integer.parseInt(request.getParameter("proposition"));
 				int noVente = Integer.parseInt(request.getParameter("noVente"));
 				HttpSession session = request.getSession();
-				int noUtilisateur = Integer.parseInt((String) session.getAttribute("no_utilisateur"));
 				Vente vente = manager.getVente(noVente);
-				Utilisateur util = manager.getUtil(noUtilisateur);
+				int idUtil = ((Utilisateur) session.getAttribute("sessionUtilisateur")).getNumero();
+				Utilisateur util = manager.getUtil(idUtil);
+				System.out.println(util + "\n" + montant);
+				
 				Date date = new Date();
 				String alert = "";
-				if (montant > vente.getPrixVente()) {
-					vente.setPrixVente(montant);
-					manager.encherir(new Enchere(date, util, vente));
-					alert = "<div class=\"alert alert-success\" role=\"alert\">Merci pour votre enchère </div>"; 
-				} else {
-					alert = "<div class=\"alert alert-danger\" role=\"alert\">Vous ne pouvez pas proposer un montant inférieur à la meilleure offre</div>";
+				if (util.getCredit() >= montant) {
+					if (montant > vente.getPrixVente()) {
+						vente.setPrixVente(montant);
+						manager.encherir(new Enchere(date, util, vente));
+						alert = "<div class=\"alert alert-success\" role=\"alert\">Merci pour votre enchère </div>";
+					} else {
+						alert = "<div class=\"alert alert-danger\" role=\"alert\">Vous ne pouvez pas proposer un montant inférieur à la meilleure offre</div>";
+					}
+				}else {
+					alert = "<div class=\"alert alert-danger\" role=\"alert\">Vous n'avez pas assez de points</div>";
 				}
 				request.setAttribute("alert", alert);
 				request.setAttribute("vente", vente);

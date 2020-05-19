@@ -55,7 +55,7 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 
 		try {
 			con = ConnectionProvider.getConnection();
-			PreparedStatement query = con.prepareStatement("UPDATE utilisateurs SET pseudo=?, nom=?, prenom=?, email=?, tel=?, rue=?, cp=?, ville=?, mdp=md5(?) WHERE no_utilisateur=?");
+			PreparedStatement query = con.prepareStatement("UPDATE utilisateurs SET pseudo=?, nom=?, prenom=?, email=?, tel=?, rue=?, cp=?, ville=?, mdp=md5(?), credit=? WHERE no_utilisateur=?");
 
 			query.setString(1, util.getPseudo());
 			query.setString(2, util.getNom());
@@ -66,8 +66,9 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 			query.setString(7, util.getCp());
 			query.setString(8, util.getVille());
 			query.setString(9, util.getMdp());
-			query.setInt(10, util.getNumero());
-
+			query.setInt(10, util.getCredit());
+			query.setInt(11, util.getNumero());
+			
 			int nbRows = query.executeUpdate();
 			if (nbRows == 0 || nbRows == -1) {
 				throw new DALException("Erreur de mise à jour");
