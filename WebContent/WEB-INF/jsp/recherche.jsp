@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt" %>
+<fmt:setLocale value="fr_FR" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,17 +83,16 @@
 							</div>
 							<div class="col">
 								<h5 class="card-title">
-									<a href="${pageContext.servletContext.contextPath}/GestionVenteServlet?action=detailsVente&id=${vente.numero}">${vente.nomArticle}</a>
+									<a href="${pageContext.servletContext.contextPath}/GestionVenteServlet?action=detailsVente&noVente=${vente.numero}">${vente.nomArticle}</a>
 								</h5>
 								<p class="card-text">
 									<span class="d-block">Prix : ${vente.prixVente}</span>
-									<span class="d-block">Fin de l'enchère : ${vente.dateFinEncheres}</span>
+									<span class="d-block">Fin de l'enchère :<fmt:formatDate value="${vente.dateFinEncheres}" pattern="dd/MM/yyyy"/></span>
 									<span class="d-block">
 										Vendeur : 
 										<a href="" >${vente.util.pseudo}</a>
 									</span>
 								</p>
-								<a href="#" class="btn btn-primary">Go somewhere</a>
 							</div>
 						</div>
 					</div>

@@ -4,6 +4,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt" %>
 <jsp:useBean id="now" class="java.util.Date" />
 <fmt:setLocale value="fr_FR" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +36,7 @@
 			</tr>
 			<tr>
 				<td>Fin de l'enchère :</td>
-				<td>${vente.dateFinEncheres}</td>
+				<td><fmt:formatDate value="${vente.dateFinEncheres}" pattern="dd/MM/yyyy"/></td>
 			</tr>
 			<tr>
 				<td>Retrait :</td>

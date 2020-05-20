@@ -60,7 +60,7 @@
 			<form method="post"
 				action="${pageContext.servletContext.contextPath}/GestionVenteServlet?action=encherir&noVente=${vente.numero}">
 				<label for="proposition" class="form-label">Ma proposition :</label> <input
-					type="text" id="proposition" name="proposition" class="form-control" />
+					type="number" id="proposition" name="proposition" class="form-control" required/>
 					<input type="hidden" name="action" value="encherir" /> <input
 						type="submit" class="btn btn-primary" value="Enchérir" />
 				
