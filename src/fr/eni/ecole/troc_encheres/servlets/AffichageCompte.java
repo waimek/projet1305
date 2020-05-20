@@ -67,7 +67,7 @@ public class AffichageCompte extends HttpServlet {
 				session.setAttribute("cp", util.getCp());
 				session.setAttribute("ville", util.getVille());
 				session.setAttribute("mdp", util.getMdp());
-				session.setAttribute("pseudo", util.getPseudo());
+				session.setAttribute("credit", util.getCredit());
 				request.getRequestDispatcher(VUE).forward(request, response);
 				
 			} catch (BLLException e) {

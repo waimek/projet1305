@@ -68,6 +68,9 @@ public class EncheresManager {
 
 	public void updateUtil(Utilisateur util) throws BLLException {
 		try {
+			validerPseudo(util);
+			validerTel(util);
+			validerEmail(util);
 			validerUtil(util);
 			utilDAO.update(util);
 		} catch (DALException e) {
@@ -126,8 +129,18 @@ public class EncheresManager {
 		int idCurrent = -1;
 		idCurrent = util.getNumero();
 
+<<<<<<< Updated upstream
+=======
+		int idCurrent=-1;
+		idCurrent=util.getNumero();
+		System.out.println(id);
+		System.out.println(idCurrent);
+>>>>>>> Stashed changes
 		if (id != -1 && idCurrent != id) {
 			throw new BLLException("Pseudo déjà utilisé");
+			
+			
+			
 		}
 	}
 

@@ -44,7 +44,19 @@ public class Utilisateur implements Serializable {
 	public Utilisateur() {
 		
 	}
- 
+	public Utilisateur(int numero, String pseudo, String nom, String prenom, String email, String tel, String rue,
+			String cp, String ville, String mdp) {
+		this.numero = numero;
+		this.pseudo = pseudo;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.tel = tel;
+		this.rue = rue;
+		this.cp = cp;
+		this.ville = ville;
+		this.mdp = mdp;
+	}
 
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String tel, String rue, String cp,
 			String ville, String mdp, int credit) {
@@ -73,6 +85,8 @@ public class Utilisateur implements Serializable {
 		this.mdp = mdp;
 	}
 	
+
+
 	public int getNumero() {
 		return numero;
 	}

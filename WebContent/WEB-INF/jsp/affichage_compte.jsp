@@ -35,9 +35,14 @@
 						value="${sessionScope.cp}" /></li>
 				<li class="list-group-item">Ville : <c:out
 						value="${sessionScope.ville}" /></li>
+				<li class="list-group-item">Credit : <c:out
+						value="${sessionScope.credit}" /></li>
+
 			</ul>
 		</div>
-					<a class="btn btn-primary" href="${pageContext.servletContext.contextPath}/nouveauCompte" title="Modifier le profil" >Modifier le profil</a>
+		<a class="btn btn-primary"
+			href="${pageContext.servletContext.contextPath}/modifierProfil"
+			title="Modifier le profil">Modifier le profil</a>
 	</div>
 
 	<%@ include file="footer.jsp"%>
