@@ -40,28 +40,28 @@ public class EncheresManager {
 		categorieDAO = Factory.getCategorieDAO();
 		enchereDAO = Factory.getEnchereDAO();
 		retraitDAO = Factory.getRetraitDAO();
-		
-		//Gestion de la fin des enchères Auteur : Edouard
+
+		// Gestion de la fin des enchères Auteur : Edouard
 		TimerTask repeatedTask = new TimerTask() {
-	        public void run(){
-	            List<Vente> listeVenteTerminees = null; 
-	            try{
-	            	listeVenteTerminees = ((VenteDAOJdbcImpl)venteDAO).selectVentesTerminees();
-	            for (Vente vente : listeVenteTerminees) {
-	            	Utilisateur vendeur = vente.getUtil();
-	            	vendeur.setCredit(vendeur.getCredit()+vente.getPrixVente());
-	            }
-	            System.out.println("Mise à jour des transactions terminées");
-	            }catch(Exception e) {
-	            	e.printStackTrace();
-	            }
-	        }
-	    };
-	    Timer timer = new Timer("Timer");
-	     
-	    long delay = 1000L;
-	    long period = 1000L * 60L * 60L * 24L;
-	    timer.scheduleAtFixedRate(repeatedTask, delay, period);
+			public void run() {
+				List<Vente> listeVenteTerminees = null;
+				try {
+					listeVenteTerminees = ((VenteDAOJdbcImpl) venteDAO).selectVentesTerminees();
+					for (Vente vente : listeVenteTerminees) {
+						Utilisateur vendeur = vente.getUtil();
+						vendeur.setCredit(vendeur.getCredit() + vente.getPrixVente());
+					}
+					System.out.println("Mise à jour des transactions terminées");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		Timer timer = new Timer("Timer");
+
+		long delay = 1000L;
+		long period = 1000L * 60L * 60L * 24L;
+		timer.scheduleAtFixedRate(repeatedTask, delay, period);
 
 	}
 
@@ -75,10 +75,8 @@ public class EncheresManager {
 		}
 	}
 
-
 	/*
-	 * @author Edouard/Dominika
-	 * ajout d'un nouveau utilisateur dans la BDD
+	 * @author Edouard/Dominika ajout d'un nouveau utilisateur dans la BDD
 	 */
 	public void addUtil(Utilisateur util) throws BLLException {
 		try {
@@ -95,7 +93,7 @@ public class EncheresManager {
 	}
 
 	public Utilisateur getUtil(int idUtil) throws BLLException {
-		Utilisateur util=null;
+		Utilisateur util = null;
 		try {
 			util = (Utilisateur) utilDAO.selectById(idUtil);
 		} catch (DALException e) {
@@ -114,67 +112,66 @@ public class EncheresManager {
 			throw new BLLException("Erreur delete");
 		}
 	}
-	
-	/*
-	 * author Dominika
-	 * méthode qui permet de vérifier si le pseudo est déjà utilisé dans la base de données 
-	 */
-	public void validerPseudo(Utilisateur util) throws BLLException, DALException{
-		String pseudo = util.getPseudo();
-		int id=-1;
-		id =((UtilisateurDAOJdbcImpl)utilDAO).selectIdByUser(pseudo);
 
-		int idCurrent=-1;
-		idCurrent=util.getNumero();
-		
+	/*
+	 * author Dominika méthode qui permet de vérifier si le pseudo est déjà utilisé
+	 * dans la base de données
+	 */
+	public void validerPseudo(Utilisateur util) throws BLLException, DALException {
+		String pseudo = util.getPseudo();
+		int id = -1;
+		id = ((UtilisateurDAOJdbcImpl) utilDAO).selectIdByUser(pseudo);
+
+		int idCurrent = -1;
+		idCurrent = util.getNumero();
+
 		if (id != -1 && idCurrent != id) {
 			throw new BLLException("Pseudo déjà utilisé");
 		}
 	}
-	
+
 	/*
-	 * author Dominika
-	 * méthode qui permet de vérifier si le numéro de téléphone est déjà utilisé dans la base de données 
+	 * author Dominika méthode qui permet de vérifier si le numéro de téléphone est
+	 * déjà utilisé dans la base de données
 	 */
-	public void validerTel(Utilisateur util) throws BLLException, DALException{
-	
+	public void validerTel(Utilisateur util) throws BLLException, DALException {
+
 		String tel = util.getTel();
-		int id=-1;
+		int id = -1;
 
-		id = ((UtilisateurDAOJdbcImpl)utilDAO).selectIdByTel(tel);
+		id = ((UtilisateurDAOJdbcImpl) utilDAO).selectIdByTel(tel);
 
-		int idCurrent=-1;
-		idCurrent=util.getNumero();
-		
+		int idCurrent = -1;
+		idCurrent = util.getNumero();
+
 		if (id != -1 && idCurrent != id) {
 			throw new BLLException("Numéro de téléphone déjà utilisé");
 		}
 	}
-	
+
 	/*
-	 * author Dominika
-	 * méthode qui permet de vérifier si l'adresse email est déjà utilisé dans la base de données 
+	 * author Dominika méthode qui permet de vérifier si l'adresse email est déjà
+	 * utilisé dans la base de données
 	 */
-	public void validerEmail(Utilisateur util) throws BLLException, DALException{
-		
+	public void validerEmail(Utilisateur util) throws BLLException, DALException {
+
 		String email = util.getEmail();
-		int id=-1;
+		int id = -1;
 
-		id = ((UtilisateurDAOJdbcImpl)utilDAO).selectIdByEmail(email);
+		id = ((UtilisateurDAOJdbcImpl) utilDAO).selectIdByEmail(email);
 
-		int idCurrent=-1;
-		idCurrent=util.getNumero();
-		
+		int idCurrent = -1;
+		idCurrent = util.getNumero();
+
 		if (id != -1 && idCurrent != id) {
 			throw new BLLException("Adresse email déjà utilisé");
 		}
 	}
-	
+
 	/**
 	 * @author Edouard
 	 * @param util
-	 * @throws BLLException
-	 * Validation des attributs d'utilisateur
+	 * @throws BLLException Validation des attributs d'utilisateur
 	 */
 	public void validerUtil(Utilisateur util) throws BLLException {
 		boolean valide = true;
@@ -185,41 +182,41 @@ public class EncheresManager {
 		}
 		// Les attributs des equipes sont obligatoires
 
-		if (util.getPseudo().trim().length() ==0) {
+		if (util.getPseudo().trim().length() == 0) {
 			sb.append("Pseudo obligatoire.\n");
 			valide = false;
 		}
-		if (util.getNom().trim().length() ==0) {
+		if (util.getNom().trim().length() == 0) {
 			sb.append("Nom obligatoire.\n");
 			valide = false;
 		}
-		if (util.getPrenom().trim().length() ==0) {
+		if (util.getPrenom().trim().length() == 0) {
 			sb.append("Prenom obligatoire.\n");
 			valide = false;
 		}
-		if (util.getEmail().trim().length() ==0) {
+		if (util.getEmail().trim().length() == 0) {
 			sb.append("Email obligatoire.\n");
 			valide = false;
 		}
-		if (util.getTel().trim().length() ==0) {
+		if (util.getTel().trim().length() == 0) {
 			sb.append("Téléphone obligatoire.\n");
 			valide = false;
 		}
-		if (util.getRue().trim().length() ==0) {
+		if (util.getRue().trim().length() == 0) {
 			sb.append("Rue obligatoire.\n");
 			valide = false;
 		}
-		if (util.getCp().trim().length() ==0) {
+		if (util.getCp().trim().length() == 0) {
 			sb.append("Code postal obligatoire.\n");
 			valide = false;
 		}
-		if (util.getVille().trim().length() ==0) {
+		if (util.getVille().trim().length() == 0) {
 			sb.append("Ville obligatoire.\n");
 			valide = false;
 		}
-		if (util.getMdp().trim().length() ==0) {
+		if (util.getMdp().trim().length() == 0) {
 			sb.append("Mot de passe obligatoire.\n");
-			
+
 			valide = false;
 		}
 		if (!valide) {
@@ -228,7 +225,7 @@ public class EncheresManager {
 	}
 
 	/*************************************************************/
-	/******************** GESTION VENTE **************************/ 
+	/******************** GESTION VENTE **************************/
 	/*************************************************************/
 
 	/**
@@ -246,14 +243,14 @@ public class EncheresManager {
 			throw new BLLException("Erreur insert");
 		}
 	}
-	
+
 	/**
 	 * @author Edouard
 	 */
-	public void annulerVente(int idVente) throws BLLException{
+	public void annulerVente(int idVente) throws BLLException {
 		try {
 			venteDAO.delete(idVente);
-		}catch(DALException e) {
+		} catch (DALException e) {
 			e.printStackTrace();
 			throw new BLLException("Erreur annulation vente");
 		}
@@ -262,28 +259,28 @@ public class EncheresManager {
 	/**
 	 * @author Edouard/Matthieu
 	 */
-	public List<Vente> getVentes(){
+	public List<Vente> getVentes() {
 		List<Vente> ventes = null;
 		try {
 			ventes = venteDAO.selectAll();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return ventes; 
+		return ventes;
 	}
-	
+
 	/**
 	 * @author Edouard/Matthieu
 	 */
-	public Vente getVente(int idVente){
+	public Vente getVente(int idVente) {
 		Vente vente = null;
 		try {
 			vente = venteDAO.selectById(idVente);
 			vente.setRetrait(retraitDAO.selectById(vente.getNumero()));
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return vente; 
+		return vente;
 	}
 
 	/**
@@ -298,15 +295,15 @@ public class EncheresManager {
 			throw new BLLException("vente null");
 		}
 
-		if (vente.getNomArticle().trim().length() ==0) {
+		if (vente.getNomArticle().trim().length() == 0) {
 			sb.append("Nom de l'article obligatoire.\n");
 			valide = false;
 		}
-		if (vente.getDescription().trim().length() ==0) {
+		if (vente.getDescription().trim().length() == 0) {
 			sb.append("Description obligatoire.\n");
 			valide = false;
 		}
-		if (vente.getCategorie() ==null) {
+		if (vente.getCategorie() == null) {
 			sb.append("Catégorie obligatoire.\n");
 			valide = false;
 		}
@@ -325,7 +322,7 @@ public class EncheresManager {
 	}
 
 	/*************************************************************/
-	/******************** GESTION ENCHERE ************************/ 
+	/******************** GESTION ENCHERE ************************/
 	/*************************************************************/
 
 	/**
@@ -333,62 +330,60 @@ public class EncheresManager {
 	 */
 	public void encherir(Enchere enchere) throws BLLException {
 		try {
-			validerEnchere(enchere); //Validation nouvelle Enchere 
+			validerEnchere(enchere); // Validation nouvelle Enchere
 			validerVente(enchere.getVente()); // Validation nouvelle vente
 			Enchere derniereEnchere = getDerniereEnchere(enchere.getVente().getNumero());
-			Utilisateur derniereEnchereUtil = derniereEnchere.getUtil(); //Récupération dernière enchere 
-			int totalCredit = derniereEnchere.getVente().getPrixVente() + derniereEnchereUtil.getCredit();
-			System.out.println(totalCredit);
-			derniereEnchereUtil.setCredit(totalCredit);//Recrédit ancien enchérisseur
-			System.out.println(derniereEnchereUtil);
-			validerUtil(derniereEnchereUtil);
-			utilDAO.update(derniereEnchereUtil);
+			if (derniereEnchere != null) {
+				Utilisateur derniereEnchereUtil = derniereEnchere.getUtil(); // Récupération dernière enchere
+				int totalCredit = derniereEnchere.getVente().getPrixVente() + derniereEnchereUtil.getCredit();
+				derniereEnchereUtil.setCredit(totalCredit);// Recrédit ancien enchérisseur
+				validerUtil(derniereEnchereUtil);
+				utilDAO.update(derniereEnchereUtil);
+			}
 			venteDAO.update(enchere.getVente());
 			Utilisateur util = getUtil(enchere.getUtil().getNumero());
-			int totalDebit = util.getCredit()-enchere.getVente().getPrixVente();
+			int totalDebit = util.getCredit() - enchere.getVente().getPrixVente();
 			System.out.println(totalDebit);
-			util.setCredit(totalDebit);//Débit nouvel enchérisseur
+			util.setCredit(totalDebit);// Débit nouvel enchérisseur
 			utilDAO.update(util);
 			enchereDAO.insert(enchere);
 		} catch (DALException e) {
 			e.printStackTrace();
-			throw new BLLException("Erreur insert");
+			throw new BLLException("Erreur enchère");
 		}
 	}
-	
+
 	/**
 	 * @author Edouard
 	 */
 	public Enchere getDerniereEnchere(int noVente) throws BLLException {
 		Enchere enchere = null;
 		try {
-			enchere =  ((EnchereDAOJdbcImpl) enchereDAO).getDerniereEnchere(noVente);
+			enchere = ((EnchereDAOJdbcImpl) enchereDAO).getDerniereEnchere(noVente);
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return enchere;
 	}
-	
-	/* 
-	public void supprimerDerniereEnchere(int noVente) throws BLLException{
-		try {
-			Enchere derniereEnchere = ((EnchereDAOJdbcImpl) enchereDAO).getDerniereEnchere(noVente);
-			Utilisateur utilDerniereEnchere = derniereEnchere.getUtil();
-			Vente vente = venteDAO.selectById(noVente);
-			utilDerniereEnchere.setCredit(utilDerniereEnchere.getCredit()+vente.getPrixVente());
-			((EnchereDAOJdbcImpl) enchereDAO).supprimerDerniereEnchere(noVente);
-			derniereEnchere =  ((EnchereDAOJdbcImpl) enchereDAO).getDerniereEnchere(noVente);
-			vente.setPrixVente(derniereEnchere);
-			int prixVente = vente.getPrixVente();
-			
-		}catch(DALException e) {
-			e.printStackTrace();
-			throw new BLLException("Erreur suppression derniere enchere");
-		}
-		
-	}*/
-	
+
+	/*
+	 * public void supprimerDerniereEnchere(int noVente) throws BLLException{ try {
+	 * Enchere derniereEnchere = ((EnchereDAOJdbcImpl)
+	 * enchereDAO).getDerniereEnchere(noVente); Utilisateur utilDerniereEnchere =
+	 * derniereEnchere.getUtil(); Vente vente = venteDAO.selectById(noVente);
+	 * utilDerniereEnchere.setCredit(utilDerniereEnchere.getCredit()+vente.
+	 * getPrixVente()); ((EnchereDAOJdbcImpl)
+	 * enchereDAO).supprimerDerniereEnchere(noVente); derniereEnchere =
+	 * ((EnchereDAOJdbcImpl) enchereDAO).getDerniereEnchere(noVente);
+	 * vente.setPrixVente(derniereEnchere); int prixVente = vente.getPrixVente();
+	 * 
+	 * }catch(DALException e) { e.printStackTrace(); throw new
+	 * BLLException("Erreur suppression derniere enchere"); }
+	 * 
+	 * }
+	 */
+
 	/**
 	 * @author Edouard
 	 */
@@ -400,11 +395,11 @@ public class EncheresManager {
 			throw new BLLException("enchère null");
 		}
 
-		if (enchere.getDateEnchere()==null) {
+		if (enchere.getDateEnchere() == null) {
 			sb.append("Date obligatoire.\n");
 			valide = false;
 		}
-		if (enchere.getVente()==null) {
+		if (enchere.getVente() == null) {
 			sb.append("Description obligatoire.\n");
 			valide = false;
 		}
@@ -418,7 +413,7 @@ public class EncheresManager {
 	}
 
 	/*************************************************************/
-	/******** GESTION DES LISTES D'ACHAT OU DE VENTE *************/ 
+	/******** GESTION DES LISTES D'ACHAT OU DE VENTE *************/
 	/*************************************************************/
 
 	// liste des ventes d'un utilisateur
@@ -426,40 +421,35 @@ public class EncheresManager {
 	 * @author Matthieu
 	 */
 	public List<Vente> getListVenteUtilisateur(int idUtilisateur) throws BLLException {
-		List<Vente> listVentes =null;
+		List<Vente> listVentes = null;
 		try {
-			listVentes = ((VenteDAOJdbcImpl)venteDAO).selectByUtil(idUtilisateur);
+			listVentes = ((VenteDAOJdbcImpl) venteDAO).selectByUtil(idUtilisateur);
 		} catch (DALException e) {
 			e.printStackTrace();
 			throw new BLLException("Erreur get");
 		}
 		return listVentes;
 	}
-	/*	
-
-	// liste des achats d'un utilisateur
-
-	public List<Vente> getListAchatUtilisateur(int idUtilisateur) throws BLLException {
-		List<Vente> achat = null;
-		try {
-			achat = ((VenteDAOJdbcImpl)venteDAO).selectAchatsByUtilisateur(idUtilisateur);
-		} catch (DALException e) {
-			e.printStackTrace();
-			throw new BLLException("Erreur get");
-		}
-		return achat;
-	}
+	/*
+	 * 
+	 * // liste des achats d'un utilisateur
+	 * 
+	 * public List<Vente> getListAchatUtilisateur(int idUtilisateur) throws
+	 * BLLException { List<Vente> achat = null; try { achat =
+	 * ((VenteDAOJdbcImpl)venteDAO).selectAchatsByUtilisateur(idUtilisateur); }
+	 * catch (DALException e) { e.printStackTrace(); throw new
+	 * BLLException("Erreur get"); } return achat; }
 	 */
 
 	/**
 	 * @author Matthieu
 	 */
-	public List<Vente> getListFiltreRecherche(String nomArticle, int monNoUtilisateur, 
-			int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, 
-			boolean autresEncheres) throws BLLException {
+	public List<Vente> getListFiltreRecherche(String nomArticle, int monNoUtilisateur, int noCategorie,
+			boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, boolean autresEncheres)
+			throws BLLException {
 		List<Vente> listFiltreRecherche = null;
 		try {
-			listFiltreRecherche = ((VenteDAOJdbcImpl)venteDAO).selectByPlusieursChamps(nomArticle, monNoUtilisateur, 
+			listFiltreRecherche = ((VenteDAOJdbcImpl) venteDAO).selectByPlusieursChamps(nomArticle, monNoUtilisateur,
 					noCategorie, mesVentes, mesEncheresEnCours, mesAcquisitions, autresEncheres);
 		} catch (DALException e) {
 			e.printStackTrace();
@@ -472,8 +462,8 @@ public class EncheresManager {
 	/**
 	 * @author Edouard
 	 */
-	public List<Categorie> getCategories(){
-		List<Categorie> categories = null ; 
+	public List<Categorie> getCategories() {
+		List<Categorie> categories = null;
 		try {
 			categories = categorieDAO.selectAll();
 		} catch (DALException e) {
@@ -481,23 +471,23 @@ public class EncheresManager {
 		}
 		return categories;
 	}
-	
+
 	/**
 	 * @author Edouard
 	 */
-	public Categorie getCategorie(int noCategorie) throws BLLException{
+	public Categorie getCategorie(int noCategorie) throws BLLException {
 		Categorie categorie = null;
-		try{
+		try {
 			categorie = categorieDAO.selectById(noCategorie);
-		}catch (DALException e ) {
+		} catch (DALException e) {
 			e.printStackTrace();
 			throw new BLLException("Erreur selectById categorie");
 		}
 		return categorie;
 	}
-	
-	//Gestion des retraits
-	
+
+	// Gestion des retraits
+
 	public void validerRetrait(Retrait retrait) throws BLLException {
 		boolean valide = true;
 		StringBuffer sb = new StringBuffer();
@@ -506,11 +496,11 @@ public class EncheresManager {
 			throw new BLLException("enchère null");
 		}
 
-		if (retrait.getRue()==null) {
+		if (retrait.getRue() == null) {
 			sb.append("Rue obligatoire.\n");
 			valide = false;
 		}
-		if (retrait.getVille()==null) {
+		if (retrait.getVille() == null) {
 			sb.append("Ville obligatoire.\n");
 			valide = false;
 		}

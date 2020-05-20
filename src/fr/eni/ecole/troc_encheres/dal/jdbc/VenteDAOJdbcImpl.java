@@ -90,7 +90,7 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
 			query.setInt(6, vente.getUtil().getNumero());
 			query.setInt(7, vente.getCategorie().getNumero());
 			query.setInt(8, vente.getNumero());
-
+			
 			int nbRows = query.executeUpdate();
 			if (nbRows == 0 || nbRows == -1) {
 				throw new DALException("Erreur de mise � jour");
@@ -125,7 +125,7 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
             if (rs.next()) {
                 vente = new Vente(rs.getInt("no_vente"), rs.getString("nom_article"), rs.getString("description"), rs.getDate("date_fin_encheres"), rs.getInt("prix_initial"), rs.getInt("prix_vente"), 
                 		new Utilisateur(rs.getInt("no_utilisateur"), rs.getString("pseudo"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getString("tel"), rs.getString("rue"), rs.getString("cp"), rs.getString("ville"), rs.getString("mdp"), rs.getInt("credit")), 
-                		new Categorie(rs.getInt("no_vente"), rs.getString("libelle")));
+                		new Categorie(rs.getInt("no_categorie"), rs.getString("libelle")));
                 vente.setRetrait(new Retrait(vente, rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville")));
             }
             try {

@@ -77,7 +77,7 @@ public class RetraitDAOJdbcImpl implements DAO<Retrait>{
 								new Utilisateur(rs.getInt("no_utilisateur"),rs.getString("pseudo"),rs.getString("nom"), rs.getString("prenom"), rs.getString("email"),
 										rs.getString("tel"), rs.getString("rue"), rs.getString("cp"), rs.getString("ville"), rs.getString("mdp"), rs.getInt("credit")), 
 								new Categorie(rs.getInt("no_categorie"), rs.getString("libelle"))),
-						rs.getString("rue"),rs.getString("code_postal"), rs.getString("ville"));
+						rs.getString("rue"), rs.getString("ville"),rs.getString("code_postal"));
 			}
 			try {
 				rs.close();

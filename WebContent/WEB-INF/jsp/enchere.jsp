@@ -35,9 +35,9 @@
 			<li class="list-group-item">Mise à prix : ${vente.miseAPrix}</li>
 			<li class="list-group-item">Fin de l'enchère : <fmt:formatDate value="${vente.dateFinEncheres}"/></li>
 			<li class="list-group-item">Retrait : ${vente.retrait.rue} ${vente.retrait.cp } ${vente.retrait.ville}</li>
-			<li class="list-group-item">Vendeur :</li>
-			<li class="list-group-item">${vente.util.pseudo}</li>
+			<li class="list-group-item">Vendeur : ${vente.util.pseudo}</li>
 			</ul>
+			<br/>
 		<c:if test="${now.time < vente.dateFinEncheres.time }">
 			<form method="post"
 				action="${pageContext.servletContext.contextPath}/GestionVenteServlet?action=encherir&noVente=${vente.numero}">
@@ -56,7 +56,7 @@
 					dernière enchère</a>
 			</c:if>
 		</c:if>
-		<a class="btn btn-primary"
+		<a class="btn btn-primary float-right"
 			href="${pageContext.servletContext.contextPath}/RechercheServlet"
 			role="button">Retour</a>
 	</div>

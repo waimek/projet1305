@@ -155,7 +155,7 @@ public class GestionVenteServlet extends HttpServlet {
 				Date date = new Date();
 				String alert = "";
 				if (util.getCredit() >= montant) {
-					if (montant > vente.getPrixVente()) {
+					if (montant > vente.getPrixVente() && montant >= vente.getMiseAPrix()) {
 						vente.setPrixVente(montant);
 						manager.encherir(new Enchere(date, util, vente));
 						alert = AlertMessages.success("Merci pour votre enchère"); 
