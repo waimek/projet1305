@@ -273,8 +273,8 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 
 	
 	//Vérification couple pseudo & mdp
-	public String pseudoExist(String pseudo) throws DALException {
-		String pseudoVerification = null;
+	public int pseudoExist(String pseudo) throws DALException {
+		int pseudoVerification = 0;
 		Utilisateur util = null;
 		Connection con = null;
 		Statement stmt = null;
@@ -282,11 +282,11 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		try {
 			con = ConnectionProvider.getConnection();
 			stmt = con.createStatement();
-			PreparedStatement query = con.prepareStatement("SELECT pseudo FROM utilisateurs WHERE pseudo = ?");
+			PreparedStatement query = con.prepareStatement("SELECT 1 as RESULT FROM utilisateurs WHERE pseudo = ?");
 			query.setString (1, pseudo);
 			ResultSet rs = query.executeQuery();
 			if (rs.next()) {
-				pseudoVerification = rs.getString("pseudo");
+				pseudoVerification = rs.getInt("RESULT");
 			}
 			try {
 				rs.close();
@@ -307,8 +307,8 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		return pseudoVerification;
 	}
 	//Vérification couple email & mdp
-	public String emailExist(String email) throws DALException{
-		String emailVerification = null;
+	public int emailExist(String email) throws DALException{
+		int emailVerification = 0;
 		Utilisateur util = null;
 		Connection con = null;
 		Statement stmt = null;
@@ -316,11 +316,11 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		try {
 			con = ConnectionProvider.getConnection();
 			stmt = con.createStatement();
-			PreparedStatement query = con.prepareStatement("SELECT email FROM utilisateurs WHERE email = ?");
+			PreparedStatement query = con.prepareStatement("SELECT 1 as RESULT FROM utilisateurs WHERE email = ?");
 			query.setString (1, email);
 			ResultSet rs = query.executeQuery();
 			if (rs.next()) {
-				emailVerification = rs.getString("email");
+				emailVerification = rs.getInt("RESULT");
 			}
 			try {
 				rs.close();
