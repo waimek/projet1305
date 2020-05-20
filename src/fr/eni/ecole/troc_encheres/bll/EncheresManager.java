@@ -47,11 +47,12 @@ public class EncheresManager {
 	            List<Vente> listeVenteTerminees = null; 
 	            try{
 	            	listeVenteTerminees = ((VenteDAOJdbcImpl)venteDAO).selectVentesTerminees();
-	            for (Vente vente : listeVenteTerminees) {
-	            	Utilisateur vendeur = vente.getUtil();
-	            	vendeur.setCredit(vendeur.getCredit()+vente.getPrixVente());
-	            }
-	            System.out.println("Mise à jour des transactions terminées");
+	            	System.out.println("listeVenteTerminees : " + listeVenteTerminees);
+		            for (Vente vente : listeVenteTerminees) {
+		            	Utilisateur vendeur = vente.getUtil();
+		            	vendeur.setCredit(vendeur.getCredit()+vente.getPrixVente());
+		            }
+		            System.out.println("Mise à jour des transactions terminées");
 	            }catch(Exception e) {
 	            	e.printStackTrace();
 	            }
