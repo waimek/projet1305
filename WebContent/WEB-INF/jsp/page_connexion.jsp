@@ -27,7 +27,7 @@
 					method="post">
 					<div class="row form-group">
 						<label class="col-3" for="nom">Pseudo : </label> 
-						<input class="col" type="text" id="identifiant" name="identifiant" value="<c:out value="${variableIdentifiant.equals(pseudo) ? util.pseudo : util.email}"/>" required />
+						<input required=" " class="col" type="text" id="identifiant" name="identifiant" value="<c:out value="${variableIdentifiant.equals(pseudo) ? util.pseudo : util.email}"/>" required />
 						<%-- 		<input type="text" id="identifiant" name="identifiant"
 							value="<c:out value="${util.pseudo}"/>" /> --%>
 					</div>
@@ -39,7 +39,7 @@
 					
 					<div class="row form-group">
 						<label class="col-3" for="password">Mot de passe</label> 
-						<input class="col form-control" type="password" name="textMdp"  id="textMdp" value="<c:out value="${util.mdp}" />" required/>
+						<input required=" " class="col form-control" type="password" name="textMdp"  id="textMdp" value="<c:out value="${util.mdp}" />" required/>
 						
 						<%-- 		<c:out value="${num % 2 eq 0 ? 'even': 'odd'}" /> --%>
 					</div>
