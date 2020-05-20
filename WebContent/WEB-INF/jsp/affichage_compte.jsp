@@ -37,7 +37,7 @@
 						value="${sessionScope.ville}" /></li>
 			</ul>
 		</div>
-					<a class="btn btn-primary" href="${pageContext.servletContext.contextPath}/modifierProfil" title="Modifier le profil" >Modifier le profil</a>
+					<a class="btn btn-primary" href="${pageContext.servletContext.contextPath}/nouveauCompte" title="Modifier le profil" >Modifier le profil</a>
 	</div>
 
 	<%@ include file="footer.jsp"%>
