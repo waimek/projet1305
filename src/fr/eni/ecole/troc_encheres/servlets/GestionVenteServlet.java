@@ -118,9 +118,12 @@ public class GestionVenteServlet extends HttpServlet {
 				int miseAPrix = Integer.parseInt(request.getParameter("miseAPrix"));
 				int prixVente = 0;
 				int idUtil = ((Utilisateur) session.getAttribute("sessionUtilisateur")).getNumero();
+				
 				Utilisateur util = manager.getUtil(idUtil);
 				int noCategorie = Integer.parseInt(request.getParameter("categorie"));
 				Categorie categorie = manager.getCategorie(noCategorie);
+				
+		
 				Vente vente = new Vente(nomArticle, description, dateFinEncheres, miseAPrix, prixVente, util,
 						categorie);
 				vente.setRetrait(new Retrait(vente, request.getParameter("rue"), request.getParameter("ville"),
@@ -129,6 +132,7 @@ public class GestionVenteServlet extends HttpServlet {
 				request.setAttribute("vente", vente);
 				request.getRequestDispatcher("/WEB-INF/jsp/vente.jsp").forward(request, response);
 			} catch (BLLException e) { // Gestion erreur de date
+				
 				request.setAttribute("article", request.getParameter("article"));
 				request.setAttribute("description", request.getParameter("description"));
 				request.setAttribute("cat", request.getParameter("categorie"));
