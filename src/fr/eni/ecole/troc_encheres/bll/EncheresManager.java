@@ -63,6 +63,7 @@ public class EncheresManager {
 		long period = 1000L * 60L * 60L * 24L;
 		timer.scheduleAtFixedRate(repeatedTask, delay, period);
 
+
 	}
 
 	public void updateUtil(Utilisateur util) throws BLLException {
