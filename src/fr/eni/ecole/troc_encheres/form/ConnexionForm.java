@@ -54,17 +54,20 @@ public final class ConnexionForm {
 				validationPseudo(pseudo);
 				utilisateur.setPseudo(pseudo);
 			} catch (Exception e) {
+				System.out.println(e.getMessage());
 				setErreur(pseudo, e.getMessage());
 			}
-			// utilisateur.setPseudo était là
+//			utilisateur.setPseudo(pseudo);
 		} else if (variableIdentifiant.equals(email)) {
 			try {
 				validationEmail(email);
 				utilisateur.setEmail(email);
 			} catch (Exception e) {
+				System.out.println(e.getMessage());
+
 				setErreur(email, e.getMessage());
 			}
-			// utilisateur.setEmail était là
+//			utilisateur.setEmail(email);
 		}
 
 		/* Validation du champ mot de passe. */
@@ -74,28 +77,30 @@ public final class ConnexionForm {
 			 * Si je me connecte avec un pseudo, il faut que j'utilise la méthode de
 			 * connexion avec le pseudo
 			 */
-			validationCouplePseudoMdp(pseudo, mdp);
-			utilisateur.setMdp(mdp);
+			try {
+				validationCouplePseudoMdp(pseudo, mdp);
+				utilisateur.setMdp(mdp);
+			} catch (DALException e) {
+				setErreur(mdp, e.getMessage());
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+
+				setErreur(mdp, e.getMessage());
+			}
 		} else {
 			/* Sinon, j'utilise la methode avec email */
 			try {
 				validationCoupleEmailMdp(email, mdp);
+				utilisateur.setMdp(mdp);
 			} catch (DALException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				setErreur(mdp, e.getMessage());
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+
+				setErreur(mdp, e.getMessage());
 			}
-			utilisateur.setMdp(mdp);
 
 		}
-
-//		try
-//		{
-//			validationMotDePasse(mdp);
-//			utilisateur.setMdp(mdp);
-//		} catch (Exception e) {
-//			setErreur(TEXTMDP, e.getMessage());
-//		}
-		// utilisateur.setMdp était là
 
 		/* Initialisation du résultat global de la validation. */
 		if (erreurs.isEmpty()) {
@@ -104,6 +109,7 @@ public final class ConnexionForm {
 			resultat = "Échec de la connexion.";
 //			Il faut sortir de là si l'utilisateur n'existe pas
 			System.out.println("Voici l'erreur : " + erreurs.toString());
+
 		}
 
 		/* Récupération id utilisateur */
@@ -129,7 +135,7 @@ public final class ConnexionForm {
 		return utilisateur;
 	}
 
-	private void validationCoupleEmailMdp(String email, String mdp) throws DALException {
+	private void validationCoupleEmailMdp(String email, String mdp) throws Exception {
 		UtilisateurDAOJdbcImpl daoUtilisateur;
 		int emailMdpOk;
 
@@ -137,18 +143,25 @@ public final class ConnexionForm {
 		daoUtilisateur = (UtilisateurDAOJdbcImpl) Factory.getUtilisateurDAO();
 		emailMdpOk = daoUtilisateur.validationMdpByEmail(email, mdp);
 		System.out.println("Test couple email mdp " + emailMdpOk);
+		if (emailMdpOk == 0 && !erreurs.isEmpty()) {
+			throw new Exception("Merci de saisir un mot de passe valide.");
+		}
 		
 
 	}
 
-	private void validationCouplePseudoMdp(String pseudo, String mdp) {
+	private void validationCouplePseudoMdp(String pseudo, String mdp) throws Exception {
 		UtilisateurDAOJdbcImpl daoUtilisateur;
-		String pseudoMdpOk;
+		int pseudoMdpOk;
 		
 //		1)	Récupération daofactory + utilisation procédure et requetage dessus
 		daoUtilisateur = (UtilisateurDAOJdbcImpl) Factory.getUtilisateurDAO();
 		pseudoMdpOk = daoUtilisateur.validationMdpByPseudo(pseudo, mdp);
 		System.out.println("Test couple pseudo mdp " + pseudoMdpOk);
+		
+		if (pseudoMdpOk == 0 && !erreurs.isEmpty()) {
+			throw new Exception("Merci de saisir un mot de passe valide.");
+		}
 	}
 
 	/**
@@ -170,7 +183,7 @@ public final class ConnexionForm {
 
 		pseudoOk = daoUtilisateur.pseudoExist(pseudo);
 		System.out.println("Ce qu'il y a dans ma variable " + pseudoOk);
-		if (pseudoOk.equals(pseudo)) {
+		if (pseudoOk.equals(pseudo) && erreurs.isEmpty()) {
 			resultat = "Le pseudo est bon.";
 			System.out.println("Le pseudo est bon");
 		} else {
@@ -194,8 +207,7 @@ public final class ConnexionForm {
 
 		emailOK = daoUtilisateur.emailExist(email);
 		System.out.println("Trace de email " + emailOK);
-//		System.out.println("Ce qu'il y a dans ma variable " + emailOK);
-		if (emailOK.equals(email)) {
+		if (emailOK.equals(email) && erreurs.isEmpty()) {
 			resultat = "Le mail est bon.";
 			System.out.println("Le mail est bon");
 		} else {
@@ -204,24 +216,6 @@ public final class ConnexionForm {
 		}
 	}
 
-	/**
-	 * Valide le mot de passe saisi.
-	 */
-	private void validationMotDePasse(String mdp) throws Exception {
-//		UtilisateurDAOJdbcImpl daoUtilisateur;
-//		String mdpOK = null;
-		if (mdp != null) {
-			if (mdp.length() < 3) {
-				throw new Exception("Le mot de passe doit contenir au moins 3 caractères.");
-			}
-		} else {
-			throw new Exception("Merci de saisir votre mot de passe.");
-		}
-//		Test de correspondance
-//		daoUtilisateur = (UtilisateurDAOJdbcImpl) Factory.getUtilisateurDAO();
-//		mdpOK = daoUtilisateur.mdpExist(mdp);
-//		Pour le test de mot de passe, il faut des couples [pseudo, mdp] ou [email, mdp]
-	}
 
 	/*
 	 * Ajoute un message correspondant au champ spécifié à la map des erreurs.

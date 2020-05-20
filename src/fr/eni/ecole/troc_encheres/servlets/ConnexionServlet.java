@@ -51,11 +51,11 @@ public class ConnexionServlet extends HttpServlet {
 			/* Stockage du formulaire et du bean dans l'objet request */
 			request.setAttribute(ATT_FORM, form);
 			request.setAttribute(ATT_USER, utilisateur);
-//		request.setAttribute(ID, idUtilisateur);
 
 			this.getServletContext().getRequestDispatcher(REDIRECTION).forward(request, response);
 		} else {
 			session.setAttribute(ATT_SESSION_USER, null);
+			request.setAttribute(ATT_FORM, form);
 			this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
 		}
 
