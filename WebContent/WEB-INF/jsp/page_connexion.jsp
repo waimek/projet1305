@@ -33,7 +33,7 @@
 					</div>
 					<c:if test="${!empty form.erreurs['pseudo']}">
 						<div class="row alert alert-danger " role="alert">
-							<span class="erreur">${form.erreurs['pseudo']}</span>
+							<span class="erreur text-danger">${form.erreurs['pseudo']}</span>
 						</div>
 					</c:if>
 					
@@ -45,7 +45,7 @@
 					</div>
 					<c:if test="${!empty form.erreurs['mdp']}">
 						<div class="row alert alert-danger" role="alert">
-							<span class="erreur">${form.erreurs['mdp']}</span>
+							<span class="erreur text-danger">${form.erreurs['mdp']}</span>
 						</div>
 					</c:if>
 					
@@ -59,7 +59,7 @@
 						</div>
 					</div>
 				
-					<p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
+					<p class="${empty form.erreurs ? 'succes' : 'erreur'} text-danger" >${form.resultat}</p>
 				</form>
 				<c:choose>
 					<c:when test="${!empty sessionScope.sessionUtilisateur}">

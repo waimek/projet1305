@@ -20,6 +20,7 @@ import fr.eni.ecole.troc_encheres.bo.Enchere;
 import fr.eni.ecole.troc_encheres.bo.Retrait;
 import fr.eni.ecole.troc_encheres.bo.Utilisateur;
 import fr.eni.ecole.troc_encheres.bo.Vente;
+import fr.eni.ecole.troc_encheres.messages.AlertMessages;
 
 /**
  * Servlet implementation class GestionVenteServlet
@@ -127,6 +128,17 @@ public class GestionVenteServlet extends HttpServlet {
 				manager.addVente(vente);
 				request.setAttribute("vente", vente);
 				request.getRequestDispatcher("/WEB-INF/jsp/vente.jsp").forward(request, response);
+			} catch (BLLException e) { // Gestion erreur de date
+				request.setAttribute("article", request.getParameter("article"));
+				request.setAttribute("description", request.getParameter("description"));
+				request.setAttribute("cat", request.getParameter("categorie"));
+				request.setAttribute("miseAPrix", request.getParameter("miseAPrix"));
+				request.setAttribute("rue", request.getParameter("rue"));
+				request.setAttribute("codePostal", request.getParameter("codePostal"));
+				request.setAttribute("ville", request.getParameter("ville"));
+				request.setAttribute("alert", AlertMessages.failed("La date doit-être supérieure à la date du jour"));
+				request.setAttribute("listeCategories", listeCategories);
+				request.getRequestDispatcher("/WEB-INF/jsp/nouvelle_vente_erreur.jsp").forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -146,12 +158,12 @@ public class GestionVenteServlet extends HttpServlet {
 					if (montant > vente.getPrixVente()) {
 						vente.setPrixVente(montant);
 						manager.encherir(new Enchere(date, util, vente));
-						alert = "<div class=\"alert alert-success\" role=\"alert\">Merci pour votre enchère </div>";
+						alert = AlertMessages.success("Merci pour votre enchère"); 
 					} else {
-						alert = "<div class=\"alert alert-danger\" role=\"alert\">Vous ne pouvez pas proposer un montant inférieur à la meilleure offre</div>";
+						alert = AlertMessages.failed("Vous ne pouvez pas proposer un montant inférieur à la meilleure offre");
 					}
 				}else {
-					alert = "<div class=\"alert alert-danger\" role=\"alert\">Vous n'avez pas assez de points</div>";
+					alert = AlertMessages.failed("Vous n'avez pas assez de points");
 				}
 				request.setAttribute("alert", alert);
 				request.setAttribute("vente", vente);

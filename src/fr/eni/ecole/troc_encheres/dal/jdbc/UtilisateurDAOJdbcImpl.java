@@ -273,8 +273,8 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 
 	
 	//Vérification couple pseudo & mdp
-	public String pseudoExist(String pseudo) throws DALException {
-		String pseudoVerification = null;
+	public int pseudoExist(String pseudo) throws DALException {
+		int pseudoVerification = 0;
 		Utilisateur util = null;
 		Connection con = null;
 		Statement stmt = null;
@@ -282,11 +282,11 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		try {
 			con = ConnectionProvider.getConnection();
 			stmt = con.createStatement();
-			PreparedStatement query = con.prepareStatement("SELECT pseudo FROM utilisateurs WHERE pseudo = ?");
+			PreparedStatement query = con.prepareStatement("SELECT 1 as RESULT FROM utilisateurs WHERE pseudo = ?");
 			query.setString (1, pseudo);
 			ResultSet rs = query.executeQuery();
 			if (rs.next()) {
-				pseudoVerification = rs.getString("pseudo");
+				pseudoVerification = rs.getInt("RESULT");
 			}
 			try {
 				rs.close();
@@ -307,8 +307,8 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		return pseudoVerification;
 	}
 	//Vérification couple email & mdp
-	public String emailExist(String email) throws DALException{
-		String emailVerification = null;
+	public int emailExist(String email) throws DALException{
+		int emailVerification = 0;
 		Utilisateur util = null;
 		Connection con = null;
 		Statement stmt = null;
@@ -316,11 +316,11 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		try {
 			con = ConnectionProvider.getConnection();
 			stmt = con.createStatement();
-			PreparedStatement query = con.prepareStatement("SELECT email FROM utilisateurs WHERE email = ?");
+			PreparedStatement query = con.prepareStatement("SELECT 1 as RESULT FROM utilisateurs WHERE email = ?");
 			query.setString (1, email);
 			ResultSet rs = query.executeQuery();
 			if (rs.next()) {
-				emailVerification = rs.getString("email");
+				emailVerification = rs.getInt("RESULT");
 			}
 			try {
 				rs.close();
@@ -347,26 +347,51 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 
 	}
 
-	public String validationMdpByPseudo(String pseudo, String mdp) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public int validationMdpByEmail(String email, String mdp) throws DALException {
-		String mdpCrypt = null;
+	public int validationMdpByPseudo(String pseudo, String mdp) throws DALException {
 		int mdpCryptRetour = 0;
-		Utilisateur util = null;
 		Connection con = null;
 		Statement stmt = null;
 		
-//		Encrytpion du mot de passe mdp en mdp crypt
-//		MdpCrypt = fonctionDeConversion(mdp...)
 		try {
 			con = ConnectionProvider.getConnection();
 			stmt = con.createStatement();
-			PreparedStatement query = con.prepareStatement("SELECT 1 AS retour FROM utilisateurs WHERE email = ? AND mdp = ?");
+			PreparedStatement query = con.prepareStatement("SELECT 1 AS retour FROM utilisateurs WHERE pseudo = ? AND mdp = md5(?)");
+			query.setString (1, pseudo);
+			query.setString(2, mdp);
+			ResultSet rs = query.executeQuery();
+			if (rs.next()) {
+				mdpCryptRetour = rs.getInt("retour");
+			}
+			try {
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new DALException("Erreur closeResult");
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				stmt.close();
+			} catch (Exception e) {
+				throw new DALException("Erreur fermeture");
+			}
+		}
+		return mdpCryptRetour;
+	}
+
+	public int validationMdpByEmail(String email, String mdp) throws DALException {
+		int mdpCryptRetour = 0;
+		Connection con = null;
+		Statement stmt = null;
+		
+		try {
+			con = ConnectionProvider.getConnection();
+			stmt = con.createStatement();
+			PreparedStatement query = con.prepareStatement("SELECT 1 AS retour FROM utilisateurs WHERE email = ? AND mdp = md5(?)");
 			query.setString (1, email);
-			query.setString(2, mdpCrypt);
+			query.setString(2, mdp);
 			ResultSet rs = query.executeQuery();
 			if (rs.next()) {
 				mdpCryptRetour = rs.getInt("retour");

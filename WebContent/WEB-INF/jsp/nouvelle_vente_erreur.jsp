@@ -14,6 +14,7 @@
 	<!-- Auteur : Edouard -->
 	<div class="container">
 		<h2 class="text-center h2">Nouvelle vente</h2>
+		${alert}
 		<form
 			action="${pageContext.servletContext.contextPath}/GestionVenteServlet"
 			method="post">
@@ -21,25 +22,30 @@
 			<div class="form-group">
 				<label for="article" id="lblArticle">Article :</label> <input
 					type="text" id="article" name="article" class="form-control"
-					required />
+					value="${article}" required />
 			</div>
 			<div class="form-group">
 				<label for="description" id="lblDescription">Description :</label>
 				<textarea name="description" id="description" class="form-control"
-					required></textarea>
+					required>${description}</textarea>
 			</div>
 			<div class="form-group">
 				<label for="categorie" id="lblCategorie">Catégorie :</label> <select
 					class="custom-select mr-sm-2" name="categorie">
 					<c:forEach var="categorie" items="${listeCategories}">
-						<option value="${categorie.numero}">${categorie.libelle}</option>
+						<c:if test="${cat == categorie.numero }">
+							<option value="${categorie.numero}" selected>${categorie.libelle}</option>
+						</c:if>
+						<c:if test="${cat != categorie.numero }">
+							<option value="${categorie.numero}">${categorie.libelle}</option>
+						</c:if>
 					</c:forEach>
 				</select>
 			</div>
 			<div class="form-group">
 				<label class="form-label" for="miseAPrix" id="lblMiseAPrix">Mise
 					à prix :</label> <input type="number" id="miseAPrix" name="miseAPrix"
-					class="form-control" required />
+					class="form-control" value="${miseAPrix}" required />
 			</div>
 			<div class="form-group">
 
@@ -57,34 +63,35 @@
 
 					<div class="form-group">
 						<label class="form-label" for="rue" id="lblRue">Rue :</label> <input
-							type="text" id="rue" name="rue" class="form-control" required />
+							type="text" id="rue" name="rue" class="form-control" required
+							value=${rue } />
 					</div>
 					<div class="form-group">
 						<label class="form-label" for="codePostal" id="lblCodePostal">Code
 							postal :</label> <input type="text" class="form-control" id="codePostal"
-							name="codePostal" required />
+							name="codePostal" value="${codePostal}" required />
 					</div>
 					<div class="form-group">
 						<label class="form-label" for="ville" id="lblVille">Ville
 							:</label> <input type="text" class="form-control" id="ville" name="ville"
-							required />
+							value="${ville}" required />
 					</div>
 				</div>
 			</div>
-	
-	<br/>
-		<div class="row">
-			<input type="hidden" name="action" value="nouvelleVente" /> <input
-				type="submit" class="btn btn-primary" value="Publier" /> <a
-				class="btn btn-primary"
-				href="${pageContext.servletContext.contextPath}/RechercheServlet"
-				role="button">Annuler</a>
-			<!--   <a class="btn btn-primary"
+
+			<br/>
+				<div class="row">
+					<input type="hidden" name="action" value="nouvelleVente" /> <input
+						type="submit" class="btn btn-primary" value="Publier" /> <a
+						class="btn btn-primary"
+						href="${pageContext.servletContext.contextPath}/RechercheServlet"
+						role="button">Annuler</a>
+					<!--   <a class="bStn btn-primary"
 						href="${pageContext.servletContext.contextPath}/RechercheServlet"
 						role="button">Enregistrer</a> -->
-		</div>
-	
-	</form>
+				</div>
+			
+		</form>
 	</div>
 
 	<%@ include file="footer.jsp"%>
