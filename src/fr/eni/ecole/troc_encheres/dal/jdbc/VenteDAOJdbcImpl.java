@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import fr.eni.ecole.troc_encheres.bo.Categorie;
@@ -242,66 +243,175 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
         return ventes;
 	}
 	
-	public List<Vente> selectByPlusieursChamps(String nomArticle, int monNoUtilisateur, int noCategorie, boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, boolean autresEncheres ) throws DALException {
+	/**
+	 * @author Matthieu
+	 * @param nomArticle
+	 * @param monNoUtilisateur
+	 * @param noCategorie
+	 * @param mesVentes
+	 * @param mesEncheresEnCours
+	 * @param mesAcquisitions
+	 * @param autresEncheres
+	 * @return
+	 * @throws DALException
+	 */
+	public List<Vente> selectByPlusieursChamps(String nomArticle, int monNoUtilisateur, int noCategorie, 
+			boolean mesVentes, boolean mesEncheresEnCours, boolean mesAcquisitions, 
+			boolean autresEncheres ) throws DALException {
+		
 		List<Vente> ventes = new ArrayList<>();
         Connection con = null;
         try {
             con = ConnectionProvider.getConnection();
-            String sql = "select * from ventes "
-            		+ "join utilisateurs on utilisateurs.no_utilisateur= ventes.no_utilisateur "
-            		+ "join categories on categories.no_categorie = ventes.no_categorie "
-            		+ "join encheres on encheres.no_vente = ventes.no_vente"
-            		+ "where nom_article like %?%";
-            int i = 0;
-            if (mesVentes || mesEncheresEnCours || mesAcquisitions || autresEncheres) {
-            	sql += " and (";
-            } 
-            if (mesVentes && (mesEncheresEnCours || mesAcquisitions || autresEncheres)) {
-            	sql += "ventes.no_utilisateur = ? or ";
-            	i++;
-            } else if (mesVentes) {
-            	sql += "ventes.no_utilisateur = ?)";
-            	i++;
-            }
-            if (mesEncheresEnCours && (mesAcquisitions || autresEncheres)) {
-            	sql+="encheres.no_utilisateur = ? or ";
-            	i++;
-            } else if (mesEncheresEnCours) {
-            	sql+="encheres.no_utilisateur = ?)";
-            	i++;
-            }
-            if (mesAcquisitions && autresEncheres) {
-            	sql+="((select max(date_encheres) from ventes "
-            			+ "join encheres on encheres.no_vente = vente.no_vente "
-            			+ "where date_fin_encheres > now()) and encheres.no_utilisateur = ?) or ";
-            	i++;
-            } else if (mesAcquisitions) {
-            	sql+="((select max(date_encheres) from ventes "
-            			+ "join encheres on encheres.no_vente = vente.no_vente "
-            			+ "where date_fin_encheres > now()) and encheres.no_utilisateur = ?)";
-            	i++;
-            }
+            String sql = "";
+            // Connaitre les parametres à utiliser dans la requete
+            HashMap<Integer, Boolean> elemParamReq = new HashMap<Integer, Boolean>();
+            
+            // requete pour la vente sur une categories
+            if (mesVentes) {
+            	elemParamReq.put(elemParamReq.size(), true);
+            	elemParamReq.put(elemParamReq.size(), true);
+            	elemParamReq.put(elemParamReq.size(), true);
+            	
+            	sql += "(SELECT u.*, v.*, c.* FROM ventes v "
+            			+ "JOIN utilisateurs u ON u.no_utilisateur= v.no_utilisateur "
+            			+ "JOIN categories c ON c.no_categorie = v.no_categorie "
+            			+ "WHERE v.nom_article LIKE ? "
+            			+ "AND v.no_utilisateur = ? ";
+            	if (noCategorie != 0) {
+            		sql += "AND v.no_categorie = ? ";
+            	}else {
+            		elemParamReq.replace(elemParamReq.size()-1, false);
+				}
+            	
+            	sql +=")";
+			}
+            
+            // requete pour mes encheres en cours
+            if (mesEncheresEnCours) {
+            	elemParamReq.put(elemParamReq.size(), true);
+            	elemParamReq.put(elemParamReq.size(), true);
+            	elemParamReq.put(elemParamReq.size(), true);
+            	
+            	if (mesVentes) {
+            		sql +=" UNION ";
+				}
+            	
+            	sql += "(SELECT u.*, v.*, c.* FROM ventes v "
+            			+ "JOIN utilisateurs u ON u.no_utilisateur= v.no_utilisateur "
+            			+ "JOIN categories c ON c.no_categorie = v.no_categorie "
+            			+ "JOIN encheres e ON e.no_vente = v.no_vente "
+            			+ "WHERE v.date_fin_encheres > NOW() "
+            			+ "AND v.nom_article LIKE ? "
+            			+ "AND e.date_enchere IN "
+            				+ "(SELECT max(date_enchere) FROM encheres WHERE no_utilisateur = ? GROUP BY no_vente) ";
+            	
+				if (noCategorie != 0) {
+					sql += "AND v.no_categorie = ? ";
+				}else {
+            		elemParamReq.replace(elemParamReq.size()-1, false);
+				}
+    	            	
+            	sql +=")";
+			}
+          
+            // requete pour mes acquisitions
+            if (mesAcquisitions) {
+            	elemParamReq.put(elemParamReq.size(), true);
+            	elemParamReq.put(elemParamReq.size(), true);
+            	elemParamReq.put(elemParamReq.size(), true);
+            	
+            	if (mesVentes || mesEncheresEnCours) {
+            		sql +=" UNION ";
+				}
+            	
+				sql += "(SELECT u.*, v.*, c.*  FROM encheres e "
+						+ "JOIN ventes v ON v.no_vente = e.no_vente "
+						+ "JOIN utilisateurs u on u.no_utilisateur= v.no_utilisateur "
+						+ "JOIN categories c on c.no_categorie = v.no_categorie "
+						+ "WHERE e.date_enchere IN "
+							+ "(SELECT max(date_enchere) FROM encheres group by no_vente) "
+						+ "AND v.date_fin_encheres < NOW() "
+						+ "AND v.nom_article LIKE ? "
+						+ "AND e.no_utilisateur = ? ";
+
+				if (noCategorie != 0) {
+  					sql += "AND v.no_categorie = ? ";
+  				}else {
+            		elemParamReq.replace(elemParamReq.size()-1, false);
+				}
+		      	            	
+              	sql +=")";
+			}
+            
+            // requete autres encheres 
             if (autresEncheres) {
-            	sql+="ventes.no_utilisateur != ?)";
-            	i++;
-            }
+            	elemParamReq.put(elemParamReq.size(), true);
+            	elemParamReq.put(elemParamReq.size(), true);
+            	elemParamReq.put(elemParamReq.size(), true);
+            	
+            	if (mesVentes || mesEncheresEnCours || mesAcquisitions) {
+            		sql +=" UNION ";
+				}
+				sql += "(SELECT u.*, v.*, c.* FROM ventes v "
+						+ "JOIN utilisateurs u ON u.no_utilisateur = v.no_utilisateur "
+						+ "JOIN categories c ON c.no_categorie = v.no_categorie "
+						+ "WHERE v.nom_article like ? "
+						+ "AND v.no_utilisateur != ? ";
+				
+				if (noCategorie != 0) {
+  					sql += "AND v.no_categorie = ? ";
+  				}else {
+            		elemParamReq.replace(elemParamReq.size()-1, false);
+				}
+		      	            	
+              	sql +="ORDER BY ABS(DATEDIFF(v.date_fin_encheres, CURRENT_DATE)))";		
+		        		
+			}
+          
+            System.out.println("requete : " + sql);
             
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, nomArticle);
-            for (int j =2; j<=i+1; ++j) {
-            	stmt.setInt(j, monNoUtilisateur);
-            }
-            
-            ResultSet rs = stmt.executeQuery();
-            Vente vente = null;
-            while (rs.next()) {
-                vente = new Vente(rs.getInt("no_vente"), rs.getString("nom_article"), rs.getString("description"), rs.getDate("date_fin_encheres"), rs.getInt("miseAPrix"), rs.getInt("prix_vente"), 
-                		new Utilisateur(rs.getInt("no_utilisateur"), rs.getString("pseudo"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit")), 
-                		new Categorie(rs.getInt("no_vente"), rs.getString("libelle")));
-                ventes.add(vente);
-            }
-            stmt.close();
-            rs.close();
+            if (sql.isEmpty()) {
+			}else {
+				PreparedStatement stmt = con.prepareStatement(sql);
+				
+				// connaitre les parametres à prendre en compte dans la requete
+				int count = 0;
+				for (int i = 0; i < elemParamReq.size(); i++) {
+					if ((i == 0) || (i == 3) || (i == 6) || (i == 9)) {
+						if (elemParamReq.get(i)) {
+							count++;
+							stmt.setString(count, "%"+nomArticle+"%");
+						}
+					}
+					if ((i == 1) || (i == 4) || (i == 7) || (i == 10)) {
+						if (elemParamReq.get(i)) {
+							count++;
+							stmt.setInt(count, monNoUtilisateur);
+						}
+					}
+					if ((i == 2) || (i == 5) || (i == 8) || (i == 11)) {
+						if (elemParamReq.get(i)) {
+							count++;
+							stmt.setInt(count, noCategorie);
+						}
+					}
+				}
+				
+				ResultSet rs = stmt.executeQuery();
+				Vente vente = null;
+				
+				while (rs.next()) {
+					vente = new Vente(rs.getInt("no_vente"), rs.getString("nom_article"), rs.getString("description"), rs.getDate("date_fin_encheres"), rs.getInt("prix_initial"), rs.getInt("prix_vente"), 
+							new Utilisateur(rs.getInt("no_utilisateur"), rs.getString("pseudo"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getString("tel"), rs.getString("rue"), rs.getString("cp"), rs.getString("ville"), rs.getString("mdp"), rs.getInt("credit")), 
+							new Categorie(rs.getInt("no_categorie"), rs.getString("libelle")));
+					ventes.add(vente);
+				}
+				
+				stmt.close();
+				rs.close();
+			}
+        
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -314,6 +424,7 @@ public class VenteDAOJdbcImpl implements DAO<Vente> {
             }
         }
         return ventes;
+		
 	}
 
 
