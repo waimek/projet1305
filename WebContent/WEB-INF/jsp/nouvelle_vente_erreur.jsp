@@ -79,7 +79,7 @@
 				</div>
 			</div>
 
-			<fieldset>
+			<br/>
 				<div class="row">
 					<input type="hidden" name="action" value="nouvelleVente" /> <input
 						type="submit" class="btn btn-primary" value="Publier" /> <a
@@ -90,7 +90,7 @@
 						href="${pageContext.servletContext.contextPath}/RechercheServlet"
 						role="button">Enregistrer</a> -->
 				</div>
-			</fieldset>
+			
 		</form>
 	</div>
 

@@ -21,34 +21,24 @@
 			<h3 class="text-center h3">${acheteur.pseudo} a remporté l'enchère</h3>
 		</c:if>
 			<h4 class="h4">${ vente.nomArticle}</h4>
-		<table>
-			<tr>
-				<td>Description :</td>
-				<td>${vente.description}</td>
-			</tr>
-			<tr>
-				<td>Meilleure offre :</td>
-				<td>${vente.prixVente}</td>
-			</tr>
-			<tr>
-				<td>Mise à prix :</td>
-				<td>${vente.miseAPrix}</td>
-			</tr>
-			<tr>
-				<td>Fin de l'enchère :</td>
-				<td><fmt:formatDate value="${vente.dateFinEncheres}" pattern="dd/MM/yyyy"/></td>
-			</tr>
-			<tr>
-				<td>Retrait :</td>
-				<td>${vente.retrait.rue}<br /> ${vente.retrait.cp }
-					${vente.retrait.ville}
-				</td>
-			</tr>
-			<tr>
-				<td>Vendeur :</td>
-				<td>${vente.util.pseudo}</td>
-			</tr>
-		</table>
+		<ul class="col list-group list-group-flush">
+			<li class="list-group-item">
+				Description : ${vente.description}
+			</li>
+				<li class="list-group-item">
+				Meilleure offre : ${vente.prixVente}</li>
+				<li class="list-group-item">
+				Mise à prix : ${vente.miseAPrix}</li>
+				<li class="list-group-item">
+				Fin de l'enchère : <fmt:formatDate value="${vente.dateFinEncheres}" pattern="dd/MM/yyyy"/>
+			</li>
+				<li class="list-group-item">Retrait : ${vente.retrait.rue} ${vente.retrait.cp } ${vente.retrait.ville}
+			</li>
+				<li class="list-group-item">
+			Vendeur : ${vente.util.pseudo}
+				</li>
+				</ul>
+	
 		
 		<c:if test="${empty acheteur && vente.dateFinEncheres.time > now.time}">
 			<a class="btn btn-primary"
