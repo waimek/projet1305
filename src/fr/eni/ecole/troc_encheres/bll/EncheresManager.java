@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import fr.eni.ecole.troc_encheres.bll.exceptions.BLLException;
 import fr.eni.ecole.troc_encheres.bo.Categorie;
 import fr.eni.ecole.troc_encheres.bo.Enchere;
+import fr.eni.ecole.troc_encheres.bo.Retrait;
 import fr.eni.ecole.troc_encheres.bo.Utilisateur;
 import fr.eni.ecole.troc_encheres.bo.Vente;
 import fr.eni.ecole.troc_encheres.dal.DAO;
@@ -24,6 +25,7 @@ public class EncheresManager {
 	private DAO<Vente> venteDAO;
 	private DAO<Categorie> categorieDAO;
 	private DAO<Enchere> enchereDAO;
+	private DAO<Retrait> retraitDAO;
 
 	public static EncheresManager get() {
 		if (instance == null) {
@@ -37,6 +39,7 @@ public class EncheresManager {
 		venteDAO = Factory.getVenteDAO();
 		categorieDAO = Factory.getCategorieDAO();
 		enchereDAO = Factory.getEnchereDAO();
+		retraitDAO = Factory.getRetraitDAO();
 		
 		//Gestion de la fin des enchères Auteur : Edouard
 		TimerTask repeatedTask = new TimerTask() {
@@ -229,13 +232,15 @@ public class EncheresManager {
 	/*************************************************************/
 
 	/**
-	 * @author Matthieu
+	 * @author Matthieu / Edouard
 	 */
 	// ajouter une vente
 	public void addVente(Vente vente) throws BLLException {
 		try {
 			validerVente(vente);
 			venteDAO.insert(vente);
+			validerRetrait(vente.getRetrait());
+			retraitDAO.insert(vente.getRetrait());
 		} catch (DALException e) {
 			e.printStackTrace();
 			throw new BLLException("Erreur insert");
@@ -274,6 +279,7 @@ public class EncheresManager {
 		Vente vente = null;
 		try {
 			vente = venteDAO.selectById(idVente);
+			vente.setRetrait(retraitDAO.selectById(vente.getNumero()));
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -461,6 +467,7 @@ public class EncheresManager {
 		}
 		return listFiltreRecherche;
 	}
+	// Gestion des catégories
 
 	/**
 	 * @author Edouard
@@ -488,5 +495,31 @@ public class EncheresManager {
 		}
 		return categorie;
 	}
+	
+	//Gestion des retraits
+	
+	public void validerRetrait(Retrait retrait) throws BLLException {
+		boolean valide = true;
+		StringBuffer sb = new StringBuffer();
 
+		if (retrait == null) {
+			throw new BLLException("enchère null");
+		}
+
+		if (retrait.getRue()==null) {
+			sb.append("Rue obligatoire.\n");
+			valide = false;
+		}
+		if (retrait.getVille()==null) {
+			sb.append("Ville obligatoire.\n");
+			valide = false;
+		}
+		if (retrait.getCp() == null) {
+			sb.append("Code postal obligatoire.\n");
+			valide = false;
+		}
+		if (!valide) {
+			throw new BLLException(sb.toString());
+		}
+	}
 }
