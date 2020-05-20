@@ -346,4 +346,48 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		// TODO Auto-generated method stub
 
 	}
+
+	public String validationMdpByPseudo(String pseudo, String mdp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int validationMdpByEmail(String email, String mdp) throws DALException {
+		String mdpCrypt = null;
+		int mdpCryptRetour = 0;
+		Utilisateur util = null;
+		Connection con = null;
+		Statement stmt = null;
+		
+//		Encrytpion du mot de passe mdp en mdp crypt
+//		MdpCrypt = fonctionDeConversion(mdp...)
+		try {
+			con = ConnectionProvider.getConnection();
+			stmt = con.createStatement();
+			PreparedStatement query = con.prepareStatement("SELECT 1 AS retour FROM utilisateurs WHERE email = ? AND mdp = ?");
+			query.setString (1, email);
+			query.setString(2, mdpCrypt);
+			ResultSet rs = query.executeQuery();
+			if (rs.next()) {
+				mdpCryptRetour = rs.getInt("retour");
+			}
+			try {
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new DALException("Erreur closeResult");
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				stmt.close();
+			} catch (Exception e) {
+				throw new DALException("Erreur fermeture");
+			}
+		}
+		return mdpCryptRetour;
+	}
+	
 }
