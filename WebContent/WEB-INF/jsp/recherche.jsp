@@ -90,7 +90,7 @@
 									<span class="d-block">Fin de l'enchère :<fmt:formatDate value="${vente.dateFinEncheres}" pattern="dd/MM/yyyy"/></span>
 									<span class="d-block">
 										Vendeur : 
-										<a href="" >${vente.util.pseudo}</a>
+										<a href="${pageContext.servletContext.contextPath}/AffichageCompteVendeur?noUtilisateur=${vente.util.numero}" >${vente.util.pseudo}</a>
 									</span>
 								</p>
 							</div>
