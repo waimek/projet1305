@@ -17,7 +17,8 @@ import fr.eni.ecole.troc_encheres.bo.Utilisateur;
 import fr.eni.ecole.troc_encheres.bo.Vente;
 
 /**
- * Servlet implementation class AffichageCompteVendeur LUCILLE
+ * Servlet implementation class AffichageCompteVendeur
+ * @author Lucille
  */
 @WebServlet("/AffichageCompteVendeur")
 public class AffichageCompteVendeur extends HttpServlet {

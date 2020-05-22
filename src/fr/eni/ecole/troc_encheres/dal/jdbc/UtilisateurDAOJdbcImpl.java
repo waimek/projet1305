@@ -12,12 +12,13 @@ import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 import fr.eni.ecole.troc_encheres.dal.ConnectionProvider;
 import fr.eni.ecole.troc_encheres.dal.DAO;
 
-/**
- * @author Edouard
- */
+
 public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 
 
+	/**
+	 * @author Edouard
+	 */
 	@Override
 	public void insert(Utilisateur util) throws DALException {
 
@@ -49,6 +50,9 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 
 	}
 
+	/*
+	 * Edouard
+	 */
 	@Override
 	public void update(Utilisateur util) throws DALException {
 		Connection con = null;
@@ -88,6 +92,9 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 
 	}
 
+	/*
+	 * Edouard
+	 */
 	@Override
 	public Utilisateur selectById(int idUtil) throws DALException {
 		Utilisateur util = null;
@@ -125,6 +132,9 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 	}
 
 
+	/*
+	 * Edouard
+	 */
 	@Override
 	public List<Utilisateur> selectAll() throws DALException {
 		return null;
@@ -157,6 +167,7 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		}
 	}
 	/*
+	 * @author Lucille
 	 * recherche d'un no_utilisateur par son pseudo 
 	 */
 	
@@ -235,7 +246,7 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 	
 	
 	/*
-	 * @author Dominika
+	 * @author Dominika & Lucille
 	 * recherche d'un no_utilisateur par son adresse email 
 	 */
 	public int selectIdByEmail(String email) throws DALException {
@@ -272,7 +283,9 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 	}
 
 	
-	//Vérification couple pseudo & mdp
+	/*
+	 * @author Lucille
+	 */
 	public int pseudoExist(String pseudo) throws DALException {
 		int pseudoVerification = 0;
 		Utilisateur util = null;
@@ -306,7 +319,10 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		}
 		return pseudoVerification;
 	}
-	//Vérification couple email & mdp
+
+	/*
+	 * @author Lucille
+	 */
 	public int emailExist(String email) throws DALException{
 		int emailVerification = 0;
 		Utilisateur util = null;
@@ -347,6 +363,9 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 
 	}
 
+	/*
+	 * @author Lucille
+	 */
 	public int validationMdpByPseudo(String pseudo, String mdp) throws DALException {
 		int mdpCryptRetour = 0;
 		Connection con = null;
@@ -381,6 +400,9 @@ public class UtilisateurDAOJdbcImpl implements DAO<Utilisateur>{
 		return mdpCryptRetour;
 	}
 
+	/*
+	 * @author Lucille
+	 */
 	public int validationMdpByEmail(String email, String mdp) throws DALException {
 		int mdpCryptRetour = 0;
 		Connection con = null;

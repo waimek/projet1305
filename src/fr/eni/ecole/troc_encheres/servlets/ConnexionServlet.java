@@ -14,6 +14,7 @@ import fr.eni.ecole.troc_encheres.form.ConnexionForm;
 
 /**
  * Servlet implementation class ServletDeConnexion
+ * @author Lucille
  */
 @WebServlet("/connexion")
 public class ConnexionServlet extends HttpServlet {

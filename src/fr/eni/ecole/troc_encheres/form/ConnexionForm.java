@@ -10,6 +10,9 @@ import fr.eni.ecole.troc_encheres.dal.Factory;
 import fr.eni.ecole.troc_encheres.dal.exceptions.DALException;
 import fr.eni.ecole.troc_encheres.dal.jdbc.UtilisateurDAOJdbcImpl;
 
+/*
+ * @author Lucille
+ */
 public final class ConnexionForm {
 	private static final String IDENTIFIANT = "identifiant";
 	private static final String TEXTMDP = "textMdp";
