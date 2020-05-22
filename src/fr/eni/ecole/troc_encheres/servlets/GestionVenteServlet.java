@@ -44,47 +44,53 @@ public class GestionVenteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String action = "";
-		if (request.getParameterMap().containsKey("action")) {
-			action = request.getParameter("action");
-		}
-		if (action.equals("nouvelleVente")) {
-			request.setAttribute("listeCategories", listeCategories);
-			request.getRequestDispatcher("/WEB-INF/jsp/nouvelle_vente.jsp").forward(request, response);
-		}
-		if (action.equals("detailsVente")) {
-			int noVente = Integer.parseInt(request.getParameter("noVente"));
-			Vente vente = manager.getVente(noVente);
-
-			HttpSession session = request.getSession();
-			session = request.getSession();
-			String page = "";
-			if (vente.getUtil().getNumero() == ((Utilisateur) session.getAttribute("sessionUtilisateur")).getNumero()) {
-				page = "/WEB-INF/jsp/vente.jsp";
-			} else {
-				page = "/WEB-INF/jsp/enchere.jsp";
+		// verifier si la session existe
+		HttpSession session = request.getSession();
+		if (session.getAttribute("sessionUtilisateur") == null) {
+			response.sendRedirect(getServletContext().getContextPath() + "/connexion");
+		}else {
+			String action = "";
+			if (request.getParameterMap().containsKey("action")) {
+				action = request.getParameter("action");
 			}
-			if (vente.getDateFinEncheres().compareTo(new Date()) > 0) {
-				Enchere derniereEnchere = null;
+			if (action.equals("nouvelleVente")) {
+				request.setAttribute("listeCategories", listeCategories);
+				request.getRequestDispatcher("/WEB-INF/jsp/nouvelle_vente.jsp").forward(request, response);
+			}
+			if (action.equals("detailsVente")) {
+				int noVente = Integer.parseInt(request.getParameter("noVente"));
+				Vente vente = manager.getVente(noVente);
+				
+				//HttpSession session = request.getSession();
+				session = request.getSession();
+				String page = "";
+				if (vente.getUtil().getNumero() == ((Utilisateur) session.getAttribute("sessionUtilisateur")).getNumero()) {
+					page = "/WEB-INF/jsp/vente.jsp";
+				} else {
+					page = "/WEB-INF/jsp/enchere.jsp";
+				}
+				if (vente.getDateFinEncheres().compareTo(new Date()) > 0) {
+					Enchere derniereEnchere = null;
+					try {
+						derniereEnchere = manager.getDerniereEnchere(vente.getNumero());
+						
+					} catch (BLLException e) {
+						e.printStackTrace();
+					}
+					if (derniereEnchere != null) {
+						request.setAttribute("acheteur", derniereEnchere.getUtil());
+					}
+				}
+				request.setAttribute("vente", vente);
+				request.getRequestDispatcher(page).forward(request, response);
+			}
+			if (action.equals("annulerVente")) {
 				try {
-					derniereEnchere = manager.getDerniereEnchere(vente.getNumero());
-
-				} catch (BLLException e) {
+					manager.annulerVente(Integer.parseInt(request.getParameter("noVente")));
+					
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				if (derniereEnchere != null) {
-					request.setAttribute("acheteur", derniereEnchere.getUtil());
-				}
-			}
-			request.setAttribute("vente", vente);
-			request.getRequestDispatcher(page).forward(request, response);
-		}
-		if (action.equals("annulerVente")) {
-			try {
-				manager.annulerVente(Integer.parseInt(request.getParameter("noVente")));
-
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 		}
 
@@ -164,7 +170,7 @@ public class GestionVenteServlet extends HttpServlet {
 						manager.encherir(new Enchere(date, util, vente));
 						alert = AlertMessages.success("Merci pour votre enchère"); 
 					} else {
-						alert = AlertMessages.failed("Vous ne pouvez pas proposer un montant inférieur à la meilleure offre");
+						alert = AlertMessages.failed("Vous ne pouvez pas proposer un montant inférieur à la meilleure offre ou à la mise à prix");
 					}
 				}else {
 					alert = AlertMessages.failed("Vous n'avez pas assez de points");

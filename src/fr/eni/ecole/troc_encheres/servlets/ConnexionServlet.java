@@ -25,7 +25,7 @@ public class ConnexionServlet extends HttpServlet {
 	public static final String ATT_FORM = "form";
 	public static final String ATT_SESSION_USER = "sessionUtilisateur";
 	public static final String VUE = "/WEB-INF/jsp/page_connexion.jsp";
-	public static final String REDIRECTION = "/WEB-INF/jsp/recherche.jsp";
+	public static final String REDIRECTION = "/RechercheServlet";
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* Affichage de la page de connexion */
@@ -52,7 +52,7 @@ public class ConnexionServlet extends HttpServlet {
 			request.setAttribute(ATT_FORM, form);
 			request.setAttribute(ATT_USER, utilisateur);
 
-			this.getServletContext().getRequestDispatcher(REDIRECTION).forward(request, response);
+			response.sendRedirect(getServletContext().getContextPath() + REDIRECTION);
 		} else {
 			session.setAttribute(ATT_SESSION_USER, null);
 			request.setAttribute(ATT_FORM, form);

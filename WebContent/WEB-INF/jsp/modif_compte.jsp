@@ -76,12 +76,12 @@
 				
 					<div class="form-row my-2">	
 						<label class="col-2" for="lblMdp">Mot de passe :</label> 
-						<input class="col form-control" type="password" placeholder="Mot de passe" name="mdp" id="mdp" value="${sessionScope.mdp}" required>
+						<input class="col form-control" type="password" placeholder="Mot de passe" name="mdp" id="mdp" value="" required>
 					</div>
 				
 					<div class="form-row my-2">	
 						<label class="col-2" for="lblMdpConf">Confirmation :</label> 
-						<input class="col form-control" type="password" placeholder="Confirmation de mot de passe" name="mdpConf" id="mdpConf" value="${sessionScope.mdp}" required>
+						<input class="col form-control" type="password" placeholder="Confirmation de mot de passe" name="mdpConf" id="mdpConf" value="" required>
 					</div>
 				
 				
